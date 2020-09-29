@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
         )
       ),
       onGenerateRoute: (settings) {
-
         // if (settings.name == DeckPage.routeName) {
         //   final DeckPageArguments args = settings.arguments;
         //
