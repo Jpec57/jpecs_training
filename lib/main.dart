@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:jpec_training/Components/Localization.dart';
 import 'package:jpec_training/Pages/HomePage/HomePage.dart';
+
+import 'Widgets/Localization.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,10 +28,14 @@ class MyApp extends StatelessWidget {
       ],
       navigatorKey: Get.key,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 30)
+        )
       ),
       onGenerateRoute: (settings) {
+
         // if (settings.name == DeckPage.routeName) {
         //   final DeckPageArguments args = settings.arguments;
         //
