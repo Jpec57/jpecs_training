@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jpec_training/Widgets/Clippers/BottomLeftCornerRoundedClipper.dart';
 import 'package:jpec_training/Widgets/Localization.dart';
 import 'package:jpec_training/Widgets/MainDrawer.dart';
 
@@ -10,7 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +18,17 @@ class _HomePageState extends State<HomePage> {
         title: Text(LocalizationWidget.of(context).getLocalizeValue('home')),
       ),
       drawer: MainDrawer(),
-      body: Container(),
+      body: Column(
+        children: [
+          ClipPath(
+              clipper: BottomLeftCornerRoundedClipper(),
+              child: Container(
+                color: Colors.black,
+                height: 400,
+              )
+          )
+        ],
+      ),
     );
   }
 }
