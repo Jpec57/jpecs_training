@@ -20,13 +20,14 @@ class _HomePageState extends State<HomePage> {
       drawer: MainDrawer(),
       body: Column(
         children: [
-          ClipPath(
-              clipper: BottomLeftCornerRoundedClipper(),
-              child: Container(
-                color: Colors.black,
-                height: 400,
-              )
-          )
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30)),
+            ),
+            height: 200,
+          ),
         ],
       ),
     );
