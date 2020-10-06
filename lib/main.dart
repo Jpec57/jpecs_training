@@ -31,7 +31,13 @@ class MyApp extends StatelessWidget {
         // primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: TextTheme(
-          headline1: TextStyle(fontSize: 30)
+
+          headline1: TextStyle(fontSize: 30),
+          bodyText1: TextStyle(color: Colors.black, fontSize: 20),
+          bodyText2: TextStyle(color: Colors.white, fontSize: 20)
+        ),
+        bottomSheetTheme: BottomSheetThemeData(
+          backgroundColor: Color(0xffff1616),
         )
       ),
       onGenerateRoute: (settings) {
