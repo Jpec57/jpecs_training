@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Widgets/Clippers/BottomLeftCornerRoundedClipper.dart';
+import 'package:jpec_training/Widgets/DefaultScaffold.dart';
 import 'package:jpec_training/Widgets/Localization.dart';
 import 'package:jpec_training/Widgets/MainDrawer.dart';
 
@@ -14,20 +15,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.black,
-        title: Text(LocalizationWidget.of(context).getLocalizeValue('home')),
-      ),
-      drawer: MainDrawer(),
-      body: SafeArea(
+    return DefaultScaffold(
+      child: SafeArea(
         child: Column(
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: AppColors.richBlack,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30)),
               ),
@@ -47,15 +41,17 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text("49"),
-                  RaisedButton(onPressed: (){}, child: Text("SKIP"),)
+                  RaisedButton(
+                    onPressed: (){
+
+                    }, child: Text("SKIP", style: Theme.of(context).textTheme.bodyText2,),)
                 ],
               ),
             )),
             Expanded(
                 child: Container(
-              color: AppColors.red,
-              // color: Color(0xffff1616),
-            ))
+                  color: AppColors.greenArtichoke,
+                ))
           ],
         ),
       ),

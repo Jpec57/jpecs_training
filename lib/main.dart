@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Pages/HomePage/HomePage.dart';
+import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
 
 import 'Widgets/Localization.dart';
 
@@ -28,17 +30,18 @@ class MyApp extends StatelessWidget {
       ],
       navigatorKey: Get.key,
       theme: ThemeData(
-        // primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: TextTheme(
-
-          headline1: TextStyle(fontSize: 30),
-          bodyText1: TextStyle(color: Colors.black, fontSize: 20),
-          bodyText2: TextStyle(color: Colors.white, fontSize: 20)
-        ),
-        bottomSheetTheme: BottomSheetThemeData(
-          backgroundColor: Color(0xffff1616),
-        )
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: TextTheme(
+              button: TextStyle(color: Colors.red),
+              headline1: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.bold),
+              headline2: TextStyle(fontSize: 30),
+              caption: TextStyle(fontSize: 20),
+              bodyText1: TextStyle(color: Colors.black, fontSize: 20),
+              bodyText2: TextStyle(color: Colors.white, fontSize: 20)),
+          buttonTheme: ButtonThemeData(
+            textTheme: ButtonTextTheme.primary,
+              buttonColor: AppColors.charlestonGreen,
+          )
       ),
       onGenerateRoute: (settings) {
         // if (settings.name == DeckPage.routeName) {
@@ -58,9 +61,8 @@ class MyApp extends StatelessWidget {
       routes: {
         // LoginPage.routeName: (context) => LoginPage(),
       },
-      home: HomePage(),
+      home: TimerPage(),
+      // home: HomePage(),
     );
   }
 }
-
-
