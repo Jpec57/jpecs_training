@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Widgets/DefaultScaffold.dart';
@@ -7,22 +10,51 @@ class TimerPage extends StatefulWidget {
   _TimerPageState createState() => _TimerPageState();
 }
 
-class _TimerPageState extends State<TimerPage> {
+class _TimerPageState extends State<TimerPage>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
   int _currentSet = 6;
   int _countdown = 0;
+  Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = new TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   Widget _renderTimerButton(int time) {
     return Expanded(
       child: InkWell(
-        onTap: (){
-          setState(() {
-            _countdown = time;
-          });
-        },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                _countdown = time;
+              });
+              if (_timer != null && _timer.isActive){
+                _timer.cancel();
+              }
+              _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
+                setState(() {
+                  _countdown = _countdown - 1;
+                });
+               if (_countdown <= 0){
+                 _timer.cancel();
+                 setState(() {
+                   _tabController.index = 1;
+                 });
+               }
+              });
+              _tabController.index = 0;
+            },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Text(
@@ -58,19 +90,19 @@ class _TimerPageState extends State<TimerPage> {
     }
     return Expanded(
         child: InkWell(
-          onTap: (){
-            setState(() {
-              _currentSet = setNumber;
-            });
-          },
-          child: Container(
-      decoration: BoxDecoration(
+      onTap: () {
+        setState(() {
+          _currentSet = setNumber;
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
           color: AppColors.richBlack,
-      ),
-      child: Center(
+        ),
+        child: Center(
             child: Container(
                 decoration: BoxDecoration(
-                  color: backgroundColor,
+                    color: backgroundColor,
                     border:
                         Border.all(color: AppColors.charlestonGreen, width: 3),
                     borderRadius: BorderRadius.circular(10)),
@@ -84,8 +116,8 @@ class _TimerPageState extends State<TimerPage> {
                         color: textColor),
                   ),
                 ))),
-    ),
-        ));
+      ),
+    ));
   }
 
   Widget _renderSetRow() {
@@ -106,18 +138,47 @@ class _TimerPageState extends State<TimerPage> {
     );
   }
 
+  Widget _renderTimer() {
+    return Container(
+      color: AppColors.greenArtichoke,
+      child: Center(
+        child: Text("$_countdown", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 70),),
+      ),
+    );
+  }
+
+  List<Widget> _renderTabs() {
+    return [
+      _renderTimer(),
+      Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _renderTimerRow(25, 60),
+          _renderTimerRow(90, 120),
+          _renderTimerRow(240, 360),
+        ],
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultScaffold(
-        child: Column(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _renderSetRow(),
-        _renderTimerRow(25, 60),
-        _renderTimerRow(90, 120),
-        _renderTimerRow(240, 360),
-      ],
-    ));
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _renderSetRow(),
+          Expanded(
+            flex: 6,
+            child: TabBarView(
+              controller: _tabController,
+              children: _renderTabs(),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

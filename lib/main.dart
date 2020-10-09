@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
               headline2: TextStyle(fontSize: 30),
               caption: TextStyle(fontSize: 20),
               bodyText1: TextStyle(color: Colors.black, fontSize: 20),
-              bodyText2: TextStyle(color: Colors.white, fontSize: 20)),
+              bodyText2: TextStyle(color: Colors.white, fontSize: 20)).apply(fontFamily: 'Roboto'),
           buttonTheme: ButtonThemeData(
             textTheme: ButtonTextTheme.primary,
               buttonColor: AppColors.charlestonGreen,
