@@ -36,6 +36,9 @@ class _TimerPageState extends State<TimerPage>
           padding: const EdgeInsets.all(8.0),
           child: RaisedButton(
             onPressed: () {
+              if (_currentSet > 0){
+                _currentSet--;
+              }
               setState(() {
                 _countdown = time;
               });
