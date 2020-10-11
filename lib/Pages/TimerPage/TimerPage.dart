@@ -60,12 +60,14 @@ class _TimerPageState extends State<TimerPage>
       }
       if (_countdown <= 0) {
         _timer.cancel();
-        setState(() {
+        Future.delayed(Duration(milliseconds: 200), () {
           _tabController.index = CHOICE_TAB_INDEX;
         });
       }
     });
-    _tabController.index = TIMER_TAB_INDEX;
+    Future.delayed(Duration(milliseconds: 200), () {
+      _tabController.index = TIMER_TAB_INDEX;
+    });
   }
 
   Widget _renderTimerButton(int time) {
