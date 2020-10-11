@@ -198,7 +198,7 @@ class _TimerPageState extends State<TimerPage>
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _renderTimerRow(5, 60),
+          _renderTimerRow(25, 60),
           _renderTimerRow(90, 120),
           _renderTimerRow(240, 360),
         ],
