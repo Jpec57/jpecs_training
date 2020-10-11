@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
@@ -10,23 +11,61 @@ class TimerPage extends StatefulWidget {
   _TimerPageState createState() => _TimerPageState();
 }
 
+const CACHED_SOUNDS = ['sounds/beep_start.mp3', 'sounds/beep_end.mp3'];
+
 class _TimerPageState extends State<TimerPage>
     with SingleTickerProviderStateMixin {
+  static const CHOICE_TAB_INDEX = 0;
+  static const TIMER_TAB_INDEX = 1;
   TabController _tabController;
   int _currentSet = 6;
   int _countdown = 0;
   Timer _timer;
+  //Audio
+  AudioCache _audioPlayer = AudioCache();
 
   @override
   void initState() {
     super.initState();
     _tabController = new TabController(length: 2, vsync: this);
+    _audioPlayer.loadAll(CACHED_SOUNDS);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    for (String sound in CACHED_SOUNDS) {
+      _audioPlayer.clear(sound);
+    }
     super.dispose();
+  }
+
+  void onTimerPress(int time) {
+    if (_currentSet > 1) {
+      _currentSet--;
+    }
+    setState(() {
+      _countdown = time;
+    });
+    if (_timer != null && _timer.isActive) {
+      _timer.cancel();
+    }
+    _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _countdown = _countdown - 1;
+      });
+
+      if (_countdown < 3) {
+        _audioPlayer.play(CACHED_SOUNDS[(_countdown == 0) ? 1 : 0]);
+      }
+      if (_countdown <= 0) {
+        _timer.cancel();
+        setState(() {
+          _tabController.index = CHOICE_TAB_INDEX;
+        });
+      }
+    });
+    _tabController.index = TIMER_TAB_INDEX;
   }
 
   Widget _renderTimerButton(int time) {
@@ -36,27 +75,7 @@ class _TimerPageState extends State<TimerPage>
           padding: const EdgeInsets.all(8.0),
           child: RaisedButton(
             onPressed: () {
-              if (_currentSet > 0){
-                _currentSet--;
-              }
-              setState(() {
-                _countdown = time;
-              });
-              if (_timer != null && _timer.isActive){
-                _timer.cancel();
-              }
-              _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
-                setState(() {
-                  _countdown = _countdown - 1;
-                });
-               if (_countdown <= 0){
-                 _timer.cancel();
-                 setState(() {
-                   _tabController.index = 1;
-                 });
-               }
-              });
-              _tabController.index = 0;
+              onTimerPress(time);
             },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -145,23 +164,44 @@ class _TimerPageState extends State<TimerPage>
     return Container(
       color: AppColors.greenArtichoke,
       child: Center(
-        child: Text("$_countdown", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 70),),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "$_countdown",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 70),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: RaisedButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Text("Skip"),
+                  onPressed: () {
+                    _countdown = 0;
+                    setState(() {
+                      _tabController.index = CHOICE_TAB_INDEX;
+                    });
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }
 
   List<Widget> _renderTabs() {
     return [
-      _renderTimer(),
       Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _renderTimerRow(25, 60),
+          _renderTimerRow(5, 60),
           _renderTimerRow(90, 120),
           _renderTimerRow(240, 360),
         ],
       ),
+      _renderTimer(),
     ];
   }
 
@@ -177,6 +217,7 @@ class _TimerPageState extends State<TimerPage>
             flex: 6,
             child: TabBarView(
               controller: _tabController,
+              physics: NeverScrollableScrollPhysics(),
               children: _renderTabs(),
             ),
           )
