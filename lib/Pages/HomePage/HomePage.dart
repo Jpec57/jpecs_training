@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Widgets/Clippers/BottomLeftCornerRoundedClipper.dart';
 import 'package:jpec_training/Widgets/DefaultScaffold.dart';
-import 'package:jpec_training/Widgets/Localization.dart';
-import 'package:jpec_training/Widgets/MainDrawer.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/';
@@ -26,13 +23,15 @@ class _HomePageState extends State<HomePage> {
                     bottomLeft: Radius.circular(30)),
               ),
               height: MediaQuery.of(context).size.height * 0.2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Text("Push Ups", style: Theme.of(context).textTheme.bodyText2,),
-                  Text("Push Ups"),
-                  Text("data")
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text("Next available", style: TextStyle(fontWeight: FontWeight.bold),),
+                    Text("data")
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -43,7 +42,6 @@ class _HomePageState extends State<HomePage> {
                   Text("49"),
                   RaisedButton(
                     onPressed: (){
-
                     }, child: Text("SKIP", style: Theme.of(context).textTheme.bodyText2,),)
                 ],
               ),
@@ -51,6 +49,15 @@ class _HomePageState extends State<HomePage> {
             Expanded(
                 child: Container(
                   color: AppColors.greenArtichoke,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('18'),
+                      Text('19'),
+                      Text('20'),
+                    ],
+                  ),
                 ))
           ],
         ),

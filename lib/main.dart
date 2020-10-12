@@ -61,8 +61,7 @@ class MyApp extends StatelessWidget {
       routes: {
         // LoginPage.routeName: (context) => LoginPage(),
       },
-      home: TimerPage(),
-      // home: HomePage(),
+      home: HomePage(),
     );
   }
 }

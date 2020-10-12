@@ -7,6 +7,8 @@ import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Widgets/DefaultScaffold.dart';
 
 class TimerPage extends StatefulWidget {
+  static const routeName = '/timer';
+
   @override
   _TimerPageState createState() => _TimerPageState();
 }
@@ -129,7 +131,8 @@ class _TimerPageState extends State<TimerPage>
                     color: backgroundColor,
                     border:
                         Border.all(color: AppColors.charlestonGreen, width: 3),
-                    borderRadius: BorderRadius.circular(10)),
+                    borderRadius: BorderRadius.circular(10)
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Text(
@@ -151,6 +154,7 @@ class _TimerPageState extends State<TimerPage>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.max,
         children: [
+          _renderSet(0),
           _renderSet(1),
           _renderSet(2),
           _renderSet(3),

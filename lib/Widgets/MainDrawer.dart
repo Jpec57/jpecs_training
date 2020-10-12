@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/Pages/HomePage/HomePage.dart';
+import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
 import 'package:jpec_training/Widgets/Localization.dart';
 
 class MainDrawer extends StatefulWidget {
@@ -50,6 +51,16 @@ class MainDrawerState extends State<MainDrawer> {
               Navigator.pushNamed(
                 context,
                 HomePage.routeName,
+              );
+            },
+          ),
+          ListTile(
+            title:
+            Text(LocalizationWidget.of(context).getLocalizeValue('timer')),
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                TimerPage.routeName,
               );
             },
           ),
