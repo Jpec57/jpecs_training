@@ -60,6 +60,7 @@ class MyApp extends StatelessWidget {
       },
       routes: {
         // LoginPage.routeName: (context) => LoginPage(),
+        TimerPage.routeName: (context) => TimerPage(),
       },
       home: HomePage(),
     );
