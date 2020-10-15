@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Widgets/Clippers/TopCornerRoundedClipper.dart';
 import 'package:jpec_training/Widgets/DefaultScaffold.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,50 +10,121 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  double _topRadius = 70;
+  double _offset = 0;
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = new ScrollController();
+    _scrollController.addListener(onScroll);
+  }
+
+  onScroll() {
+    setState(() {
+      _offset = _scrollController.offset;
+    });
+  }
+
+  getComputedRadius(double screenHeight){
+    if (_offset > screenHeight * 0.25){
+      return 0.0;
+    }
+    return _topRadius - _offset * 0.25;
+  }
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return DefaultScaffold(
       child: SafeArea(
         child: Column(
           children: [
             Expanded(
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(image: AssetImage("images/fluff.png"), fit: BoxFit.cover),
+                    ),
+                    height: screenHeight * 0.35,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Text("Next: ", style: TextStyle(fontWeight: FontWeight.bold),),
-                          Text("data")
+                          Row(
+                            children: [
+                              Text(
+                                "Next: ",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              Text("data")
+                            ],
+                          ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: screenHeight * 0.65,
+                      child: AnimatedContainer(
+                        duration: Duration(seconds: 1),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: AppColors.richBlack,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(getComputedRadius(screenHeight)),
+                                  topRight: Radius.circular(getComputedRadius(screenHeight)))),
+                          child: Padding(
+                            padding: EdgeInsets.all(_topRadius / 4 + 8.0),
+                            child: SingleChildScrollView(
+                              controller: _scrollController,
+                              child: Container(
+                                height: MediaQuery.of(context).size.height * 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  children: [
+                                    Expanded(
+                                      child: ListView(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        children: List.generate(
+                                            20,
+                                                (index) => ListTile(
+                                              title: Text(
+                                                index.toString(),
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            )),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
-            Expanded(
-                flex: 3,
-                child: AnimatedContainer(
-                  duration: Duration(seconds: 1),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.richBlack,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text("Hello"),
-                      ],
-                    ),
-                  ),
-                ))
+
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.removeListener(onScroll);
+    _scrollController.dispose();
   }
 }

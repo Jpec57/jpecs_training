@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Pages/HomePage/HomePage.dart';
+import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
 import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
 
 import 'Widgets/Localization.dart';
@@ -61,8 +62,10 @@ class MyApp extends StatelessWidget {
       routes: {
         // LoginPage.routeName: (context) => LoginPage(),
         TimerPage.routeName: (context) => TimerPage(),
+        InExercisePage.routeName: (context) => InExercisePage(),
       },
       home: HomePage(),
+      // home: InExercisePage(),
     );
   }
 }
