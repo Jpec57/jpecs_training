@@ -35,11 +35,13 @@ class _HomePageState extends State<HomePage> {
     return _topRadius - _offset * 0.25;
   }
 
-  getComputedHeaderHeightPercent(double screenHeight){
-    if ((_offset / 4) >= screenHeight * 0.25){
+  getOffsetAdvanceRatio(double screenHeight){
+    //to slow down image shrinking, dividing _offset
+    var modifiedOffset = (_offset / 4);
+    if (modifiedOffset >= screenHeight * 0.25){
       return 1.0;
     }
-    return ((_offset /4) / (screenHeight * 0.25));
+    return (modifiedOffset / (screenHeight * 0.25));
   }
 
 
@@ -59,7 +61,8 @@ class _HomePageState extends State<HomePage> {
                       decoration: BoxDecoration(
                         image: DecorationImage(image: AssetImage("images/fluff.png"), fit: BoxFit.cover),
                       ),
-                      height: screenHeight * (_headerPercentHeight * (1 - getComputedHeaderHeightPercent(screenHeight))),
+                      // the more we advance, the smaller it should get (1 - ratio)
+                      height: screenHeight * (_headerPercentHeight * (1 - getOffsetAdvanceRatio(screenHeight))),
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
@@ -84,7 +87,8 @@ class _HomePageState extends State<HomePage> {
                     child: AnimatedContainer(
                       duration: Duration(seconds: 1),
                       child: Container(
-                        height: screenHeight * ((1 -_headerPercentHeight) + (getComputedHeaderHeightPercent(screenHeight))),
+                        //The more we advance, the bigger it get
+                        height: screenHeight * ((1 -_headerPercentHeight) + (getOffsetAdvanceRatio(screenHeight))),
                         child: Container(
                           decoration: BoxDecoration(
                               color: AppColors.richBlack,
