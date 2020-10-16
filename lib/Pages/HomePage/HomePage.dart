@@ -12,6 +12,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   double _topRadius = 70;
   double _offset = 0;
+  double _headerPercentHeight = 0.35;
   ScrollController _scrollController;
 
   @override
@@ -34,6 +35,14 @@ class _HomePageState extends State<HomePage> {
     return _topRadius - _offset * 0.25;
   }
 
+  getComputedHeaderHeightPercent(double screenHeight){
+    if ((_offset / 4) >= screenHeight * 0.25){
+      return 1.0;
+    }
+    return ((_offset /4) / (screenHeight * 0.25));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -44,35 +53,38 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: Stack(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(image: AssetImage("images/fluff.png"), fit: BoxFit.cover),
-                    ),
-                    height: screenHeight * 0.35,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "Next: ",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Text("data")
-                            ],
-                          ),
-                        ],
+                  AnimatedContainer(
+                    duration: Duration(seconds: 1),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(image: AssetImage("images/fluff.png"), fit: BoxFit.cover),
+                      ),
+                      height: screenHeight * (_headerPercentHeight * (1 - getComputedHeaderHeightPercent(screenHeight))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Next: ",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                Text("data")
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: screenHeight * 0.65,
-                      child: AnimatedContainer(
-                        duration: Duration(seconds: 1),
+                    child: AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      child: Container(
+                        height: screenHeight * ((1 -_headerPercentHeight) + (getComputedHeaderHeightPercent(screenHeight))),
                         child: Container(
                           decoration: BoxDecoration(
                               color: AppColors.richBlack,

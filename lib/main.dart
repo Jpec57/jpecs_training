@@ -64,8 +64,8 @@ class MyApp extends StatelessWidget {
         TimerPage.routeName: (context) => TimerPage(),
         InExercisePage.routeName: (context) => InExercisePage(),
       },
+      // home: HomePage(),
       home: HomePage(),
-      // home: InExercisePage(),
     );
   }
 }
