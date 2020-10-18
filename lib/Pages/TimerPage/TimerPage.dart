@@ -43,7 +43,7 @@ class _TimerPageState extends State<TimerPage>
   }
 
   void onTimerPress(int time) {
-    if (_currentSet > 1) {
+    if (_currentSet > 0) {
       _currentSet--;
     }
     setState(() {
@@ -131,8 +131,7 @@ class _TimerPageState extends State<TimerPage>
                     color: backgroundColor,
                     border:
                         Border.all(color: AppColors.charlestonGreen, width: 3),
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderRadius: BorderRadius.circular(10)),
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Text(
@@ -184,6 +183,9 @@ class _TimerPageState extends State<TimerPage>
                       borderRadius: BorderRadius.circular(20)),
                   child: Text("Skip"),
                   onPressed: () {
+                    if (_timer.isActive) {
+                      _timer.cancel();
+                    }
                     _countdown = 0;
                     setState(() {
                       _tabController.index = CHOICE_TAB_INDEX;

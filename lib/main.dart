@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Pages/HomePage/HomePage.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
 import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
 
@@ -33,17 +32,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: TextTheme(
-              button: TextStyle(color: Colors.red),
-              headline1: TextStyle(fontSize: 50, color: Colors.white, fontWeight: FontWeight.bold),
-              headline2: TextStyle(fontSize: 30),
-              caption: TextStyle(fontSize: 20),
-              bodyText1: TextStyle(color: Colors.black, fontSize: 20),
-              bodyText2: TextStyle(color: Colors.white, fontSize: 20)).apply(fontFamily: 'Roboto'),
+                  button: TextStyle(color: Colors.red),
+                  headline1: TextStyle(
+                      fontSize: 50,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                  headline2: TextStyle(fontSize: 30),
+                  caption: TextStyle(fontSize: 20),
+                  bodyText1: TextStyle(color: Colors.black, fontSize: 20),
+                  bodyText2: TextStyle(color: Colors.white, fontSize: 20))
+              .apply(fontFamily: 'Roboto'),
           buttonTheme: ButtonThemeData(
             textTheme: ButtonTextTheme.primary,
-              buttonColor: AppColors.charlestonGreen,
-          )
-      ),
+            buttonColor: AppColors.charlestonGreen,
+          )),
       onGenerateRoute: (settings) {
         // if (settings.name == DeckPage.routeName) {
         //   final DeckPageArguments args = settings.arguments;
@@ -64,8 +66,8 @@ class MyApp extends StatelessWidget {
         TimerPage.routeName: (context) => TimerPage(),
         InExercisePage.routeName: (context) => InExercisePage(),
       },
-      // home: HomePage(),
       home: HomePage(),
+      // home: TimerPage(),
     );
   }
 }
