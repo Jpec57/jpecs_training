@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Widgets/DefaultScaffold.dart';
+import 'package:jpec_training/Widgets/TopScrollablePage.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/';
@@ -10,137 +10,102 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double _topRadius = 70;
-  double _offset = 0;
-  double _headerPercentHeight = 0.35;
-  ScrollController _scrollController;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = new ScrollController();
-    _scrollController.addListener(onScroll);
-  }
-
-  onScroll() {
-    setState(() {
-      _offset = _scrollController.offset;
-    });
-  }
-
-  getComputedRadius(double screenHeight){
-    if (_offset > screenHeight * 0.25){
-      return 0.0;
-    }
-    return _topRadius - _offset * 0.25;
-  }
-
-  getOffsetAdvanceRatio(double screenHeight){
-    //to slow down image shrinking, dividing _offset
-    var modifiedOffset = (_offset / 4);
-    if (modifiedOffset >= screenHeight * 0.25){
-      return 1.0;
-    }
-    return (modifiedOffset / (screenHeight * 0.25));
-  }
-
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
-    return DefaultScaffold(
-      child: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  AnimatedContainer(
-                    duration: Duration(seconds: 1),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(image: AssetImage("images/fluff.png"), fit: BoxFit.cover),
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    return TopScrollablePage(
+        headerChild: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/fluff.png"), fit: BoxFit.cover),
+          ),
+          // the more we advance, the smaller it should get (1 - ratio)
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Flexible(
+                  child: Row(
+                    children: [
+                      Text(
+                        "Next: ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      // the more we advance, the smaller it should get (1 - ratio)
-                      height: screenHeight * (_headerPercentHeight * (1 - getOffsetAdvanceRatio(screenHeight))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
+                      Text("data")
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        bottomChild: Container(
+          height: MediaQuery.of(context).size.height * 2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Trainings",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    InkWell(
+                        onTap: () {},
+                        child: Icon(
+                          Icons.add,
+                          size: 30,
+                          color: Colors.white,
+                        )),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                    itemCount: 20,
+                    itemBuilder: (BuildContext context, int categoryIndex) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Next: ",
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                                Text("data")
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: Text("Chest", style: Theme.of(context).textTheme.headline6,),
+                            ),
+                            Container(
+                              height: screenWidth * 0.3,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 20,
+                                  itemBuilder: (BuildContext context, int index){
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: AppColors.charlestonGreen, width: 2),
+                                        color: AppColors.greenArtichoke,
+                                      ),
+                                      height: screenWidth * 0.3,
+                                      width: screenWidth * 0.4,
+                                      child: Icon(Icons.photo),
+                                    );
+                                  }
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: AnimatedContainer(
-                      duration: Duration(seconds: 1),
-                      child: Container(
-                        //The more we advance, the bigger it get
-                        height: screenHeight * ((1 -_headerPercentHeight) + (getOffsetAdvanceRatio(screenHeight))),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: AppColors.richBlack,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(getComputedRadius(screenHeight)),
-                                  topRight: Radius.circular(getComputedRadius(screenHeight)))),
-                          child: Padding(
-                            padding: EdgeInsets.all(_topRadius / 4 + 8.0),
-                            child: SingleChildScrollView(
-                              controller: _scrollController,
-                              child: Container(
-                                height: MediaQuery.of(context).size.height * 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                                  children: [
-                                    Expanded(
-                                      child: ListView(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        children: List.generate(
-                                            20,
-                                                (index) => ListTile(
-                                              title: Text(
-                                                index.toString(),
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
-                                            )),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-
-          ],
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _scrollController.removeListener(onScroll);
-    _scrollController.dispose();
+                      );
+                    }),
+              )
+            ],
+          ),
+        ));
   }
 }

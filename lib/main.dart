@@ -5,6 +5,7 @@ import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
 import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
 
+import 'Pages/HomePage/HomePage.dart';
 import 'Widgets/Localization.dart';
 
 void main() {
@@ -38,6 +39,8 @@ class MyApp extends StatelessWidget {
                       color: Colors.white,
                       fontWeight: FontWeight.bold),
                   headline2: TextStyle(fontSize: 30),
+                  headline5: TextStyle(color: Colors.white),
+                  headline6: TextStyle(color: Colors.white),
                   caption: TextStyle(fontSize: 20),
                   bodyText1: TextStyle(color: Colors.black, fontSize: 20),
                   bodyText2: TextStyle(color: Colors.white, fontSize: 20))
