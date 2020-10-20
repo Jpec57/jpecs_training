@@ -1,0 +1,24 @@
+[
+  {
+    "name": "Jpec's legs",
+    "authorId": 1,
+    "coverImg": null,
+
+    "exercises": [
+      {
+        "name": "Squat",
+        "description": "",
+        "img": "",
+        "requiredMaterial": [
+        ],
+        "isHold": false,
+        "sets": [
+          {
+            "repsOrDuration": 10,
+            "rest": 60
+          }
+        ]
+      }
+    ]
+  }
+]

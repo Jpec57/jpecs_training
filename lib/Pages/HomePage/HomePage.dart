@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
+import 'package:jpec_training/Models/Training.dart';
+import 'package:jpec_training/Services/Utils/utils.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +12,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future<List<Training>> _chestTrainings;
+  Future<List<Training>> _backTrainings;
+  Future<List<Training>> _legsTrainings;
+
+
+  @override
+  void initState() {
+    super.initState();
+    loadTrainingData();
+  }
+
+  loadTrainingData(){
+    _chestTrainings = parseJsonFromAssets("lib/HardCodedData/chest_trainings.json");
+    _backTrainings = parseJsonFromAssets("lib/HardCodedData/back_trainings.json");
+    _legsTrainings = parseJsonFromAssets("lib/HardCodedData/legs_trainings.json");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,18 +75,30 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     InkWell(
-                        onTap: () {},
-                        child: Icon(
-                          Icons.add,
-                          size: 30,
-                          color: Colors.white,
+                        splashColor: Colors.black12,
+                        onTap: () {
+                          print("Creating a training");
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.charlestonGreen
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Icon(
+                              Icons.add,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                          ),
                         )),
                   ],
                 ),
               ),
               Expanded(
                 child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     itemCount: 20,
                     itemBuilder: (BuildContext context, int categoryIndex) {
                       return Padding(
@@ -79,25 +109,30 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(bottom: 5),
-                              child: Text("Chest", style: Theme.of(context).textTheme.headline6,),
+                              child: Text(
+                                "Chest",
+                                style: Theme.of(context).textTheme.headline6,
+                              ),
                             ),
                             Container(
                               height: screenWidth * 0.3,
                               child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   itemCount: 20,
-                                  itemBuilder: (BuildContext context, int index){
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     return Container(
                                       decoration: BoxDecoration(
-                                        border: Border.all(color: AppColors.charlestonGreen, width: 2),
+                                        border: Border.all(
+                                            color: AppColors.charlestonGreen,
+                                            width: 2),
                                         color: AppColors.greenArtichoke,
                                       ),
                                       height: screenWidth * 0.3,
                                       width: screenWidth * 0.4,
                                       child: Icon(Icons.photo),
                                     );
-                                  }
-                              ),
+                                  }),
                             ),
                           ],
                         ),
