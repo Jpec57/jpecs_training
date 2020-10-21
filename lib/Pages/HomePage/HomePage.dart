@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Models/Training.dart';
 import 'package:jpec_training/Services/Utils/utils.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
 
@@ -15,9 +14,10 @@ class _HomePageState extends State<HomePage> {
   // Future<List<Training>> _chestTrainings;
   // Future<List<Training>> _backTrainings;
   // Future<List<Training>> _legsTrainings;
-  Future<Map<String, dynamic>> _chestTrainings;
-  Future<Map<String, dynamic>> _backTrainings;
-  Future<Map<String, dynamic>> _legsTrainings;
+  Future<List<dynamic>> _chestTrainings;
+  Future<List<dynamic>> _backTrainings;
+  Future<List<dynamic>> _legsTrainings;
+  List<Map<String, dynamic>> _trainings = [];
 
   @override
   void initState() {
@@ -25,10 +25,25 @@ class _HomePageState extends State<HomePage> {
     loadTrainingData();
   }
 
-  loadTrainingData(){
-    _chestTrainings = parseJsonFromAssets("lib/HardCodedData/chest_trainings.json");
-    _backTrainings = parseJsonFromAssets("lib/HardCodedData/back_trainings.json");
-    _legsTrainings = parseJsonFromAssets("lib/HardCodedData/legs_trainings.json");
+  loadTrainingData() {
+    _chestTrainings =
+        parseJsonListFromAssets("lib/HardCodedData/chest_trainings.json");
+    _backTrainings =
+        parseJsonListFromAssets("lib/HardCodedData/back_trainings.json");
+    _legsTrainings =
+        parseJsonListFromAssets("lib/HardCodedData/legs_trainings.json");
+    Map map = new Map();
+    map.putIfAbsent("muscle", () => "chest");
+    map.putIfAbsent("training", () => _chestTrainings);
+    _trainings.add(map);
+    map = new Map();
+    map.putIfAbsent("muscle", () => "back");
+    map.putIfAbsent("training", () => _backTrainings);
+    _trainings.add(map);
+    map = new Map();
+    map.putIfAbsent("muscle", () => "legs");
+    map.putIfAbsent("training", () => _legsTrainings);
+    _trainings.add(map);
   }
 
   @override
@@ -83,9 +98,8 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.charlestonGreen
-                          ),
+                              shape: BoxShape.circle,
+                              color: AppColors.charlestonGreen),
                           child: Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Icon(
@@ -101,7 +115,7 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: 20,
+                    itemCount: _trainings.length,
                     itemBuilder: (BuildContext context, int categoryIndex) {
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 15),
@@ -120,7 +134,7 @@ class _HomePageState extends State<HomePage> {
                               height: screenWidth * 0.3,
                               child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: 20,
+                                  itemCount: 10,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return Container(
