@@ -31,6 +31,7 @@ dependencies:
   http: ^0.12.2
   path_provider: ^1.6.11
   path: any
+  json_annotation: ^3.0.0
   flutter_launcher_icons: ^0.7.3
   audioplayers: ^0.16.1
   #cloud_firestore: ^0.12.9+5
@@ -45,6 +46,7 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "images/app_icon.png"
+  json_annotation: ^3.5.0
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +55,8 @@ dev_dependencies:
     sdk: flutter
   test: any
   mockito: ^4.1.1
+  build_runner: ^1.10.3
+  json_serializable: ^3.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

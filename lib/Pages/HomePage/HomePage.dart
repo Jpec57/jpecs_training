@@ -12,10 +12,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<List<Training>> _chestTrainings;
-  Future<List<Training>> _backTrainings;
-  Future<List<Training>> _legsTrainings;
-
+  // Future<List<Training>> _chestTrainings;
+  // Future<List<Training>> _backTrainings;
+  // Future<List<Training>> _legsTrainings;
+  Future<Map<String, dynamic>> _chestTrainings;
+  Future<Map<String, dynamic>> _backTrainings;
+  Future<Map<String, dynamic>> _legsTrainings;
 
   @override
   void initState() {
