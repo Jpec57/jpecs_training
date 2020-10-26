@@ -12,3 +12,8 @@ Run
 ```
 flutter packages pub run build_runner build
 ```
+
+#TODO 
+
+- Create dynamic rank with animation when ranking has changed
+

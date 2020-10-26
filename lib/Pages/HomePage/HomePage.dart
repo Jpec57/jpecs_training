@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
+import 'package:jpec_training/Models/Training.dart';
 import 'package:jpec_training/Services/Utils/utils.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
 
@@ -11,9 +12,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Future<List<Training>> _chestTrainings;
-  // Future<List<Training>> _backTrainings;
-  // Future<List<Training>> _legsTrainings;
   Future<List<dynamic>> _chestTrainings;
   Future<List<dynamic>> _backTrainings;
   Future<List<dynamic>> _legsTrainings;
@@ -32,18 +30,39 @@ class _HomePageState extends State<HomePage> {
         parseJsonListFromAssets("lib/HardCodedData/back_trainings.json");
     _legsTrainings =
         parseJsonListFromAssets("lib/HardCodedData/legs_trainings.json");
-    Map map = new Map();
+    Map map = new Map<String, dynamic>();
     map.putIfAbsent("muscle", () => "chest");
-    map.putIfAbsent("training", () => _chestTrainings);
+    map.putIfAbsent("trainings", () => _chestTrainings);
     _trainings.add(map);
-    map = new Map();
+    map = new Map<String, dynamic>();
     map.putIfAbsent("muscle", () => "back");
-    map.putIfAbsent("training", () => _backTrainings);
+    map.putIfAbsent("trainings", () => _backTrainings);
     _trainings.add(map);
-    map = new Map();
+    map = new Map<String, dynamic>();
     map.putIfAbsent("muscle", () => "legs");
-    map.putIfAbsent("training", () => _legsTrainings);
+    map.putIfAbsent("trainings", () => _legsTrainings);
     _trainings.add(map);
+  }
+
+
+  Widget _renderMuscleTrainings(List<Training> trainings, double screenWidth){
+    return ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: trainings.length,
+        itemBuilder:
+            (BuildContext context, int index) {
+          return Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: AppColors.charlestonGreen,
+                  width: 2),
+              color: AppColors.greenArtichoke,
+            ),
+            height: screenWidth * 0.3,
+            width: screenWidth * 0.4,
+            child: Icon(Icons.photo),
+          );
+        });
   }
 
   @override
@@ -126,29 +145,24 @@ class _HomePageState extends State<HomePage> {
                             Padding(
                               padding: const EdgeInsets.only(bottom: 5),
                               child: Text(
-                                "Chest",
+                                _trainings[categoryIndex]['muscle'],
                                 style: Theme.of(context).textTheme.headline6,
                               ),
                             ),
                             Container(
                               height: screenWidth * 0.3,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: 10,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: AppColors.charlestonGreen,
-                                            width: 2),
-                                        color: AppColors.greenArtichoke,
-                                      ),
-                                      height: screenWidth * 0.3,
-                                      width: screenWidth * 0.4,
-                                      child: Icon(Icons.photo),
-                                    );
-                                  }),
+                              child: FutureBuilder(
+                                future: _trainings[categoryIndex]['trainings'],
+                                builder: (BuildContext context, AsyncSnapshot<List<dynamic>> trainingSnap) {
+                                  switch(trainingSnap.connectionState){
+                                    case ConnectionState.done:
+                                      List<Training> trainings = trainingSnap.data.map((json) => Training.fromJson(json)).toList();
+                                      return _renderMuscleTrainings(trainings, screenWidth);
+                                    default:
+                                      return CircularProgressIndicator();
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),
