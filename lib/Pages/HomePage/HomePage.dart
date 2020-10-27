@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Models/Training.dart';
+import 'package:jpec_training/Pages/TrainingPage/TrainingShowArgument.dart';
+import 'file:///C:/Users/Jean-Paul/AndroidStudioProjects/jpec_training/lib/Pages/TrainingPage/TrainingShow.dart';
 import 'package:jpec_training/Services/Utils/utils.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
 
@@ -51,16 +54,22 @@ class _HomePageState extends State<HomePage> {
         itemCount: trainings.length,
         itemBuilder:
             (BuildContext context, int index) {
-          return Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color: AppColors.charlestonGreen,
-                  width: 2),
-              color: AppColors.greenArtichoke,
+          return InkWell(
+            // splashColor: Colors.,
+            onTap: (){
+              Get.toNamed(TrainingShow.routeName, arguments: TrainingShowArgument(training: trainings[index]));
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: AppColors.charlestonGreen,
+                    width: 2),
+                color: AppColors.greenArtichoke,
+              ),
+              height: screenWidth * 0.3,
+              width: screenWidth * 0.4,
+              child: Icon(Icons.photo),
             ),
-            height: screenWidth * 0.3,
-            width: screenWidth * 0.4,
-            child: Icon(Icons.photo),
           );
         });
   }

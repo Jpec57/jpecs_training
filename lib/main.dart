@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
 import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
+import 'package:jpec_training/Pages/TrainingPage/TrainingShow.dart';
+import 'package:jpec_training/Pages/TrainingPage/TrainingShowArgument.dart';
 
 import 'Pages/HomePage/HomePage.dart';
 import 'Widgets/Localization.dart';
@@ -50,17 +52,17 @@ class MyApp extends StatelessWidget {
             buttonColor: AppColors.charlestonGreen,
           )),
       onGenerateRoute: (settings) {
-        // if (settings.name == DeckPage.routeName) {
-        //   final DeckPageArguments args = settings.arguments;
-        //
-        //   return MaterialPageRoute(
-        //     builder: (context) {
-        //       return DeckPage(
-        //         id: args.id,
-        //       );
-        //     },
-        //   );
-        // }
+        if (settings.name == TrainingShow.routeName) {
+          final TrainingShowArgument args = settings.arguments;
+
+          return MaterialPageRoute(
+            builder: (context) {
+              return TrainingShow(
+                training: args.training,
+              );
+            },
+          );
+        }
         assert(false, 'Need to implement ${settings.name}');
         return null;
       },
