@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:jpec_training/Animations/SlideLeftPageAnimation.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Models/Training.dart';
-import 'package:jpec_training/Pages/TrainingPage/TrainingShowArgument.dart';
-import 'file:///C:/Users/Jean-Paul/AndroidStudioProjects/jpec_training/lib/Pages/TrainingPage/TrainingShow.dart';
+import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
 import 'package:jpec_training/Services/Utils/utils.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
 
@@ -47,28 +47,51 @@ class _HomePageState extends State<HomePage> {
     _trainings.add(map);
   }
 
-
-  Widget _renderMuscleTrainings(List<Training> trainings, double screenWidth){
+  Widget _renderMuscleTrainings(List<Training> trainings, double screenWidth) {
     return ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: trainings.length,
-        itemBuilder:
-            (BuildContext context, int index) {
-          return InkWell(
-            // splashColor: Colors.,
-            onTap: (){
-              Get.toNamed(TrainingShow.routeName, arguments: TrainingShowArgument(training: trainings[index]));
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                    color: AppColors.charlestonGreen,
-                    width: 2),
-                color: AppColors.greenArtichoke,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: InkWell(
+              // splashColor: Colors.,
+              onTap: () {
+                Navigator.push(
+                    context,
+                    SlideLeftRoute(
+                        page: TrainingShow(training: trainings[index])));
+
+                // Get.toNamed(TrainingShow.routeName,
+                //     arguments:
+                //         TrainingShowArgument(training: trainings[index]));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border:
+                      Border.all(color: AppColors.charlestonGreen, width: 2),
+                  color: AppColors.greenArtichoke,
+                ),
+                height: screenWidth * 0.3,
+                width: screenWidth * 0.4,
+                child: Center(
+                  child: Text(
+                    trainings[index].name,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.richBlack,
+                        shadows: <Shadow>[
+                          Shadow(
+                            offset: Offset(2.0, 2.0),
+                            blurRadius: 3.0,
+                            color: Colors.grey,
+                          ),
+                        ]),
+                  ),
+                ),
               ),
-              height: screenWidth * 0.3,
-              width: screenWidth * 0.4,
-              child: Icon(Icons.photo),
             ),
           );
         });
@@ -162,11 +185,17 @@ class _HomePageState extends State<HomePage> {
                               height: screenWidth * 0.3,
                               child: FutureBuilder(
                                 future: _trainings[categoryIndex]['trainings'],
-                                builder: (BuildContext context, AsyncSnapshot<List<dynamic>> trainingSnap) {
-                                  switch(trainingSnap.connectionState){
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<List<dynamic>> trainingSnap) {
+                                  switch (trainingSnap.connectionState) {
                                     case ConnectionState.done:
-                                      List<Training> trainings = trainingSnap.data.map((json) => Training.fromJson(json)).toList();
-                                      return _renderMuscleTrainings(trainings, screenWidth);
+                                      List<Training> trainings = trainingSnap
+                                          .data
+                                          .map(
+                                              (json) => Training.fromJson(json))
+                                          .toList();
+                                      return _renderMuscleTrainings(
+                                          trainings, screenWidth);
                                     default:
                                       return CircularProgressIndicator();
                                   }

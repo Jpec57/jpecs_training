@@ -15,6 +15,30 @@
         "sets": [
           {
             "repsOrDuration": 10,
+            "rest": 60,
+            "weight": 40
+          },
+          {
+            "repsOrDuration": 8,
+            "rest": 60,
+            "weight": 35
+          },
+          {
+            "repsOrDuration": 6,
+            "rest": 60,
+            "weight": 30
+          }
+        ]
+      },
+      {
+        "name": "Pike Push Ups",
+        "description": "Blabla blabla",
+        "img": "",
+        "requiredMaterial": [],
+        "isHold": false,
+        "sets": [
+          {
+            "repsOrDuration": 10,
             "rest": 60
           }
         ]

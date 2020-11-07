@@ -3,11 +3,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
+import 'package:jpec_training/Pages/InTrainingPage/InExerciseTimerPage.dart';
 import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
-import 'package:jpec_training/Pages/TrainingPage/TrainingShow.dart';
-import 'package:jpec_training/Pages/TrainingPage/TrainingShowArgument.dart';
+import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
+import 'package:jpec_training/Pages/TrainingShowPage/TrainingShowArgument.dart';
 
-import 'Pages/HomePage/HomePage.dart';
 import 'Widgets/Localization.dart';
 
 void main() {
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
                   headline5: TextStyle(color: Colors.white),
                   headline6: TextStyle(color: Colors.white),
                   caption: TextStyle(fontSize: 20),
-                  bodyText1: TextStyle(color: Colors.black, fontSize: 20),
+                  bodyText1: TextStyle(color: Colors.white, fontSize: 20),
                   bodyText2: TextStyle(color: Colors.white, fontSize: 20))
               .apply(fontFamily: 'Roboto'),
           buttonTheme: ButtonThemeData(
@@ -70,9 +70,11 @@ class MyApp extends StatelessWidget {
         // LoginPage.routeName: (context) => LoginPage(),
         TimerPage.routeName: (context) => TimerPage(),
         InExercisePage.routeName: (context) => InExercisePage(),
+        InExerciseTimerPage.routeName: (context) => InExerciseTimerPage(),
       },
-      home: HomePage(),
-      // home: TimerPage(),
+      // home: HomePage(),
+      home: InExercisePage(),
+      // home: InExerciseTimerPage(),
     );
   }
 }
