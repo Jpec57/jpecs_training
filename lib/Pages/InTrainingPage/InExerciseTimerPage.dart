@@ -1,14 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
+import 'package:jpec_training/Models/Training.dart';
+
+import 'InExercisePage.dart';
+import 'InExercisePageArguments.dart';
 
 class InExerciseTimerPage extends StatefulWidget {
   static const routeName = '/training/rest';
+  final Training training;
+
+  const InExerciseTimerPage({Key key, @required this.training})
+      : super(key: key);
+
   @override
   _InExerciseTimerPageState createState() => _InExerciseTimerPageState();
 }
 
 class _InExerciseTimerPageState extends State<InExerciseTimerPage> {
   bool _isHold = false;
+  int _countdown = 49;
+  int _doneReps = 18;
+
+  Widget _renderClickableRep(int num) {
+    if (num < 0) {
+      return Container();
+    }
+    return InkWell(
+        onTap: () {
+          setState(() {
+            _doneReps = num;
+          });
+        },
+        child: Text("$num"));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +60,30 @@ class _InExerciseTimerPageState extends State<InExerciseTimerPage> {
                             "Next: ",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          Text("data")
+                          Text("Exo 2")
                         ],
                       ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 12, bottom: 8.0),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15),
+                                child: Image.asset(
+                                  "images/jpec_logo.png",
+                                ),
+                              ),
+                              Flexible(
+                                child: Text(
+                                  "BLABL ABALAB ezljfh kezjfez elfkh zekfnezl fezlnflkze nfozek lflz lken fozeno",
+                                  textAlign: TextAlign.start,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -53,7 +98,7 @@ class _InExerciseTimerPageState extends State<InExerciseTimerPage> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 15),
                         child: Text(
-                          "49",
+                          "$_countdown",
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -61,7 +106,12 @@ class _InExerciseTimerPageState extends State<InExerciseTimerPage> {
                         ),
                       ),
                       RaisedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                              InExercisePage.routeName,
+                              arguments: InExercisePageArguments(
+                                  training: widget.training));
+                        },
                         child: Text(
                           "SKIP",
                           style: Theme.of(context).textTheme.bodyText2,
@@ -92,8 +142,8 @@ class _InExerciseTimerPageState extends State<InExerciseTimerPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('17'),
-                          Text('18'),
+                          _renderClickableRep(_doneReps - 2),
+                          _renderClickableRep(_doneReps - 1),
                           Container(
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
@@ -101,12 +151,12 @@ class _InExerciseTimerPageState extends State<InExerciseTimerPage> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  '19',
+                                  '$_doneReps',
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               )),
-                          Text('20'),
-                          Text('21'),
+                          _renderClickableRep(_doneReps + 1),
+                          _renderClickableRep(_doneReps + 2),
                         ],
                       ),
                     ),

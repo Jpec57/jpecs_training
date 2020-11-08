@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Models/Exercise.dart';
 import 'package:jpec_training/Models/Training.dart';
+import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
+import 'package:jpec_training/Pages/InTrainingPage/InExercisePageArguments.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
 
 class TrainingShow extends StatefulWidget {
@@ -66,7 +68,11 @@ class _TrainingShowState extends State<TrainingShow> {
                       "Start".toUpperCase(),
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, InExercisePage.routeName,
+                          arguments: InExercisePageArguments(
+                              training: widget.training));
+                    },
                   ),
                 ),
                 Expanded(
@@ -94,7 +100,7 @@ class _TrainingShowState extends State<TrainingShow> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10.0),
                                   child: Image.asset(
-                                    "images/app_icon.png",
+                                    "images/jpec_logo.png",
                                     height: 50,
                                   ),
                                 )

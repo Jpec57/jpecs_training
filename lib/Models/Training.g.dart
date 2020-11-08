@@ -14,12 +14,18 @@ Training _$TrainingFromJson(Map<String, dynamic> json) {
     exercises: (json['exercises'] as List)
         .map((e) => Exercise.fromJson(e as Map<String, dynamic>))
         .toList(),
+    lastTime: json['lastTime'] as String,
+    restBetweenCycle: json['restBetweenCycle'] as int,
+    nbCycle: json['nbCycle'] as int,
   );
 }
 
 Map<String, dynamic> _$TrainingToJson(Training instance) => <String, dynamic>{
       'name': instance.name,
       'authorId': instance.authorId,
+      'nbCycle': instance.nbCycle,
+      'restBetweenCycle': instance.restBetweenCycle,
+      'lastTime': instance.lastTime,
       'coverImg': instance.coverImg,
       'exercises': instance.exercises,
     };

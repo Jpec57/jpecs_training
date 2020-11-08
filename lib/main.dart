@@ -3,11 +3,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
+import 'package:jpec_training/Pages/InTrainingPage/InExercisePageArguments.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExerciseTimerPage.dart';
 import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShowArgument.dart';
 
+import 'Pages/HomePage/HomePage.dart';
+import 'Pages/InTrainingPage/InExerciseTimerPageArguments.dart';
 import 'Widgets/Localization.dart';
 
 void main() {
@@ -63,17 +66,37 @@ class MyApp extends StatelessWidget {
             },
           );
         }
+        if (settings.name == InExercisePage.routeName) {
+          final InExercisePageArguments args = settings.arguments;
+
+          return MaterialPageRoute(
+            builder: (context) {
+              return InExercisePage(
+                training: args.training,
+              );
+            },
+          );
+        }
+        if (settings.name == InExerciseTimerPage.routeName) {
+          final InExerciseTimerPageArguments args = settings.arguments;
+
+          return MaterialPageRoute(
+            builder: (context) {
+              return InExerciseTimerPage(
+                training: args.training,
+              );
+            },
+          );
+        }
         assert(false, 'Need to implement ${settings.name}');
         return null;
       },
       routes: {
         // LoginPage.routeName: (context) => LoginPage(),
         TimerPage.routeName: (context) => TimerPage(),
-        InExercisePage.routeName: (context) => InExercisePage(),
-        InExerciseTimerPage.routeName: (context) => InExerciseTimerPage(),
       },
-      // home: HomePage(),
-      home: InExercisePage(),
+      home: HomePage(),
+      // home: InExercisePage(),
       // home: InExerciseTimerPage(),
     );
   }

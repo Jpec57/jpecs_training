@@ -41,7 +41,7 @@ class MainDrawerState extends State<MainDrawer> {
                   )),
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage("images/app_icon.png"),
+                      image: AssetImage("images/jpec_logo.png"),
                       fit: BoxFit.cover)),
             ),
             ListTile(

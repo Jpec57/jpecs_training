@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class BottomLeftCornerRoundedClipper extends CustomClipper<Path> {
@@ -14,9 +12,7 @@ class BottomLeftCornerRoundedClipper extends CustomClipper<Path> {
     path.lineTo(0, 0);
     path.lineTo(startPoint.dx, startPoint.dy);
     path.quadraticBezierTo(
-        controlPoint.dx, controlPoint.dy,
-      endPoint.dx, endPoint.dy
-    );
+        controlPoint.dx, controlPoint.dy, endPoint.dx, endPoint.dy);
     path.lineTo(size.width, highestY);
     path.lineTo(size.width, 0);
 
