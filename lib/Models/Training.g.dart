@@ -8,6 +8,7 @@ part of 'Training.dart';
 
 Training _$TrainingFromJson(Map<String, dynamic> json) {
   return Training(
+    id: json['id'] as int,
     name: json['name'] as String,
     authorId: json['authorId'] as int,
     coverImg: json['coverImg'] as String,
@@ -21,6 +22,7 @@ Training _$TrainingFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$TrainingToJson(Training instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
       'authorId': instance.authorId,
       'nbCycle': instance.nbCycle,

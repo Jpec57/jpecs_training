@@ -5,6 +5,7 @@ part 'Training.g.dart';
 
 @JsonSerializable(nullable: false)
 class Training {
+  int id;
   String name;
   int authorId;
   int nbCycle = 1;
@@ -14,7 +15,8 @@ class Training {
   List<Exercise> exercises;
 
   Training(
-      {this.name,
+      {this.id,
+      this.name,
       this.authorId,
       this.coverImg,
       this.exercises,

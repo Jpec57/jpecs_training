@@ -8,6 +8,7 @@ part of 'NamedExerciseSet.dart';
 
 NamedExerciseSet _$NamedExerciseSetFromJson(Map<String, dynamic> json) {
   return NamedExerciseSet(
+    exerciseId: json['exerciseId'] as int,
     name: json['name'] as String,
     repsOrDuration: json['repsOrDuration'] as int,
     rest: json['rest'] as int,
@@ -17,6 +18,7 @@ NamedExerciseSet _$NamedExerciseSetFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$NamedExerciseSetToJson(NamedExerciseSet instance) =>
     <String, dynamic>{
+      'exerciseId': instance.exerciseId,
       'name': instance.name,
       'repsOrDuration': instance.repsOrDuration,
       'rest': instance.rest,

@@ -4,13 +4,11 @@ import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePageArguments.dart';
-import 'package:jpec_training/Pages/InTrainingPage/InExerciseTimerPage.dart';
 import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShowArgument.dart';
 
 import 'Pages/HomePage/HomePage.dart';
-import 'Pages/InTrainingPage/InExerciseTimerPageArguments.dart';
 import 'Widgets/Localization.dart';
 
 void main() {
@@ -18,7 +16,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -77,17 +74,17 @@ class MyApp extends StatelessWidget {
             },
           );
         }
-        if (settings.name == InExerciseTimerPage.routeName) {
-          final InExerciseTimerPageArguments args = settings.arguments;
-
-          return MaterialPageRoute(
-            builder: (context) {
-              return InExerciseTimerPage(
-                training: args.training,
-              );
-            },
-          );
-        }
+        // if (settings.name == InExerciseTimerPage.routeName) {
+        //   final InExerciseTimerPageArguments args = settings.arguments;
+        //
+        //   return MaterialPageRoute(
+        //     builder: (context) {
+        //       return InExerciseTimerPage(
+        //         training: args.training,
+        //       );
+        //     },
+        //   );
+        // }
         assert(false, 'Need to implement ${settings.name}');
         return null;
       },

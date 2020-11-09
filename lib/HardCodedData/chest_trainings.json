@@ -6,12 +6,14 @@
     "coverImg": null,
     "exercises": [
       {
+
         "name": "Dips",
-        "description": "",
+        "description": "This is the first description of the first exercise ever made for this project",
         "img": "",
         "requiredMaterial": [
           "Parallel bars"
         ],
+
         "isHold": false,
         "sets": [
           {
