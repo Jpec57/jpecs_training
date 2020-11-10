@@ -74,17 +74,6 @@ class MyApp extends StatelessWidget {
             },
           );
         }
-        // if (settings.name == InExerciseTimerPage.routeName) {
-        //   final InExerciseTimerPageArguments args = settings.arguments;
-        //
-        //   return MaterialPageRoute(
-        //     builder: (context) {
-        //       return InExerciseTimerPage(
-        //         training: args.training,
-        //       );
-        //     },
-        //   );
-        // }
         assert(false, 'Need to implement ${settings.name}');
         return null;
       },

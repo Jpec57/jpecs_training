@@ -4,6 +4,7 @@ import 'package:jpec_training/Models/ExerciseSet.dart';
 import 'package:jpec_training/Models/NamedExerciseSet.dart';
 import 'package:jpec_training/Models/Training.dart';
 import 'package:jpec_training/Models/TrainingData.dart';
+import 'package:jpec_training/Pages/HomePage/HomePage.dart';
 
 import '../../AppColors.dart';
 
@@ -22,6 +23,7 @@ class _InExercisePageState extends State<InExercisePage>
   TabController _tabController;
   TrainingData _trainingData;
   //Exercise tab
+  int _currentCycle = 0;
   int _exerciseIndex = 0;
   int _setIndex = 0;
   // Timer tab
@@ -29,16 +31,28 @@ class _InExercisePageState extends State<InExercisePage>
   int _countdown = 49;
   int _doneReps = 18;
 
+  List<List<NamedExerciseSet>> initDoneExercises() {
+    List<List<NamedExerciseSet>> cycles = [];
+    int nbCycle = widget.training.nbCycle ?? 1;
+    for (int i = 0; i < nbCycle; i++) {
+      cycles.add([]);
+    }
+    return cycles;
+  }
+
   @override
   void initState() {
     super.initState();
     _tabController = new TabController(length: 2, vsync: this);
     _trainingData = new TrainingData(trainingId: widget.training.id);
+    _trainingData.doneExercises = initDoneExercises();
   }
 
   @override
   void dispose() {
     super.dispose();
+    _trainingData = null;
+    _tabController.dispose();
   }
 
   Widget _renderClickableRep(int num) {
@@ -54,18 +68,149 @@ class _InExercisePageState extends State<InExercisePage>
         child: Text("$num"));
   }
 
-  void progressInTraining() {}
+  int getTotalSetNumber() {
+    int totalSets = 0;
+    int nbCycle = widget.training.nbCycle ?? 1;
+
+    for (Exercise exercise in widget.training.exercises) {
+      totalSets += exercise.sets.length;
+    }
+    return nbCycle * totalSets;
+  }
+
+  int getTotalDoneSetNumber() {
+    int doneSets = 0;
+    List<List<NamedExerciseSet>> doneExercisesPerCycle =
+        _trainingData.doneExercises;
+    if (_trainingData.doneExercises == null) {
+      return 0;
+    }
+    for (List<NamedExerciseSet> cycleExercises in doneExercisesPerCycle) {
+      //TODO debug
+      var done = [];
+      for (NamedExerciseSet exerciseSet in cycleExercises) {
+        done.add(exerciseSet.name);
+      }
+      doneSets += cycleExercises.length;
+    }
+    print("TOTAL DONE SETS: ${doneSets}");
+    return doneSets;
+  }
+
+  double getPercentTrainingProgression() {
+    if (_trainingData.doneExercises == null) {
+      return 0;
+    }
+    int doneSets = getTotalDoneSetNumber();
+    int totalSets = getTotalSetNumber();
+    return doneSets / totalSets;
+  }
+
+  bool isWorkoutOver({bool beforeInsert = false}) {
+    int totalDoneSets = getTotalDoneSetNumber();
+    if (beforeInsert) {
+      totalDoneSets++;
+    }
+    return totalDoneSets == getTotalSetNumber();
+  }
+
+  void switchToExerciseView() {
+    List<Exercise> exercises = widget.training.exercises;
+    Exercise currentExo = exercises[_exerciseIndex];
+    ExerciseSet currentSet = currentExo.sets[_setIndex];
+    _trainingData.doneExercises[_currentCycle].add(new NamedExerciseSet(
+        name: currentExo.name,
+        repsOrDuration: _doneReps,
+        weight: currentSet.weight,
+        rest: currentSet.rest - _countdown,
+        exerciseId: currentExo.id));
+    print("_trainingData.doneExercises");
+    print(_trainingData.doneExercises);
+    if (isWorkoutOver()) {
+      Navigator.of(context).pushNamed(HomePage.routeName);
+    }
+    //TEST CYCLE to reset exercise index
+    // if (){
+    //
+    // }
+    setState(() {
+      _tabController.index = 0;
+    });
+    int nbSets = currentExo.sets.length;
+    if (_setIndex + 1 == nbSets) {
+      _setIndex = 0;
+      //Changing exercise ?
+      if (_exerciseIndex + 1 == exercises.length) {
+        //Changing cycle ?
+        if (_currentCycle + 1 == widget.training.nbCycle) {
+          //Real end, should never happen because of isWorkoutOver
+          print("Fuck. End of workout.");
+        } else {
+          _currentCycle++;
+        }
+      } else {
+        _exerciseIndex++;
+      }
+    } else {
+      _setIndex++;
+    }
+
+    setState(() {});
+  }
+
+  void switchToTimerView() {
+    //TODO
+    //TEST if workout is over. If that is the case -> timer but no countdown to select reps num
+    if (isWorkoutOver(beforeInsert: true)) {}
+    setState(() {
+      _tabController.index = 1;
+    });
+  }
+
+  void progressInTraining() {
+    List<List<NamedExerciseSet>> doneExercises = _trainingData.doneExercises;
+    if (doneExercises == null) {}
+  }
+
+  Exercise getNextExercise() {
+    // widget.training
+    int setIndex = _setIndex;
+    int exerciseIndex = _exerciseIndex;
+    var exercises = widget.training.exercises;
+    var currentExo = widget.training.exercises[exerciseIndex];
+    int nbSets = currentExo.sets.length;
+    if (setIndex + 1 == nbSets) {
+      setIndex = 0;
+      //Changing exercise ?
+      if (exerciseIndex + 1 == exercises.length) {
+        exerciseIndex = 0;
+        //Changing cycle ?
+        if (_currentCycle + 1 == widget.training.nbCycle) {
+          //Real end, should never happen because of isWorkoutOver
+          return null;
+        } else {
+          return widget.training.exercises[0];
+        }
+      } else {
+        return widget.training.exercises[exerciseIndex + 1];
+      }
+    } else {
+      return widget.training.exercises[exerciseIndex];
+    }
+    return null;
+  }
 
   Widget _renderUpcomingExoNamePreview() {
-    if (widget.training.exercises.length < _exerciseIndex) {
+    Exercise nextExo = getNextExercise();
+    if (nextExo == null) {
       return Text("End of workout.");
     }
-    return Text("${widget.training.exercises[_exerciseIndex].name}");
+    return Text("${nextExo.name}");
   }
 
   Widget _renderUpcomingExoRowPreview() {
-    List<Exercise> exercises = widget.training.exercises;
-    if (exercises.length < _exerciseIndex) {
+    Exercise nextExo = getNextExercise();
+    if (nextExo == null) {
       return Center(child: Text("End of workout."));
     }
     return Row(
@@ -73,15 +218,14 @@ class _InExercisePageState extends State<InExercisePage>
         Padding(
           padding: const EdgeInsets.only(right: 15),
           child: Image.asset(
-            exercises[_exerciseIndex].img != null &&
-                    exercises[_exerciseIndex].img.isNotEmpty
-                ? exercises[_exerciseIndex].img
+            nextExo.img != null && nextExo.img.isNotEmpty
+                ? nextExo.img
                 : "images/jpec_logo.png",
           ),
         ),
         Flexible(
           child: Text(
-            "${exercises[_exerciseIndex].description ?? ""}",
+            "${nextExo.description ?? ""}",
             textAlign: TextAlign.start,
           ),
         )
@@ -140,7 +284,7 @@ class _InExercisePageState extends State<InExercisePage>
                   ),
                   RaisedButton(
                     onPressed: () {
-                      _tabController.index = 0;
+                      switchToExerciseView();
                     },
                     child: Text(
                       "SKIP",
@@ -200,31 +344,12 @@ class _InExercisePageState extends State<InExercisePage>
     );
   }
 
-  double getPercentTrainingProgression() {
-    int totalSets = 0;
-    int doneSets = 0;
-    int nbCycle = widget.training.nbCycle ?? 1;
-
-    for (Exercise exercise in widget.training.exercises) {
-      totalSets += exercise.sets.length;
-    }
-    totalSets = nbCycle * totalSets;
-
-    List<List<NamedExerciseSet>> doneExercisesPerCycle =
-        _trainingData.doneExercises;
-    for (List<NamedExerciseSet> cycleExercises in doneExercisesPerCycle) {
-      doneSets += cycleExercises.length;
-    }
-
-    return doneSets / totalSets;
-  }
-
   Widget _renderCurrentSetInfo() {
     String text;
     List<ExerciseSet> exoSets = widget.training.exercises[_exerciseIndex].sets;
     ExerciseSet currentSet = exoSets[_setIndex];
     if (currentSet.weight != null) {
-      text = "${currentSet.repsOrDuration}r @ ${currentSet.weight}";
+      text = "${currentSet.repsOrDuration}r @ ${currentSet.weight}kg";
     } else {
       text = "${currentSet.repsOrDuration}r";
     }
@@ -271,7 +396,7 @@ class _InExercisePageState extends State<InExercisePage>
                     padding: const EdgeInsets.only(
                         top: 10, bottom: 20, left: 8, right: 8),
                     child: LinearProgressIndicator(
-                      value: 0.4,
+                      value: getPercentTrainingProgression(),
                       backgroundColor: AppColors.beige,
                       valueColor: new AlwaysStoppedAnimation<Color>(
                           AppColors.greenArtichoke),
@@ -331,7 +456,7 @@ class _InExercisePageState extends State<InExercisePage>
             )),
         InkWell(
           onTap: () {
-            _tabController.index = 1;
+            switchToTimerView();
           },
           child: Container(
               height: MediaQuery.of(context).size.height * 0.15,
@@ -353,6 +478,7 @@ class _InExercisePageState extends State<InExercisePage>
       extendBodyBehindAppBar: true,
       body: SafeArea(
         child: TabBarView(
+          physics: NeverScrollableScrollPhysics(),
           controller: _tabController,
           children: [_renderExerciseTab(), _renderTimerWidget()],
         ),
