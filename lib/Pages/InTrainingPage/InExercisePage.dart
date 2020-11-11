@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/Models/Exercise.dart';
 import 'package:jpec_training/Models/ExerciseSet.dart';
@@ -5,6 +8,8 @@ import 'package:jpec_training/Models/NamedExerciseSet.dart';
 import 'package:jpec_training/Models/Training.dart';
 import 'package:jpec_training/Models/TrainingData.dart';
 import 'package:jpec_training/Pages/HomePage/HomePage.dart';
+import 'package:jpec_training/Services/InWorkoutService.dart';
+import 'package:jpec_training/Widgets/TrainingProgressBar.dart';
 
 import '../../AppColors.dart';
 
@@ -18,18 +23,26 @@ class InExercisePage extends StatefulWidget {
   _InExercisePageState createState() => _InExercisePageState();
 }
 
+const CACHED_SOUNDS = ['sounds/beep_start.mp3', 'sounds/beep_end.mp3'];
+
 class _InExercisePageState extends State<InExercisePage>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController _tabController;
   TrainingData _trainingData;
+  static const EXERCISE_TAB_INDEX = 0;
+  static const TIMER_TAB_INDEX = 1;
+
   //Exercise tab
-  int _currentCycle = 0;
+  int _cycleIndex = 0;
   int _exerciseIndex = 0;
   int _setIndex = 0;
   // Timer tab
   bool _isHold = false;
   int _countdown = 49;
   int _doneReps = 18;
+  Timer _timer;
+  //Audio
+  AudioCache _audioPlayer = AudioCache();
 
   List<List<NamedExerciseSet>> initDoneExercises() {
     List<List<NamedExerciseSet>> cycles = [];
@@ -46,107 +59,80 @@ class _InExercisePageState extends State<InExercisePage>
     _tabController = new TabController(length: 2, vsync: this);
     _trainingData = new TrainingData(trainingId: widget.training.id);
     _trainingData.doneExercises = initDoneExercises();
+    _audioPlayer.loadAll(CACHED_SOUNDS);
   }
 
   @override
   void dispose() {
     super.dispose();
     _trainingData = null;
+    _tabController.removeListener(() {});
     _tabController.dispose();
+    for (String sound in CACHED_SOUNDS) {
+      _audioPlayer.clear(sound);
+    }
   }
 
-  Widget _renderClickableRep(int num) {
-    if (num < 0) {
-      return Container();
-    }
-    return InkWell(
-        onTap: () {
-          setState(() {
-            _doneReps = num;
-          });
-        },
-        child: Text("$num"));
+  Exercise _getCurrentExo() {
+    return widget.training.exercises[_exerciseIndex];
   }
 
-  int getTotalSetNumber() {
-    int totalSets = 0;
-    int nbCycle = widget.training.nbCycle ?? 1;
-
-    for (Exercise exercise in widget.training.exercises) {
-      totalSets += exercise.sets.length;
+  void startCountDown(int time) {
+    setState(() {
+      _countdown = time;
+    });
+    if (_timer != null && _timer.isActive) {
+      _timer.cancel();
     }
-    return nbCycle * totalSets;
-  }
+    _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _countdown = _countdown - 1;
+      });
 
-  int getTotalDoneSetNumber() {
-    int doneSets = 0;
-    List<List<NamedExerciseSet>> doneExercisesPerCycle =
-        _trainingData.doneExercises;
-    if (_trainingData.doneExercises == null) {
-      return 0;
-    }
-    for (List<NamedExerciseSet> cycleExercises in doneExercisesPerCycle) {
-      //TODO debug
-      var done = [];
-      for (NamedExerciseSet exerciseSet in cycleExercises) {
-        done.add(exerciseSet.name);
+      if (_countdown < 3) {
+        _audioPlayer.play(CACHED_SOUNDS[(_countdown == 0) ? 1 : 0]);
       }
-      doneSets += cycleExercises.length;
-    }
-    print("TOTAL DONE SETS: ${doneSets}");
-    return doneSets;
+      if (_countdown <= 0) {
+        _timer.cancel();
+        switchToExerciseView();
+      }
+    });
   }
 
-  double getPercentTrainingProgression() {
-    if (_trainingData.doneExercises == null) {
-      return 0;
-    }
-    int doneSets = getTotalDoneSetNumber();
-    int totalSets = getTotalSetNumber();
-    return doneSets / totalSets;
-  }
-
-  bool isWorkoutOver({bool beforeInsert = false}) {
-    int totalDoneSets = getTotalDoneSetNumber();
-    if (beforeInsert) {
-      totalDoneSets++;
-    }
-    return totalDoneSets == getTotalSetNumber();
-  }
-
-  void switchToExerciseView() {
-    List<Exercise> exercises = widget.training.exercises;
-    Exercise currentExo = exercises[_exerciseIndex];
+  void _addTrainingData(Exercise currentExo) {
+    print("ADDING TRAINING DATA: ${currentExo.name}");
     ExerciseSet currentSet = currentExo.sets[_setIndex];
-    _trainingData.doneExercises[_currentCycle].add(new NamedExerciseSet(
+    _trainingData.doneExercises[_cycleIndex].add(new NamedExerciseSet(
         name: currentExo.name,
         repsOrDuration: _doneReps,
         weight: currentSet.weight,
         rest: currentSet.rest - _countdown,
         exerciseId: currentExo.id));
-    print("_trainingData.doneExercises");
-    print(_trainingData.doneExercises);
-    if (isWorkoutOver()) {
-      Navigator.of(context).pushNamed(HomePage.routeName);
+  }
+
+  void switchToExerciseView() {
+    //Remove any timer from timer page that could be ongoing
+    if (_timer != null && _timer.isActive) {
+      _timer.cancel();
     }
-    //TEST CYCLE to reset exercise index
-    // if (){
-    //
-    // }
-    setState(() {
-      _tabController.index = 0;
-    });
+    List<Exercise> exercises = widget.training.exercises;
+    Exercise currentExo = _getCurrentExo();
+    _addTrainingData(currentExo);
+
+    _tabController.index = EXERCISE_TAB_INDEX;
     int nbSets = currentExo.sets.length;
     if (_setIndex + 1 == nbSets) {
       _setIndex = 0;
       //Changing exercise ?
       if (_exerciseIndex + 1 == exercises.length) {
+        _exerciseIndex = 0;
         //Changing cycle ?
-        if (_currentCycle + 1 == widget.training.nbCycle) {
-          //Real end, should never happen because of isWorkoutOver
-          print("Fuck. End of workout.");
+        int nbCycle = widget.training.nbCycle ?? 1;
+        if (_cycleIndex + 1 == nbCycle) {
+          //TODO Save data
+          Navigator.of(context).pushNamed(HomePage.routeName);
         } else {
-          _currentCycle++;
+          _cycleIndex++;
         }
       } else {
         _exerciseIndex++;
@@ -154,54 +140,32 @@ class _InExercisePageState extends State<InExercisePage>
     } else {
       _setIndex++;
     }
-
-    setState(() {});
-  }
-
-  void switchToTimerView() {
-    //TODO
-    //TEST if workout is over. If that is the case -> timer but no countdown to select reps num
-    if (isWorkoutOver(beforeInsert: true)) {}
-    setState(() {
-      _tabController.index = 1;
+    //TODO 面目ない
+    Timer(Duration(seconds: 1), () {
+      setState(() {});
     });
   }
 
-  void progressInTraining() {
-    List<List<NamedExerciseSet>> doneExercises = _trainingData.doneExercises;
-    if (doneExercises == null) {}
-  }
-
-  Exercise getNextExercise() {
-    // widget.training
-    int setIndex = _setIndex;
-    int exerciseIndex = _exerciseIndex;
-    var exercises = widget.training.exercises;
-    var currentExo = widget.training.exercises[exerciseIndex];
-    int nbSets = currentExo.sets.length;
-    if (setIndex + 1 == nbSets) {
-      setIndex = 0;
-      //Changing exercise ?
-      if (exerciseIndex + 1 == exercises.length) {
-        exerciseIndex = 0;
-        //Changing cycle ?
-        if (_currentCycle + 1 == widget.training.nbCycle) {
-          //Real end, should never happen because of isWorkoutOver
-          return null;
-        } else {
-          return widget.training.exercises[0];
-        }
-      } else {
-        return widget.training.exercises[exerciseIndex + 1];
-      }
+  void switchToTimerView() {
+    Exercise currentExo = _getCurrentExo();
+    if (isWorkoutOver(widget.training, _trainingData, beforeInsert: true)) {
+      _countdown = 0;
     } else {
-      return widget.training.exercises[exerciseIndex];
+      startCountDown(currentExo.sets[_setIndex].rest + 1);
     }
-    return null;
+    _tabController.index = TIMER_TAB_INDEX;
+    setState(() {
+      _doneReps = currentExo.sets[_setIndex].repsOrDuration;
+    });
+    //TODO I am deeply ashamed of myself
+    Timer(Duration(seconds: 1), () {
+      setState(() {});
+    });
   }
 
   Widget _renderUpcomingExoNamePreview() {
-    Exercise nextExo = getNextExercise();
+    Exercise nextExo = getNextExercise(
+        widget.training, _cycleIndex, _exerciseIndex, _setIndex);
     if (nextExo == null) {
       return Text("End of workout.");
     }
@@ -209,9 +173,14 @@ class _InExercisePageState extends State<InExercisePage>
   }
 
   Widget _renderUpcomingExoRowPreview() {
-    Exercise nextExo = getNextExercise();
+    Exercise nextExo = getNextExercise(
+        widget.training, _cycleIndex, _exerciseIndex, _setIndex);
     if (nextExo == null) {
-      return Center(child: Text("End of workout."));
+      return Center(
+          child: Icon(
+        Icons.outlined_flag,
+        color: Colors.white,
+      ));
     }
     return Row(
       children: [
@@ -233,6 +202,21 @@ class _InExercisePageState extends State<InExercisePage>
     );
   }
 
+  /// TIMER VIEW
+
+  Widget _renderClickableRep(int num) {
+    if (num < 0) {
+      return Container();
+    }
+    return InkWell(
+        onTap: () {
+          setState(() {
+            _doneReps = num;
+          });
+        },
+        child: Text("$num"));
+  }
+
   Widget _renderTimerWidget() {
     return Column(
       children: [
@@ -247,6 +231,10 @@ class _InExercisePageState extends State<InExercisePage>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  TrainingProgressBar(
+                      value: getPercentTrainingProgression(
+                          widget.training, _trainingData,
+                          beforeInsert: true)),
                   Row(
                     children: [
                       Text(
@@ -378,6 +366,7 @@ class _InExercisePageState extends State<InExercisePage>
   }
 
   Widget _renderExerciseTab() {
+    // print("done: ${_trainingData.doneExercises}");
     return Column(
       children: [
         Expanded(
@@ -392,16 +381,9 @@ class _InExercisePageState extends State<InExercisePage>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10, bottom: 20, left: 8, right: 8),
-                    child: LinearProgressIndicator(
-                      value: getPercentTrainingProgression(),
-                      backgroundColor: AppColors.beige,
-                      valueColor: new AlwaysStoppedAnimation<Color>(
-                          AppColors.greenArtichoke),
-                    ),
-                  ),
+                  TrainingProgressBar(
+                      value: getPercentTrainingProgression(
+                          widget.training, _trainingData)),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15, right: 15),
@@ -474,6 +456,7 @@ class _InExercisePageState extends State<InExercisePage>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: SafeArea(
@@ -485,4 +468,7 @@ class _InExercisePageState extends State<InExercisePage>
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => false;
 }
