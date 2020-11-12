@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'ExerciseSet.dart';
@@ -16,12 +17,12 @@ class Exercise {
 
   Exercise(
       {this.id,
-      this.name,
+      @required this.name,
       this.description,
       this.img,
-      this.requiredMaterial,
-      this.isHold,
-      this.sets});
+      this.requiredMaterial = const [],
+      this.isHold = false,
+      @required this.sets});
 
   factory Exercise.fromJson(Map<String, dynamic> json) =>
       _$ExerciseFromJson(json);

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:jpec_training/Models/Exercise.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -16,10 +17,10 @@ class Training {
 
   Training(
       {this.id,
-      this.name,
+      @required this.name,
       this.authorId,
       this.coverImg,
-      this.exercises,
+      @required this.exercises,
       this.lastTime,
       this.restBetweenCycle,
       this.nbCycle});
