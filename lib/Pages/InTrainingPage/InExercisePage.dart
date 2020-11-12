@@ -38,9 +38,11 @@ class _InExercisePageState extends State<InExercisePage>
   int _setIndex = 0;
   // Timer tab
   bool _isHold = false;
-  int _countdown = 49;
-  int _doneReps = 18;
+  int _countdown = 60;
+  int _doneReps = 10;
+  int _totalTime = 0;
   Timer _timer;
+  Timer _trainingTimer;
   //Audio
   AudioCache _audioPlayer = AudioCache();
 
@@ -60,13 +62,20 @@ class _InExercisePageState extends State<InExercisePage>
     _trainingData = new TrainingData(trainingId: widget.training.id);
     _trainingData.doneExercises = initDoneExercises();
     _audioPlayer.loadAll(CACHED_SOUNDS);
+    _trainingTimer = new Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _totalTime = _totalTime + 1;
+      });
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
     _trainingData = null;
-    _tabController.removeListener(() {});
+    if (_trainingTimer != null && _trainingTimer.isActive) {
+      _trainingTimer.cancel();
+    }
     _tabController.dispose();
     for (String sound in CACHED_SOUNDS) {
       _audioPlayer.clear(sound);
@@ -232,6 +241,7 @@ class _InExercisePageState extends State<InExercisePage>
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TrainingProgressBar(
+                      elapsedTime: _totalTime,
                       value: getPercentTrainingProgression(
                           widget.training, _trainingData,
                           beforeInsert: true)),
@@ -366,7 +376,6 @@ class _InExercisePageState extends State<InExercisePage>
   }
 
   Widget _renderExerciseTab() {
-    // print("done: ${_trainingData.doneExercises}");
     return Column(
       children: [
         Expanded(
@@ -382,6 +391,7 @@ class _InExercisePageState extends State<InExercisePage>
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   TrainingProgressBar(
+                      elapsedTime: _totalTime,
                       value: getPercentTrainingProgression(
                           widget.training, _trainingData)),
                   Expanded(

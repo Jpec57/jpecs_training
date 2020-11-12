@@ -49,20 +49,55 @@
     ]
   },
   {
-    "name": "Jpec's chest2",
+    "name": "Jpec's chest 2",
     "authorId": 1,
+    "lastTime": "07/12/2020",
     "coverImg": null,
-
+    "nbCycle": 2,
     "exercises": [
       {
+
         "name": "Dips",
-        "description": "",
+        "description": "This is the first description of the first exercise ever made for this project",
         "img": "",
         "requiredMaterial": [
           "Parallel bars"
         ],
+
         "isHold": false,
         "sets": [
+          {
+            "repsOrDuration": 10,
+            "rest": 60,
+            "weight": 40
+          },
+          {
+            "repsOrDuration": 8,
+            "rest": 60,
+            "weight": 35
+          },
+          {
+            "repsOrDuration": 6,
+            "rest": 60,
+            "weight": 30
+          }
+        ]
+      },
+      {
+        "name": "Pike Push Ups",
+        "description": "Blabla blabla",
+        "img": "",
+        "requiredMaterial": [],
+        "isHold": false,
+        "sets": [
+          {
+            "repsOrDuration": 10,
+            "rest": 60
+          },
+          {
+            "repsOrDuration": 10,
+            "rest": 60
+          },
           {
             "repsOrDuration": 10,
             "rest": 60
