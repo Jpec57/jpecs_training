@@ -29,36 +29,33 @@ class TrainingProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 20, left: 8, right: 8),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: Text(
-              "${(value * 100).toInt()}%",
-              style: TextStyle(fontSize: 14),
-            ),
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+          child: Text(
+            "${(value * 100).toInt()}%",
+            style: TextStyle(fontSize: 14),
           ),
-          Expanded(
-            child: LinearProgressIndicator(
-              value: value,
-              backgroundColor: AppColors.beige,
-              valueColor:
-                  new AlwaysStoppedAnimation<Color>(AppColors.greenArtichoke),
-            ),
+        ),
+        Expanded(
+          child: LinearProgressIndicator(
+            value: value,
+            backgroundColor: AppColors.beige,
+            valueColor:
+                new AlwaysStoppedAnimation<Color>(AppColors.greenArtichoke),
           ),
-          elapsedTime == null
-              ? Container()
-              : Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: Text(
-                    formatElapsedTime(),
-                    style: TextStyle(fontSize: 14),
-                  ),
-                )
-        ],
-      ),
+        ),
+        elapsedTime == null
+            ? Container()
+            : Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Text(
+                  formatElapsedTime(),
+                  style: TextStyle(fontSize: 14),
+                ),
+              )
+      ],
     );
   }
 }

@@ -26,7 +26,7 @@ class InExercisePage extends StatefulWidget {
 const CACHED_SOUNDS = ['sounds/beep_start.mp3', 'sounds/beep_end.mp3'];
 
 class _InExercisePageState extends State<InExercisePage>
-    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+    with SingleTickerProviderStateMixin {
   TabController _tabController;
   TrainingData _trainingData;
   static const EXERCISE_TAB_INDEX = 0;
@@ -39,7 +39,7 @@ class _InExercisePageState extends State<InExercisePage>
   // Timer tab
   bool _isHold = false;
   int _countdown = 60;
-  int _doneReps = 10;
+  int _doneReps = 0;
   int _totalTime = 0;
   Timer _timer;
   Timer _trainingTimer;
@@ -67,6 +67,13 @@ class _InExercisePageState extends State<InExercisePage>
         _totalTime = _totalTime + 1;
       });
     });
+    if (widget.training.exercises[_exerciseIndex].isHold) {
+      _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          _doneReps = _doneReps + 1;
+        });
+      });
+    }
   }
 
   @override
@@ -124,6 +131,7 @@ class _InExercisePageState extends State<InExercisePage>
     if (_timer != null && _timer.isActive) {
       _timer.cancel();
     }
+    _doneReps = 0;
     List<Exercise> exercises = widget.training.exercises;
     Exercise currentExo = _getCurrentExo();
     _addTrainingData(currentExo);
@@ -149,6 +157,14 @@ class _InExercisePageState extends State<InExercisePage>
     } else {
       _setIndex++;
     }
+    currentExo = _getCurrentExo();
+    if (currentExo.isHold) {
+      _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          _doneReps = _doneReps + 1;
+        });
+      });
+    }
     //TODO 面目ない
     Timer(Duration(seconds: 1), () {
       setState(() {});
@@ -156,6 +172,9 @@ class _InExercisePageState extends State<InExercisePage>
   }
 
   void switchToTimerView() {
+    if (_timer != null && _timer.isActive) {
+      _timer.cancel();
+    }
     Exercise currentExo = _getCurrentExo();
     if (isWorkoutOver(widget.training, _trainingData, beforeInsert: true)) {
       _countdown = 0;
@@ -163,9 +182,10 @@ class _InExercisePageState extends State<InExercisePage>
       startCountDown(currentExo.sets[_setIndex].rest + 1);
     }
     _tabController.index = TIMER_TAB_INDEX;
-    setState(() {
+    if (!currentExo.isHold) {
       _doneReps = currentExo.sets[_setIndex].repsOrDuration;
-    });
+    }
+    setState(() {});
     //TODO I am deeply ashamed of myself
     Timer(Duration(seconds: 1), () {
       setState(() {});
@@ -178,7 +198,11 @@ class _InExercisePageState extends State<InExercisePage>
     if (nextExo == null) {
       return Text("End of workout.");
     }
-    return Text("${nextExo.name}");
+    return Flexible(
+        child: Text(
+      "${nextExo.name}",
+      textAlign: TextAlign.center,
+    ));
   }
 
   Widget _renderUpcomingExoRowPreview() {
@@ -192,18 +216,23 @@ class _InExercisePageState extends State<InExercisePage>
       ));
     }
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 15),
-          child: Image.asset(
-            nextExo.img != null && nextExo.img.isNotEmpty
-                ? nextExo.img
-                : "images/jpec_logo.png",
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: 100),
+            child: Image.asset(
+              nextExo.img != null && nextExo.img.isNotEmpty
+                  ? nextExo.img
+                  : "images/jpec_logo.png",
+              height: 100,
+            ),
           ),
         ),
         Flexible(
           child: Text(
-            "${nextExo.description ?? ""}",
+            "${nextExo.description ?? "No description"}",
             textAlign: TextAlign.start,
           ),
         )
@@ -236,27 +265,51 @@ class _InExercisePageState extends State<InExercisePage>
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30)),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.only(bottom: 20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  TrainingProgressBar(
-                      elapsedTime: _totalTime,
-                      value: getPercentTrainingProgression(
-                          widget.training, _trainingData,
-                          beforeInsert: true)),
-                  Row(
-                    children: [
-                      Text(
-                        "Next: ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      _renderUpcomingExoNamePreview()
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 20, left: 8, right: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              //Show dialog
+                            },
+                            child: Icon(
+                              Icons.exit_to_app,
+                              color: Colors.white,
+                            )),
+                        Expanded(
+                          child: TrainingProgressBar(
+                              elapsedTime: _totalTime,
+                              value: getPercentTrainingProgression(
+                                  widget.training, _trainingData,
+                                  beforeInsert: true)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Next: ",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        _renderUpcomingExoNamePreview()
+                      ],
+                    ),
                   ),
                   Expanded(
                     child: Padding(
-                        padding: const EdgeInsets.only(top: 12, bottom: 8.0),
+                        padding: const EdgeInsets.only(
+                            top: 12, bottom: 8.0, left: 8.0, right: 8.0),
                         child: _renderUpcomingExoRowPreview()),
                   )
                 ],
@@ -344,13 +397,19 @@ class _InExercisePageState extends State<InExercisePage>
 
   Widget _renderCurrentSetInfo() {
     String text;
-    List<ExerciseSet> exoSets = widget.training.exercises[_exerciseIndex].sets;
+    Exercise currentExo = _getCurrentExo();
+    List<ExerciseSet> exoSets = currentExo.sets;
     ExerciseSet currentSet = exoSets[_setIndex];
-    if (currentSet.weight != null) {
-      text = "${currentSet.repsOrDuration}r @ ${currentSet.weight}kg";
+    if (currentExo.isHold) {
+      text = "${_doneReps}s";
     } else {
-      text = "${currentSet.repsOrDuration}r";
+      if (currentSet.weight != null) {
+        text = "${currentSet.repsOrDuration}r @ ${currentSet.weight}kg";
+      } else {
+        text = "${currentSet.repsOrDuration}r";
+      }
     }
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -390,10 +449,29 @@ class _InExercisePageState extends State<InExercisePage>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  TrainingProgressBar(
-                      elapsedTime: _totalTime,
-                      value: getPercentTrainingProgression(
-                          widget.training, _trainingData)),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 20, left: 8, right: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              //Show dialog
+                            },
+                            child: Icon(
+                              Icons.exit_to_app,
+                              color: Colors.white,
+                            )),
+                        Expanded(
+                          child: TrainingProgressBar(
+                              elapsedTime: _totalTime,
+                              value: getPercentTrainingProgression(
+                                  widget.training, _trainingData)),
+                        ),
+                      ],
+                    ),
+                  ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15, right: 15),
@@ -403,32 +481,42 @@ class _InExercisePageState extends State<InExercisePage>
                           Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "Exo: ",
                                   style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                Text(
-                                    "${widget.training.exercises[_exerciseIndex].name}")
+                                Flexible(
+                                  child: Text(
+                                    "${widget.training.exercises[_exerciseIndex].name}",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                )
                               ],
                             ),
                           ),
                           Expanded(
-                            child: Image.asset(
-                              widget.training.exercises[_exerciseIndex].img !=
-                                          null &&
-                                      widget.training.exercises[_exerciseIndex]
-                                          .img.isNotEmpty
-                                  ? widget
-                                      .training.exercises[_exerciseIndex].img
-                                  : "images/jpec_logo.png",
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Image.asset(
+                                widget.training.exercises[_exerciseIndex].img !=
+                                            null &&
+                                        widget
+                                            .training
+                                            .exercises[_exerciseIndex]
+                                            .img
+                                            .isNotEmpty
+                                    ? widget
+                                        .training.exercises[_exerciseIndex].img
+                                    : "images/jpec_logo.png",
+                              ),
                             ),
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.only(top: 15, bottom: 8.0),
+                            padding: const EdgeInsets.only(top: 8, bottom: 8.0),
                             child: Text(
-                              "${widget.training.exercises[_exerciseIndex].description}",
+                              "${widget.training.exercises[_exerciseIndex].description ?? ""}",
                               textAlign: TextAlign.center,
                             ),
                           )
@@ -466,7 +554,6 @@ class _InExercisePageState extends State<InExercisePage>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: SafeArea(
@@ -478,7 +565,4 @@ class _InExercisePageState extends State<InExercisePage>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => false;
 }

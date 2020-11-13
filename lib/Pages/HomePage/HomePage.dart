@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/Animations/SlideLeftPageAnimation.dart';
 import 'package:jpec_training/AppColors.dart';
+import 'package:jpec_training/HardCodedData/trainings.dart';
 import 'package:jpec_training/Models/Training.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
-import 'package:jpec_training/Services/Utils/utils.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,23 +27,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   loadTrainingData() {
-    _chestTrainings =
-        parseJsonListFromAssets("lib/HardCodedData/chest_trainings.json");
-    _backTrainings =
-        parseJsonListFromAssets("lib/HardCodedData/back_trainings.json");
-    _legsTrainings =
-        parseJsonListFromAssets("lib/HardCodedData/legs_trainings.json");
     Map map = new Map<String, dynamic>();
-    map.putIfAbsent("muscle", () => "chest");
-    map.putIfAbsent("trainings", () => _chestTrainings);
-    _trainings.add(map);
-    map = new Map<String, dynamic>();
-    map.putIfAbsent("muscle", () => "back");
-    map.putIfAbsent("trainings", () => _backTrainings);
-    _trainings.add(map);
-    map = new Map<String, dynamic>();
-    map.putIfAbsent("muscle", () => "legs");
-    map.putIfAbsent("trainings", () => _legsTrainings);
+    map.putIfAbsent("muscle", () => "Test");
+    map.putIfAbsent("trainings", () => loadBackTrainings());
     _trainings.add(map);
   }
 
@@ -186,16 +172,17 @@ class _HomePageState extends State<HomePage> {
                               child: FutureBuilder(
                                 future: _trainings[categoryIndex]['trainings'],
                                 builder: (BuildContext context,
-                                    AsyncSnapshot<List<dynamic>> trainingSnap) {
+                                    AsyncSnapshot<List<Training>>
+                                        trainingSnap) {
                                   switch (trainingSnap.connectionState) {
                                     case ConnectionState.done:
-                                      List<Training> trainings = trainingSnap
-                                          .data
-                                          .map(
-                                              (json) => Training.fromJson(json))
-                                          .toList();
+                                      // List<Training> trainings = trainingSnap
+                                      //     .data
+                                      //     .map(
+                                      //         (json) => Training.fromJson(json))
+                                      //     .toList();
                                       return _renderMuscleTrainings(
-                                          trainings, screenWidth);
+                                          trainingSnap.data, screenWidth);
                                     default:
                                       return CircularProgressIndicator();
                                   }

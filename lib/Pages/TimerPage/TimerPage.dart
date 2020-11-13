@@ -133,7 +133,7 @@ class _TimerPageState extends State<TimerPage>
                         Border.all(color: AppColors.charlestonGreen, width: 3),
                     borderRadius: BorderRadius.circular(10)),
                 child: Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(15),
                   child: Text(
                     '$setNumber',
                     style: TextStyle(
@@ -149,18 +149,21 @@ class _TimerPageState extends State<TimerPage>
   Widget _renderSetRow() {
     return Expanded(
       flex: 1,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          _renderSet(0),
-          _renderSet(1),
-          _renderSet(2),
-          _renderSet(3),
-          _renderSet(4),
-          _renderSet(5),
-          _renderSet(6),
-        ],
+      child: Container(
+        color: AppColors.richBlack,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            _renderSet(0),
+            _renderSet(1),
+            _renderSet(2),
+            _renderSet(3),
+            _renderSet(4),
+            _renderSet(5),
+            _renderSet(6),
+          ],
+        ),
       ),
     );
   }

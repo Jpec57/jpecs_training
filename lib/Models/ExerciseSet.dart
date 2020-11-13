@@ -17,10 +17,11 @@ class ExerciseSet {
   Map<String, dynamic> toJson() => _$ExerciseSetToJson(this);
 }
 
-List<ExerciseSet> createStandardExerciseSet(int setNumber, int reps, int rest) {
+List<ExerciseSet> createStandardExerciseSet(int setNumber, int reps, int rest,
+    {int weight}) {
   List<ExerciseSet> sets = [];
   for (int i = 0; i < setNumber; i++) {
-    sets.add(new ExerciseSet(repsOrDuration: reps, rest: rest));
+    sets.add(new ExerciseSet(repsOrDuration: reps, rest: rest, weight: weight));
   }
   return sets;
 }
