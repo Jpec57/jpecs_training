@@ -22,9 +22,7 @@ class LocalizationWidget {
     EN_LOCALE: {
       'home': 'Home',
     },
-    FR_LOCALE: {
-      'home': 'Accueil'
-    },
+    FR_LOCALE: {'home': 'Accueil', 'confirm_action': "Confirm"},
     JAP_LOCALE: {
       'home': 'ie',
     },

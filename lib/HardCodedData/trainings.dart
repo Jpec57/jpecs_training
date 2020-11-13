@@ -4,9 +4,27 @@ import 'package:jpec_training/Models/Training.dart';
 
 Future<List<Training>> loadChestTrainings() {
   List<Training> chestTrainings = [];
-  Training chestTraining = new Training(name: "FirstTraining", exercises: [
-    new Exercise(name: "Dips", sets: createStandardExerciseSet(3, 10, 60)),
+  Training chestTraining = new Training(name: "PecPec", exercises: [
+    new Exercise(name: "Push Ups", sets: createStandardExerciseSet(3, 10, 60)),
     new Exercise(name: "Dips", sets: createStandardExerciseSet(3, 10, 60))
+  ]);
+  chestTrainings.add(chestTraining);
+  chestTraining = new Training(name: "PecTriceps", exercises: [
+    new Exercise(
+        name: "Triceps extension", sets: createStandardExerciseSet(6, 15, 25)),
+    new Exercise(
+        name: "Close Push Ups", sets: createStandardExerciseSet(6, 10, 25)),
+    new Exercise(
+        name: "Declined Push Ups", sets: createStandardExerciseSet(6, 20, 25)),
+    new Exercise(
+        name: "Wide Push Ups", sets: createStandardExerciseSet(6, 20, 25)),
+    new Exercise(name: "Dips", sets: createStandardExerciseSet(6, 20, 25)),
+    new Exercise(
+        name: "Pike Push Ups", sets: createStandardExerciseSet(6, 10, 25)),
+    new Exercise(
+        name: "Pseudo Planche Leans",
+        sets: createStandardExerciseSet(6, 15, 25),
+        isHold: true),
   ]);
   chestTrainings.add(chestTraining);
   return Future.value(chestTrainings);
@@ -14,7 +32,7 @@ Future<List<Training>> loadChestTrainings() {
 
 Future<List<Training>> loadBackTrainings() {
   List<Training> backTrainings = [];
-  Training backTraining = new Training(name: "FirstTraining", exercises: [
+  Training backTraining = new Training(name: "FL Training", exercises: [
     new Exercise(
         name: "Assisted Front Lever (orange)",
         sets: createStandardExerciseSet(6, 10, 60),

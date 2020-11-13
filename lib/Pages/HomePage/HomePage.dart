@@ -28,8 +28,12 @@ class _HomePageState extends State<HomePage> {
 
   loadTrainingData() {
     Map map = new Map<String, dynamic>();
-    map.putIfAbsent("muscle", () => "Test");
+    map.putIfAbsent("muscle", () => "Back");
     map.putIfAbsent("trainings", () => loadBackTrainings());
+    _trainings.add(map);
+    map = new Map<String, dynamic>();
+    map.putIfAbsent("muscle", () => "Chest");
+    map.putIfAbsent("trainings", () => loadChestTrainings());
     _trainings.add(map);
   }
 

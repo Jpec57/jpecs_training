@@ -9,6 +9,7 @@ import 'package:jpec_training/Models/Training.dart';
 import 'package:jpec_training/Models/TrainingData.dart';
 import 'package:jpec_training/Pages/HomePage/HomePage.dart';
 import 'package:jpec_training/Services/InWorkoutService.dart';
+import 'package:jpec_training/Widgets/Dialogs/ConfirmDialog.dart';
 import 'package:jpec_training/Widgets/TrainingProgressBar.dart';
 
 import '../../AppColors.dart';
@@ -80,6 +81,9 @@ class _InExercisePageState extends State<InExercisePage>
   void dispose() {
     super.dispose();
     _trainingData = null;
+    if (_timer != null && _timer.isActive) {
+      _timer.cancel();
+    }
     if (_trainingTimer != null && _trainingTimer.isActive) {
       _trainingTimer.cancel();
     }
@@ -171,6 +175,17 @@ class _InExercisePageState extends State<InExercisePage>
     });
   }
 
+  void showLeaveTrainingDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => ConfirmDialog(
+              action: "Do you want to leave this workout ?",
+              positiveCallback: () {
+                Navigator.of(context).pushNamed(HomePage.routeName);
+              },
+            ));
+  }
+
   void switchToTimerView() {
     if (_timer != null && _timer.isActive) {
       _timer.cancel();
@@ -220,14 +235,11 @@ class _InExercisePageState extends State<InExercisePage>
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 15),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: 100),
-            child: Image.asset(
-              nextExo.img != null && nextExo.img.isNotEmpty
-                  ? nextExo.img
-                  : "images/jpec_logo.png",
-              height: 100,
-            ),
+          child: Image.asset(
+            nextExo.img != null && nextExo.img.isNotEmpty
+                ? nextExo.img
+                : "images/jpec_logo.png",
+            height: 100,
           ),
         ),
         Flexible(
@@ -244,15 +256,17 @@ class _InExercisePageState extends State<InExercisePage>
 
   Widget _renderClickableRep(int num) {
     if (num < 0) {
-      return Container();
+      return Expanded(child: Container());
     }
-    return InkWell(
-        onTap: () {
-          setState(() {
-            _doneReps = num;
-          });
-        },
-        child: Text("$num"));
+    return Expanded(
+      child: InkWell(
+          onTap: () {
+            setState(() {
+              _doneReps = num;
+            });
+          },
+          child: Center(child: Text("$num"))),
+    );
   }
 
   Widget _renderTimerWidget() {
@@ -277,7 +291,7 @@ class _InExercisePageState extends State<InExercisePage>
                       children: [
                         InkWell(
                             onTap: () {
-                              //Show dialog
+                              showLeaveTrainingDialog();
                             },
                             child: Icon(
                               Icons.exit_to_app,
@@ -296,7 +310,7 @@ class _InExercisePageState extends State<InExercisePage>
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Next: ",
@@ -309,7 +323,7 @@ class _InExercisePageState extends State<InExercisePage>
                   Expanded(
                     child: Padding(
                         padding: const EdgeInsets.only(
-                            top: 12, bottom: 8.0, left: 8.0, right: 8.0),
+                            top: 12, bottom: 8.0, left: 15.0, right: 15),
                         child: _renderUpcomingExoRowPreview()),
                   )
                 ],
@@ -369,19 +383,24 @@ class _InExercisePageState extends State<InExercisePage>
                     children: [
                       _renderClickableRep(_doneReps - 2),
                       _renderClickableRep(_doneReps - 1),
-                      Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.charlestonGreen),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '$_doneReps',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          )),
+                      Expanded(
+                        child: Center(
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.charlestonGreen),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  '$_doneReps',
+                                  style: TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              )),
+                        ),
+                      ),
                       _renderClickableRep(_doneReps + 1),
                       _renderClickableRep(_doneReps + 2),
                     ],
@@ -457,7 +476,7 @@ class _InExercisePageState extends State<InExercisePage>
                       children: [
                         InkWell(
                             onTap: () {
-                              //Show dialog
+                              showLeaveTrainingDialog();
                             },
                             child: Icon(
                               Icons.exit_to_app,

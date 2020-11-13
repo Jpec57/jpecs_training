@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Models/Exercise.dart';
@@ -124,7 +125,13 @@ class _TrainingShowState extends State<TrainingShow> {
                             )
                           ],
                         ),
-                        title: Text("${exo.name}"),
+                        title: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            "${exo.name}",
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                         subtitle: Text(
                           '${exo.requiredMaterial.join(', ')}',
                           overflow: TextOverflow.ellipsis,
