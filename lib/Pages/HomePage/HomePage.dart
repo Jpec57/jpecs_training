@@ -15,9 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<List<dynamic>> _chestTrainings;
-  Future<List<dynamic>> _backTrainings;
-  Future<List<dynamic>> _legsTrainings;
   List<Map<String, dynamic>> _trainings = [];
 
   @override
@@ -32,8 +29,20 @@ class _HomePageState extends State<HomePage> {
     map.putIfAbsent("trainings", () => loadBackTrainings());
     _trainings.add(map);
     map = new Map<String, dynamic>();
+    map.putIfAbsent("muscle", () => "Shoulders");
+    map.putIfAbsent("trainings", () => loadShouldersTrainings());
+    _trainings.add(map);
+    map = new Map<String, dynamic>();
     map.putIfAbsent("muscle", () => "Chest");
     map.putIfAbsent("trainings", () => loadChestTrainings());
+    _trainings.add(map);
+    map = new Map<String, dynamic>();
+    map.putIfAbsent("muscle", () => "Legs");
+    map.putIfAbsent("trainings", () => loadLegTrainings());
+    _trainings.add(map);
+    map = new Map<String, dynamic>();
+    map.putIfAbsent("muscle", () => "Abs");
+    map.putIfAbsent("trainings", () => loadAbsTrainings());
     _trainings.add(map);
   }
 
@@ -51,14 +60,10 @@ class _HomePageState extends State<HomePage> {
                     context,
                     SlideLeftRoute(
                         page: TrainingShow(training: trainings[index])));
-
-                // Get.toNamed(TrainingShow.routeName,
-                //     arguments:
-                //         TrainingShowArgument(training: trainings[index]));
               },
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(15),
                   border:
                       Border.all(color: AppColors.charlestonGreen, width: 2),
                   color: AppColors.greenArtichoke,
@@ -95,7 +100,7 @@ class _HomePageState extends State<HomePage> {
         headerChild: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("images/fluff.png"), fit: BoxFit.cover),
+                image: AssetImage("images/backlever2.png"), fit: BoxFit.cover),
           ),
           // the more we advance, the smaller it should get (1 - ratio)
           child: Padding(
@@ -106,11 +111,11 @@ class _HomePageState extends State<HomePage> {
                 Flexible(
                   child: Row(
                     children: [
-                      Text(
-                        "Next: ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text("data")
+                      // Text(
+                      //   "Next: ",
+                      //   style: TextStyle(fontWeight: FontWeight.bold),
+                      // ),
+                      // Text("data")
                     ],
                   ),
                 ),
@@ -119,42 +124,44 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         bottomChild: Container(
-          height: MediaQuery.of(context).size.height * 2,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Trainings",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    InkWell(
-                        splashColor: Colors.black12,
-                        onTap: () {
-                          print("Creating a training");
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.charlestonGreen),
-                          child: Padding(
-                            padding: const EdgeInsets.all(3.0),
-                            child: Icon(
-                              Icons.add,
-                              size: 30,
-                              color: Colors.white,
+          // height: MediaQuery.of(context).size.height * 2,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 50),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Trainings",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      InkWell(
+                          splashColor: Colors.black12,
+                          onTap: () {
+                            print("Creating a training");
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.charlestonGreen),
+                            child: Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: Icon(
+                                Icons.add,
+                                size: 30,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
-                        )),
-                  ],
+                          )),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                child: ListView.builder(
+                ListView.builder(
+                    shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: _trainings.length,
                     itemBuilder: (BuildContext context, int categoryIndex) {
@@ -180,11 +187,6 @@ class _HomePageState extends State<HomePage> {
                                         trainingSnap) {
                                   switch (trainingSnap.connectionState) {
                                     case ConnectionState.done:
-                                      // List<Training> trainings = trainingSnap
-                                      //     .data
-                                      //     .map(
-                                      //         (json) => Training.fromJson(json))
-                                      //     .toList();
                                       return _renderMuscleTrainings(
                                           trainingSnap.data, screenWidth);
                                     default:
@@ -196,9 +198,9 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       );
-                    }),
-              )
-            ],
+                    })
+              ],
+            ),
           ),
         ));
   }

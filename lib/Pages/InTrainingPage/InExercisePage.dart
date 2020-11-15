@@ -11,6 +11,7 @@ import 'package:jpec_training/Pages/HomePage/HomePage.dart';
 import 'package:jpec_training/Services/InWorkoutService.dart';
 import 'package:jpec_training/Widgets/Dialogs/ConfirmDialog.dart';
 import 'package:jpec_training/Widgets/TrainingProgressBar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../AppColors.dart';
 
@@ -81,6 +82,10 @@ class _InExercisePageState extends State<InExercisePage>
   void dispose() {
     super.dispose();
     _trainingData = null;
+    clean();
+  }
+
+  void clean() {
     if (_timer != null && _timer.isActive) {
       _timer.cancel();
     }
@@ -108,6 +113,9 @@ class _InExercisePageState extends State<InExercisePage>
       setState(() {
         _countdown = _countdown - 1;
       });
+      if (_countdown == 10) {
+        _audioPlayer.play(CACHED_SOUNDS[0]);
+      }
 
       if (_countdown < 3) {
         _audioPlayer.play(CACHED_SOUNDS[(_countdown == 0) ? 1 : 0]);
@@ -117,6 +125,13 @@ class _InExercisePageState extends State<InExercisePage>
         switchToExerciseView();
       }
     });
+  }
+
+  Future<void> saveTrainingData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    DateTime now = new DateTime.now();
+    //now.toIso8601String()
+    sharedPreferences.setString('last', _trainingData.toString());
   }
 
   void _addTrainingData(Exercise currentExo) {
@@ -130,7 +145,7 @@ class _InExercisePageState extends State<InExercisePage>
         exerciseId: currentExo.id));
   }
 
-  void switchToExerciseView() {
+  void switchToExerciseView() async {
     //Remove any timer from timer page that could be ongoing
     if (_timer != null && _timer.isActive) {
       _timer.cancel();
@@ -151,6 +166,7 @@ class _InExercisePageState extends State<InExercisePage>
         int nbCycle = widget.training.nbCycle ?? 1;
         if (_cycleIndex + 1 == nbCycle) {
           //TODO Save data
+          await saveTrainingData();
           Navigator.of(context).pushNamed(HomePage.routeName);
         } else {
           _cycleIndex++;
@@ -167,6 +183,10 @@ class _InExercisePageState extends State<InExercisePage>
         setState(() {
           _doneReps = _doneReps + 1;
         });
+
+        if (_doneReps == currentExo.sets[_setIndex].repsOrDuration) {
+          _audioPlayer.play(CACHED_SOUNDS[0]);
+        }
       });
     }
     //TODO 面目ない
@@ -180,7 +200,9 @@ class _InExercisePageState extends State<InExercisePage>
         context: context,
         builder: (BuildContext context) => ConfirmDialog(
               action: "Do you want to leave this workout ?",
-              positiveCallback: () {
+              positiveCallback: () async {
+                await saveTrainingData();
+                clean();
                 Navigator.of(context).pushNamed(HomePage.routeName);
               },
             ));
@@ -213,9 +235,15 @@ class _InExercisePageState extends State<InExercisePage>
     if (nextExo == null) {
       return Text("End of workout.");
     }
+    int nbSets = _getCurrentExo().sets.length;
+    int followingSet = _setIndex + 1;
+    if (nbSets == _setIndex + 1) {
+      followingSet = 0;
+      nbSets = nextExo.sets.length;
+    }
     return Flexible(
         child: Text(
-      "${nextExo.name}",
+      "${nextExo.name} (${followingSet + 1}/${nextExo.sets.length})",
       textAlign: TextAlign.center,
     ));
   }
