@@ -6,6 +6,7 @@ import 'package:jpec_training/HardCodedData/trainings.dart';
 import 'package:jpec_training/Models/Training.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/';
@@ -21,6 +22,12 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     loadTrainingData();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      print("data");
+      print(sharedPreferences.getString('last'));
+    });
   }
 
   loadTrainingData() {

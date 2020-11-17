@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
+import 'package:jpec_training/Pages/CreateTraining/CreateTrainingPage.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePageArguments.dart';
+import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPage.dart';
+import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPageArguments.dart';
 import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShowArgument.dart';
@@ -74,12 +77,24 @@ class MyApp extends StatelessWidget {
             },
           );
         }
+        if (settings.name == TrainingResultPage.routeName) {
+          final TrainingResultPageArguments args = settings.arguments;
+
+          return MaterialPageRoute(
+            builder: (context) {
+              return TrainingResultPage(
+                trainingData: args.trainingData,
+              );
+            },
+          );
+        }
         assert(false, 'Need to implement ${settings.name}');
         return null;
       },
       routes: {
         // LoginPage.routeName: (context) => LoginPage(),
         TimerPage.routeName: (context) => TimerPage(),
+        CreateTrainingPage.routeName: (context) => CreateTrainingPage(),
       },
       home: HomePage(),
       // home: InExercisePage(),

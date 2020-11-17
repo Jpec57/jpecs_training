@@ -11,6 +11,7 @@ import 'package:jpec_training/Pages/HomePage/HomePage.dart';
 import 'package:jpec_training/Services/InWorkoutService.dart';
 import 'package:jpec_training/Widgets/Dialogs/ConfirmDialog.dart';
 import 'package:jpec_training/Widgets/TrainingProgressBar.dart';
+import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../AppColors.dart';
@@ -64,6 +65,7 @@ class _InExercisePageState extends State<InExercisePage>
     _trainingData = new TrainingData(trainingId: widget.training.id);
     _trainingData.doneExercises = initDoneExercises();
     _audioPlayer.loadAll(CACHED_SOUNDS);
+    Screen.keepOn(true);
     _trainingTimer = new Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         _totalTime = _totalTime + 1;

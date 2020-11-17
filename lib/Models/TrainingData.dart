@@ -14,4 +14,9 @@ class TrainingData {
   factory TrainingData.fromJson(Map<String, dynamic> json) =>
       _$TrainingDataFromJson(json);
   Map<String, dynamic> toJson() => _$TrainingDataToJson(this);
+
+  @override
+  String toString() {
+    return 'TrainingData{trainingId: $trainingId, doneExercises: $doneExercises}';
+  }
 }

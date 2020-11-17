@@ -23,7 +23,9 @@ class ConfirmDialog extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
       contentPadding: EdgeInsets.all(10.0),
       title: Text(
-          LocalizationWidget.of(context).getLocalizeValue('confirm_action')),
+        LocalizationWidget.of(context).getLocalizeValue('confirm_action'),
+        style: TextStyle(color: Colors.black),
+      ),
       content: GestureDetector(
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
