@@ -14,6 +14,7 @@ class Exercise {
   List<String> requiredMaterial;
   bool isHold;
   List<ExerciseSet> sets;
+  int restAfter;
 
   Exercise(
       {this.id,
@@ -22,7 +23,8 @@ class Exercise {
       this.img,
       this.requiredMaterial = const [],
       this.isHold = false,
-      @required this.sets});
+      @required this.sets,
+      this.restAfter});
 
   factory Exercise.fromJson(Map<String, dynamic> json) =>
       _$ExerciseFromJson(json);

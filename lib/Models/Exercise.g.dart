@@ -19,6 +19,7 @@ Exercise _$ExerciseFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : ExerciseSet.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    restAfter: json['restAfter'] as int,
   );
 }
 
@@ -30,4 +31,5 @@ Map<String, dynamic> _$ExerciseToJson(Exercise instance) => <String, dynamic>{
       'requiredMaterial': instance.requiredMaterial,
       'isHold': instance.isHold,
       'sets': instance.sets,
+      'restAfter': instance.restAfter,
     };

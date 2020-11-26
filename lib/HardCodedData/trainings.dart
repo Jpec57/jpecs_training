@@ -150,6 +150,7 @@ Future<List<Training>> loadLegTrainings() {
     new Exercise(
         name: "Squat hold",
         sets: createStandardExerciseSet(2, 10, 60),
+        restAfter: 90,
         isHold: true),
     new Exercise(name: "Squat", sets: createStandardExerciseSet(3, 10, 60))
   ]);

@@ -34,6 +34,8 @@ class _InExercisePageState extends State<InExercisePage>
   TrainingData _trainingData;
   static const EXERCISE_TAB_INDEX = 0;
   static const TIMER_TAB_INDEX = 1;
+  static const TIMER_START_INDEX = 2;
+  static const TIME_BEFORE_TRAINING = 5;
 
   //Exercise tab
   int _cycleIndex = 0;
@@ -44,8 +46,10 @@ class _InExercisePageState extends State<InExercisePage>
   int _countdown = 60;
   int _doneReps = 0;
   int _totalTime = 0;
+  int _countdownBeforeStart = TIME_BEFORE_TRAINING;
   Timer _timer;
   Timer _trainingTimer;
+  Timer _beforeTrainingTimer;
   //Audio
   AudioCache _audioPlayer = AudioCache();
 
@@ -61,11 +65,37 @@ class _InExercisePageState extends State<InExercisePage>
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = new TabController(length: 3, vsync: this);
     _trainingData = new TrainingData(trainingId: widget.training.id);
     _trainingData.doneExercises = initDoneExercises();
     _audioPlayer.loadAll(CACHED_SOUNDS);
     Screen.keepOn(true);
+    _tabController.index = TIMER_START_INDEX;
+    _beforeTrainingTimer = new Timer.periodic(Duration(seconds: 1), (timer) {
+      print("COUNT $_countdownBeforeStart");
+      setState(() {
+        _countdownBeforeStart = _countdownBeforeStart - 1;
+      });
+      if (_countdownBeforeStart < 3) {
+        _audioPlayer.play(CACHED_SOUNDS[(_countdownBeforeStart == 0) ? 1 : 0]);
+      }
+
+      if (_countdownBeforeStart <= 0) {
+        startTrainingTimers();
+        _tabController.index = EXERCISE_TAB_INDEX;
+        _beforeTrainingTimer.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _trainingData = null;
+    clean();
+  }
+
+  void startTrainingTimers() {
     _trainingTimer = new Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         _totalTime = _totalTime + 1;
@@ -80,14 +110,10 @@ class _InExercisePageState extends State<InExercisePage>
     }
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _trainingData = null;
-    clean();
-  }
-
   void clean() {
+    if (_beforeTrainingTimer != null && _beforeTrainingTimer.isActive) {
+      _beforeTrainingTimer.cancel();
+    }
     if (_timer != null && _timer.isActive) {
       _timer.cancel();
     }
@@ -218,7 +244,12 @@ class _InExercisePageState extends State<InExercisePage>
     if (isWorkoutOver(widget.training, _trainingData, beforeInsert: true)) {
       _countdown = 0;
     } else {
-      startCountDown(currentExo.sets[_setIndex].rest + 1);
+      if (_setIndex + 1 < currentExo.sets.length) {
+        startCountDown(currentExo.sets[_setIndex].rest + 1);
+      } else {
+        int finalRest = currentExo.restAfter ?? currentExo.sets[_setIndex].rest;
+        startCountDown(finalRest + 1);
+      }
     }
     _tabController.index = TIMER_TAB_INDEX;
     if (!currentExo.isHold) {
@@ -601,6 +632,28 @@ class _InExercisePageState extends State<InExercisePage>
     );
   }
 
+  _renderStartCountDown() {
+    return Expanded(
+      child: Container(
+        color: Colors.black,
+        child: Center(
+          child: Text(
+            "$_countdownBeforeStart",
+            style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<Widget> _tabsRender() {
+    return [
+      _renderExerciseTab(),
+      _renderTimerWidget(),
+      _renderStartCountDown()
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -609,7 +662,7 @@ class _InExercisePageState extends State<InExercisePage>
         child: TabBarView(
           physics: NeverScrollableScrollPhysics(),
           controller: _tabController,
-          children: [_renderExerciseTab(), _renderTimerWidget()],
+          children: _tabsRender(),
         ),
       ),
     );
