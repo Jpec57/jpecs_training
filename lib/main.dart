@@ -97,8 +97,75 @@ class MyApp extends StatelessWidget {
         CreateTrainingPage.routeName: (context) => CreateTrainingPage(),
       },
       home: HomePage(),
+      // home: TrainingResultPage(
+      //     trainingData: TrainingData(trainingId: 1, doneExercises: [
+      //   [
+      //     new NamedExerciseSet(
+      //         exerciseId: 1,
+      //         name: "Dips",
+      //         repsOrDuration: 10,
+      //         rest: 60,
+      //         weight: null),
+      //     new NamedExerciseSet(
+      //         exerciseId: 2,
+      //         name: "Pull Ups",
+      //         repsOrDuration: 5,
+      //         rest: 60,
+      //         weight: null),
+      //     new NamedExerciseSet(
+      //         exerciseId: 2,
+      //         name: "Pull Ups",
+      //         repsOrDuration: 7,
+      //         rest: 60,
+      //         weight: null),
+      //   ],
+      //   [
+      //     new NamedExerciseSet(
+      //         exerciseId: 3,
+      //         name: "Push Ups",
+      //         repsOrDuration: 3,
+      //         rest: 60,
+      //         weight: 40),
+      //   ]
+      // ])),
+
       // home: InExercisePage(),
       // home: InExerciseTimerPage(),
     );
   }
 }
+
+/*
+TrainingResultPage(
+        trainingData: TrainingData(trainingId: 1, doneExercises: [
+          [
+            new NamedExerciseSet(
+                exerciseId: 1,
+                name: "Dips",
+                repsOrDuration: 10,
+                rest: 60,
+                weight: null),
+            new NamedExerciseSet(
+                exerciseId: 2,
+                name: "Pull Ups",
+                repsOrDuration: 5,
+                rest: 60,
+                weight: null),
+            new NamedExerciseSet(
+                exerciseId: 2,
+                name: "Pull Ups",
+                repsOrDuration: 7,
+                rest: 60,
+                weight: null),
+          ],
+          [
+            new NamedExerciseSet(
+                exerciseId: 3,
+                name: "Push Ups",
+                repsOrDuration: 3,
+                rest: 60,
+                weight: 40),
+          ]
+        ])
+     )
+ */

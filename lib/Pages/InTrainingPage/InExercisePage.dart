@@ -7,7 +7,8 @@ import 'package:jpec_training/Models/ExerciseSet.dart';
 import 'package:jpec_training/Models/NamedExerciseSet.dart';
 import 'package:jpec_training/Models/Training.dart';
 import 'package:jpec_training/Models/TrainingData.dart';
-import 'package:jpec_training/Pages/HomePage/HomePage.dart';
+import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPage.dart';
+import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPageArguments.dart';
 import 'package:jpec_training/Services/InWorkoutService.dart';
 import 'package:jpec_training/Widgets/Dialogs/ConfirmDialog.dart';
 import 'package:jpec_training/Widgets/TrainingProgressBar.dart';
@@ -72,7 +73,6 @@ class _InExercisePageState extends State<InExercisePage>
     Screen.keepOn(true);
     _tabController.index = TIMER_START_INDEX;
     _beforeTrainingTimer = new Timer.periodic(Duration(seconds: 1), (timer) {
-      print("COUNT $_countdownBeforeStart");
       setState(() {
         _countdownBeforeStart = _countdownBeforeStart - 1;
       });
@@ -165,12 +165,15 @@ class _InExercisePageState extends State<InExercisePage>
   void _addTrainingData(Exercise currentExo) {
     print("ADDING TRAINING DATA: ${currentExo.name}");
     ExerciseSet currentSet = currentExo.sets[_setIndex];
+    //TODO take real rest
     _trainingData.doneExercises[_cycleIndex].add(new NamedExerciseSet(
         name: currentExo.name,
         repsOrDuration: _doneReps,
         weight: currentSet.weight,
-        rest: currentSet.rest - _countdown,
+        // rest: currentSet.rest - _countdown,
+        rest: currentSet.rest,
         exerciseId: currentExo.id));
+    print('TRAINING DATA ${_trainingData}');
   }
 
   void switchToExerciseView() async {
@@ -178,10 +181,10 @@ class _InExercisePageState extends State<InExercisePage>
     if (_timer != null && _timer.isActive) {
       _timer.cancel();
     }
-    _doneReps = 0;
     List<Exercise> exercises = widget.training.exercises;
     Exercise currentExo = _getCurrentExo();
     _addTrainingData(currentExo);
+    _doneReps = 0;
 
     _tabController.index = EXERCISE_TAB_INDEX;
     int nbSets = currentExo.sets.length;
@@ -195,7 +198,10 @@ class _InExercisePageState extends State<InExercisePage>
         if (_cycleIndex + 1 == nbCycle) {
           //TODO Save data
           await saveTrainingData();
-          Navigator.of(context).pushNamed(HomePage.routeName);
+          Navigator.of(context).pushNamed(TrainingResultPage.routeName,
+              arguments:
+                  TrainingResultPageArguments(trainingData: _trainingData));
+          // Navigator.of(context).pushNamed(HomePage.routeName);
         } else {
           _cycleIndex++;
         }
@@ -231,7 +237,10 @@ class _InExercisePageState extends State<InExercisePage>
               positiveCallback: () async {
                 await saveTrainingData();
                 clean();
-                Navigator.of(context).pushNamed(HomePage.routeName);
+                Navigator.of(context).pushNamed(TrainingResultPage.routeName,
+                    arguments: TrainingResultPageArguments(
+                        trainingData: _trainingData));
+                // Navigator.of(context).pushNamed(HomePage.routeName);
               },
             ));
   }
@@ -633,7 +642,7 @@ class _InExercisePageState extends State<InExercisePage>
   }
 
   _renderStartCountDown() {
-    return Expanded(
+    return Flexible(
       child: Container(
         color: Colors.black,
         child: Center(

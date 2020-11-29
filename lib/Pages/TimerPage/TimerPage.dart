@@ -57,6 +57,10 @@ class _TimerPageState extends State<TimerPage>
         _countdown = _countdown - 1;
       });
 
+      if (_countdown == 10) {
+        _audioPlayer.play(CACHED_SOUNDS[0]);
+      }
+
       if (_countdown < 3) {
         _audioPlayer.play(CACHED_SOUNDS[(_countdown == 0) ? 1 : 0]);
       }

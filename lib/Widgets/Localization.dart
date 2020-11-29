@@ -19,8 +19,12 @@ class LocalizationWidget {
   }
 
   static Map<String, Map<String, String>> _localizedValues = {
-    EN_LOCALE: {'home': 'Home', 'confirm_action': "Confirm"},
-    FR_LOCALE: {'home': 'Accueil', 'confirm_action': "Confirmer"},
+    EN_LOCALE: {'home': 'Home', 'confirm_action': "Confirm", 'timer': 'Timer'},
+    FR_LOCALE: {
+      'home': 'Accueil',
+      'confirm_action': "Confirmer",
+      'timer': 'Timer'
+    },
     JAP_LOCALE: {
       'home': 'ie',
     },

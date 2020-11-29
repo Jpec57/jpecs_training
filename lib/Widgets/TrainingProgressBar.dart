@@ -18,7 +18,7 @@ class TrainingProgressBar extends StatelessWidget {
   String formatElapsedTime() {
     if (elapsedTime > 3600) {
       int hour = (elapsedTime / 3600).floor();
-      return "${formatTimeSection(hour)}:${formatTimeSection(((elapsedTime - hour * 36000) / 60).floor())}:${formatTimeSection(elapsedTime % 60)}";
+      return "${formatTimeSection(hour)}:${formatTimeSection(((elapsedTime - (hour * 3600)) / 60).floor())}:${formatTimeSection(elapsedTime % 60)}";
     }
     if (elapsedTime > 60) {
       return "${formatTimeSection((elapsedTime / 60).floor())}:${formatTimeSection(elapsedTime % 60)}";

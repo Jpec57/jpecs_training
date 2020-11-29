@@ -12,13 +12,21 @@ Future<List<Training>> loadChestTrainings() {
     new Exercise(
         name: "Declined Push Ups", sets: createStandardExerciseSet(6, 20, 25)),
     new Exercise(
-        name: "Wide Push Ups", sets: createStandardExerciseSet(6, 20, 25)),
+        name: "Wide Push Ups",
+        sets: createStandardExerciseSet(6, 25, 25),
+        restAfter: 60),
     //
-    new Exercise(name: "Dips", sets: createStandardExerciseSet(5, 15, 25)),
+    new Exercise(name: "Dips", sets: createStandardExerciseSet(6, 15, 25)),
     new Exercise(
-        name: "Pike Push Ups", sets: createStandardExerciseSet(5, 10, 25)),
+        name: "Pseudo Push Ups", sets: createStandardExerciseSet(6, 10, 25)),
     new Exercise(
-        name: "Pseudo Push Ups", sets: createStandardExerciseSet(5, 10, 25)),
+        name: "Pike Push Ups",
+        sets: createStandardExerciseSet(6, 10, 25),
+        restAfter: 60),
+    new Exercise(
+        name: "Hindu Push Ups",
+        sets: createStandardExerciseSet(4, 10, 25),
+        restAfter: 60),
     //
     new Exercise(
         name: "Triceps extension", sets: createStandardExerciseSet(6, 20, 25)),
@@ -27,6 +35,8 @@ Future<List<Training>> loadChestTrainings() {
     new Exercise(
         name: "Chest Fly + Wide Push Ups",
         sets: createStandardExerciseSet(6, 10, 25)),
+    new Exercise(
+        name: "Wide Push Ups", sets: createStandardExerciseSet(6, 25, 25)),
   ]);
   chestTrainings.add(chestTraining);
   chestTraining = new Training(id: 2, name: "PecTriceps", exercises: [
