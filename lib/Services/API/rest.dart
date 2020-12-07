@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-const IS_LOCALE = false;
+const IS_LOCALE = true;
 const BASE_REMOTE_URL = 'https://jpec.be';
 
 Future<HttpClientResponse> handleGenericErrors(
@@ -64,13 +64,13 @@ Future<HttpClientResponse> getLocaleGetRequestResponse(String uri,
   HttpClient client = new HttpClient();
   client.badCertificateCallback =
   ((X509Certificate cert, String host, int port) => true);
-  String url;
+  Uri url;
   if (IS_LOCALE) {
-    url = 'https://10.0.2.2:8000$uri';
+    url = new Uri.http("localhost:8000", uri);
   } else {
-    url = BASE_REMOTE_URL + '$uri';
+    url = Uri.parse(BASE_REMOTE_URL + uri);
   }
-  HttpClientRequest request = await client.getUrl(Uri.parse(url));
+  HttpClientRequest request = await client.getUrl(url);
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String apiToken = sharedPreferences.get('apiToken');
@@ -83,7 +83,7 @@ Future<HttpClientResponse> getLocaleGetRequestResponse(String uri,
     print(getJsonFromHttpResponse(response));
     return null;
   }
-  return getJsonFromHttpResponse(response);
+  return response;
 }
 
 Future<HttpClientResponse> getLocalePostRequestResponse(String uri, Map body,
@@ -91,16 +91,16 @@ Future<HttpClientResponse> getLocalePostRequestResponse(String uri, Map body,
   HttpClient client = new HttpClient();
   client.badCertificateCallback =
   ((X509Certificate cert, String host, int port) => true);
-  String url;
+  Uri url;
   if (IS_LOCALE) {
-    url = 'https://10.0.2.2:8000$uri';
+    url = new Uri.http("localhost:8000", uri);
   } else {
-    url = BASE_REMOTE_URL + uri;
+    url = Uri.parse(BASE_REMOTE_URL + uri);
   }
+  HttpClientRequest request = await client.postUrl(url);
+
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String apiToken = sharedPreferences.get('apiToken');
-
-  HttpClientRequest request = await client.postUrl(Uri.parse(url));
   if (apiToken != null) {
     request.headers.set(HttpHeaders.authorizationHeader, 'Bearer $apiToken');
   }
@@ -113,7 +113,7 @@ Future<HttpClientResponse> getLocalePostRequestResponse(String uri, Map body,
     print(getJsonFromHttpResponse(response));
     return null;
   }
-  return getJsonFromHttpResponse(response);
+  return response;
 }
 
 Future<HttpClientResponse> getLocaleDeleteRequestResponse(String uri,
@@ -121,13 +121,13 @@ Future<HttpClientResponse> getLocaleDeleteRequestResponse(String uri,
   HttpClient client = new HttpClient();
   client.badCertificateCallback =
   ((X509Certificate cert, String host, int port) => true);
-  String url;
+  Uri url;
   if (IS_LOCALE) {
-    url = 'https://10.0.2.2:8000$uri';
+    url = new Uri.http("localhost:8000", uri);
   } else {
-    url = BASE_REMOTE_URL + uri;
+    url = Uri.parse(BASE_REMOTE_URL + uri);
   }
-  HttpClientRequest request = await client.deleteUrl(Uri.parse(url));
+  HttpClientRequest request = await client.deleteUrl(url);
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   String apiToken = sharedPreferences.get('apiToken');
@@ -140,5 +140,5 @@ Future<HttpClientResponse> getLocaleDeleteRequestResponse(String uri,
     print(getJsonFromHttpResponse(response));
     return null;
   }
-  return getJsonFromHttpResponse(response);
+  return response;
 }

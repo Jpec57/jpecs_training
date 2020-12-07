@@ -96,7 +96,7 @@ class MyApp extends StatelessWidget {
         TimerPage.routeName: (context) => TimerPage(),
         CreateTrainingPage.routeName: (context) => CreateTrainingPage(),
       },
-      home: HomePage(),
+      home: CreateTrainingPage(),
       // home: TrainingResultPage(
       //     trainingData: TrainingData(trainingId: 1, doneExercises: [
       //   [

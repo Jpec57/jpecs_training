@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jpec_training/AppColors.dart';
+import 'package:jpec_training/Services/API/TrainingRequest.dart';
 
 class CreateTrainingPage extends StatefulWidget {
   static const routeName = "/training/create";
@@ -19,6 +21,13 @@ class _CreateTrainingPageState extends State<CreateTrainingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Container(color: AppColors.charlestonGreen,
+      child: Center(child: RaisedButton(onPressed: () async{
+        await createUserRequest();
+      },
+        child: Text("Clique"),
+      ),),),
+    );
   }
 }
