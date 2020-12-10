@@ -10,12 +10,21 @@ import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPageArguments.d
 import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShowArgument.dart';
+import 'package:jpec_training/Providers/UserProvider.dart';
+import 'package:provider/provider.dart';
 
 import 'Pages/HomePage/HomePage.dart';
 import 'Widgets/Localization.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        ),
+      ],
+      child: MyApp()
+  ));
 }
 
 class MyApp extends StatelessWidget {
