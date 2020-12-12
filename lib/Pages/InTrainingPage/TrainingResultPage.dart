@@ -32,6 +32,14 @@ class _TrainingResultPageState extends State<TrainingResultPage>
     _scoreAnimController = new AnimationController(
         vsync: this, duration: const Duration(seconds: 2));
     groupedExercisesPerCycle = _buildFormattedExerciseList();
+    _expandedExercises = [];
+    for (var cycle in _updatedTrainingData.doneExercises){
+      List<bool> tmpArr = [];
+      for (var exo in cycle){
+        tmpArr.add(false);
+      }
+      _expandedExercises.add(tmpArr);
+    }
     _scoreAnimation = IntTween(
             begin: 0,
             end: calculateWorkoutScore(_updatedTrainingData.doneExercises))
@@ -72,19 +80,16 @@ class _TrainingResultPageState extends State<TrainingResultPage>
   void dispose() {
     super.dispose();
   }
-  _renderCycleExercises(List<List<NamedExerciseSet>> cycleExercises){
+  _renderCycleExercises(List<List<NamedExerciseSet>> cycleExercises, int cycleIndex){
 
     return ClipRRect(
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-        color: AppColors.charlestonGreen,
-      ),
+      child: Theme(
+        data: Theme.of(context).copyWith(cardColor: AppColors.greenArtichoke),
         child: ExpansionPanelList(
           expandedHeaderPadding: EdgeInsets.zero,
           expansionCallback: (int index, bool isExpanded) {
             setState(() {
-              // items[index].isExpanded = !items[index].isExpanded;
+              _expandedExercises[cycleIndex][index] = !_expandedExercises[cycleIndex][index];
             });
           },
           children: cycleExercises.map((List<NamedExerciseSet> sameExerciseSets){
@@ -186,7 +191,6 @@ class _TrainingResultPageState extends State<TrainingResultPage>
     List<Widget> cycleTiles = [];
 
     int cycleIndex = 0;
-    int globalExerciseIndex;
 
     for (List<NamedExerciseSet> cycleExercises
         in _updatedTrainingData.doneExercises) {
@@ -211,7 +215,7 @@ class _TrainingResultPageState extends State<TrainingResultPage>
         }
         exercises.add(sameExerciseSets);
       }
-      cycleTiles.add(_renderCycleExercises(exercises));
+      cycleTiles.add(_renderCycleExercises(exercises, cycleIndex));
       cycleIndex++;
     }
 
