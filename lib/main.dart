@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Models/NamedExerciseSet.dart';
 import 'package:jpec_training/Pages/CreateTraining/CreateTrainingPage.dart';
+import 'package:jpec_training/Pages/HomePage/HomePage.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
 import 'package:jpec_training/Pages/InTrainingPage/InExercisePageArguments.dart';
 import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPage.dart';
@@ -14,19 +14,14 @@ import 'package:jpec_training/Pages/TrainingShowPage/TrainingShowArgument.dart';
 import 'package:jpec_training/Providers/UserProvider.dart';
 import 'package:provider/provider.dart';
 
-import 'Models/TrainingData.dart';
-import 'Pages/HomePage/HomePage.dart';
 import 'Widgets/Localization.dart';
 
 void main() {
-  runApp(MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => UserProvider(),
-        ),
-      ],
-      child: MyApp()
-  ));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+    ),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -107,40 +102,8 @@ class MyApp extends StatelessWidget {
         TimerPage.routeName: (context) => TimerPage(),
         CreateTrainingPage.routeName: (context) => CreateTrainingPage(),
       },
-      //home: CreateTrainingPage(),
-      home: TrainingResultPage(
-          trainingData: TrainingData(trainingId: 1, doneExercises: [
-        [
-          new NamedExerciseSet(
-              exerciseId: 1,
-              name: "Dips",
-              repsOrDuration: 10,
-              rest: 60,
-              weight: null),
-          new NamedExerciseSet(
-              exerciseId: 2,
-              name: "Pull Ups",
-              repsOrDuration: 5,
-              rest: 60,
-              weight: null),
-          new NamedExerciseSet(
-              exerciseId: 2,
-              name: "Pull Ups",
-              repsOrDuration: 7,
-              rest: 60,
-              weight: null),
-        ],
-        [
-          new NamedExerciseSet(
-              exerciseId: 3,
-              name: "Push Ups",
-              repsOrDuration: 3,
-              rest: 60,
-              weight: 40),
-        ]
-      ])),
-
-  //    home: InExercisePage(),
+      home: HomePage(),
+      //    home: InExercisePage(),
 //      home: InExerciseTimerPage(),
     );
   }

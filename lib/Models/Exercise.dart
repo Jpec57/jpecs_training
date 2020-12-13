@@ -5,6 +5,11 @@ import 'ExerciseSet.dart';
 
 part 'Exercise.g.dart';
 
+const ISOMETRIC = 0;
+const PLYOMETRIC = 1;
+const CONCENTRIC = 2;
+const ECCENTRIC = 3;
+
 @JsonSerializable()
 class Exercise {
   int id;
@@ -13,6 +18,7 @@ class Exercise {
   String img;
   List<String> requiredMaterial;
   bool isHold;
+  int executionTime;
   List<ExerciseSet> sets;
   int restAfter;
 
@@ -23,6 +29,7 @@ class Exercise {
       this.img,
       this.requiredMaterial = const [],
       this.isHold = false,
+      this.executionTime = CONCENTRIC,
       @required this.sets,
       this.restAfter});
 

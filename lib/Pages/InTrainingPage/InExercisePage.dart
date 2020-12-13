@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:audioplayers/audio_cache.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/Models/Exercise.dart';
 import 'package:jpec_training/Models/ExerciseSet.dart';
@@ -217,9 +218,13 @@ class _InExercisePageState extends State<InExercisePage>
         setState(() {
           _doneReps = _doneReps + 1;
         });
-
-        if (_doneReps == currentExo.sets[_setIndex].repsOrDuration) {
-          _audioPlayer.play(CACHED_SOUNDS[0]);
+        int goal = currentExo.sets[_setIndex].repsOrDuration;
+        if (goal - _doneReps < 3 && goal - _doneReps >= 0) {
+          if (_doneReps == goal) {
+            _audioPlayer.play(CACHED_SOUNDS[1]);
+          } else {
+            _audioPlayer.play(CACHED_SOUNDS[0]);
+          }
         }
       });
     }
@@ -254,7 +259,7 @@ class _InExercisePageState extends State<InExercisePage>
       _countdown = 0;
     } else {
       if (_setIndex + 1 < currentExo.sets.length) {
-        startCountDown(currentExo.sets[_setIndex].rest + 1);
+        startCountDown(currentExo.sets[_setIndex].rest);
       } else {
         int finalRest = currentExo.restAfter ?? currentExo.sets[_setIndex].rest;
         startCountDown(finalRest + 1);
@@ -335,7 +340,15 @@ class _InExercisePageState extends State<InExercisePage>
               _doneReps = num;
             });
           },
-          child: Center(child: Text("$num"))),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: AutoSizeText(
+              "$num",
+              textAlign: TextAlign.center,
+              minFontSize: 25,
+              maxFontSize: 35,
+            ),
+          )),
     );
   }
 
@@ -449,26 +462,28 @@ class _InExercisePageState extends State<InExercisePage>
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       _renderClickableRep(_doneReps - 2),
                       _renderClickableRep(_doneReps - 1),
                       Expanded(
-                        child: Center(
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColors.charlestonGreen),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  '$_doneReps',
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white),
-                                ),
-                              )),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.charlestonGreen),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: AutoSizeText(
+                              '$_doneReps',
+                              minFontSize: 30,
+                              maxFontSize: 40,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  // fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
                         ),
                       ),
                       _renderClickableRep(_doneReps + 1),
@@ -642,14 +657,13 @@ class _InExercisePageState extends State<InExercisePage>
   }
 
   _renderStartCountDown() {
-    return Flexible(
-      child: Container(
-        color: Colors.black,
-        child: Center(
-          child: Text(
-            "$_countdownBeforeStart",
-            style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
-          ),
+    return Container(
+      color: Colors.black,
+      height: MediaQuery.of(context).size.height,
+      child: Center(
+        child: Text(
+          "$_countdownBeforeStart",
+          style: TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
         ),
       ),
     );

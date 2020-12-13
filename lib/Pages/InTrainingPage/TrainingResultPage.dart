@@ -31,15 +31,7 @@ class _TrainingResultPageState extends State<TrainingResultPage>
     _updatedTrainingData = widget.trainingData;
     _scoreAnimController = new AnimationController(
         vsync: this, duration: const Duration(seconds: 2));
-    groupedExercisesPerCycle = _buildFormattedExerciseList();
-    _expandedExercises = [];
-    for (var cycle in _updatedTrainingData.doneExercises){
-      List<bool> tmpArr = [];
-      for (var exo in cycle){
-        tmpArr.add(false);
-      }
-      _expandedExercises.add(tmpArr);
-    }
+    _expandedExercises = _isExerciseExpandedList();
     _scoreAnimation = IntTween(
             begin: 0,
             end: calculateWorkoutScore(_updatedTrainingData.doneExercises))
@@ -55,23 +47,27 @@ class _TrainingResultPageState extends State<TrainingResultPage>
         calculateWorkoutScore(_updatedTrainingData.doneExercises).toDouble());
   }
 
+  List<List<bool>> _isExerciseExpandedList() {
+    List<List<bool>> groupedCycleExercises = [];
 
-  _buildFormattedExerciseList(){
-    List<List<List<NamedExerciseSet>>> groupedCycleExercises = [];
-    for (List<NamedExerciseSet> cycleExercises in _updatedTrainingData.doneExercises) {
-      List<List<NamedExerciseSet>> exercises = [];
-      for (int exerciseIndex = 0;
-      exerciseIndex < cycleExercises.length;
-      exerciseIndex++) {
-        List<NamedExerciseSet> sameExerciseSets = [cycleExercises[exerciseIndex]];
-        int firstIndex = exerciseIndex;
-        while (exerciseIndex < cycleExercises.length && cycleExercises[exerciseIndex].name == cycleExercises[firstIndex].name){
-          sameExerciseSets.add(cycleExercises[exerciseIndex]);
-          exerciseIndex++;
+    for (List<NamedExerciseSet> cycleSets
+        in _updatedTrainingData.doneExercises) {
+      int nbSetsInCycle = cycleSets.length;
+
+      List<bool> groupedExercises = [];
+
+      //Regrouping same exercise together
+      int setInCycleIndex = 0;
+      while (setInCycleIndex < nbSetsInCycle) {
+        int firstIndex = setInCycleIndex;
+        while (setInCycleIndex < nbSetsInCycle &&
+            cycleSets[setInCycleIndex].name == cycleSets[firstIndex].name) {
+          setInCycleIndex++;
         }
-        exercises.add(sameExerciseSets);
+        groupedExercises.add(false);
       }
-      groupedCycleExercises.add(exercises);
+      //END
+      groupedCycleExercises.add(groupedExercises);
     }
     return groupedCycleExercises;
   }
@@ -80,8 +76,119 @@ class _TrainingResultPageState extends State<TrainingResultPage>
   void dispose() {
     super.dispose();
   }
-  _renderCycleExercises(List<List<NamedExerciseSet>> cycleExercises, int cycleIndex){
 
+  _generateExerciseExpansionPanelChildren(
+      int cycleIndex, List<List<NamedExerciseSet>> cycleExercises) {
+    List<ExpansionPanel> children = [];
+    int exerciseIndexInCycle = 0;
+    for (var sameExerciseSets in cycleExercises) {
+      List<Widget> _tiles = [];
+      int totalReps = 0;
+      double averageReps = 0;
+      int nbSets = sameExerciseSets.length;
+      int exerciseSetIndex = 0;
+      for (NamedExerciseSet set in sameExerciseSets) {
+        totalReps += set.repsOrDuration;
+        _tiles.add(Padding(
+          padding: const EdgeInsets.only(top: 8, bottom: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Spacer(),
+              Text(
+                'Set ${exerciseSetIndex + 1}${set.weight != null ? "@${set.weight}" : ""}: ',
+                style: TextStyle(color: Colors.black),
+              ),
+              InkWell(
+                child: Icon(Icons.remove_circle),
+                onTap: () {
+                  if (set.repsOrDuration > 0) {
+                    setState(() {
+                      set.repsOrDuration = set.repsOrDuration - 1;
+                    });
+                  }
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Text("${set.repsOrDuration}",
+                    style: TextStyle(color: Colors.black)),
+              ),
+              InkWell(
+                child: Icon(Icons.add_circle),
+                onTap: () {
+                  setState(() {
+                    set.repsOrDuration = set.repsOrDuration + 1;
+                  });
+                },
+              ),
+              Spacer(),
+            ],
+          ),
+        ));
+        exerciseSetIndex++;
+      }
+      averageReps = (totalReps / nbSets).toPrecision(1);
+
+      children.add(ExpansionPanel(
+        canTapOnHeader: true,
+        headerBuilder: (BuildContext context, bool isExpanded) {
+          return Container(
+            decoration: BoxDecoration(
+                color: AppColors.greenArtichoke,
+                borderRadius: BorderRadius.circular(15)),
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(
+                    "images/jpec_logo.png",
+                    height: 80,
+                  ),
+                  Flexible(
+                      child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text("${sameExerciseSets[0].name}",
+                        textAlign: TextAlign.center),
+                  )),
+                  Text(
+                    'Avg $averageReps',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+        isExpanded: _expandedExercises[cycleIndex][exerciseIndexInCycle],
+        body: ClipRRect(
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10)),
+          child: Container(
+            decoration: BoxDecoration(
+                color: AppColors.beige,
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10))),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 8.0, bottom: 8, left: 15, right: 15),
+              child: Column(
+                children: _tiles,
+              ),
+            ),
+          ),
+        ),
+      ));
+      exerciseIndexInCycle++;
+    }
+    return children;
+  }
+
+  Widget _renderCycleExercises(
+      List<List<NamedExerciseSet>> cycleExercises, int cycleIndex) {
     return ClipRRect(
       child: Theme(
         data: Theme.of(context).copyWith(cardColor: AppColors.greenArtichoke),
@@ -89,133 +196,56 @@ class _TrainingResultPageState extends State<TrainingResultPage>
           expandedHeaderPadding: EdgeInsets.zero,
           expansionCallback: (int index, bool isExpanded) {
             setState(() {
-              _expandedExercises[cycleIndex][index] = !_expandedExercises[cycleIndex][index];
+              _expandedExercises[cycleIndex][index] =
+                  !_expandedExercises[cycleIndex][index];
             });
           },
-          children: cycleExercises.map((List<NamedExerciseSet> sameExerciseSets){
-            List<Widget> _tiles = [];
-            int totalReps = 0;
-            double averageReps = 0;
-            int nbSets = sameExerciseSets.length;
-            int i = 1;
-            for (NamedExerciseSet set in sameExerciseSets){
-              totalReps += set.repsOrDuration;
-              _tiles.add(Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Set ${i}:', style: TextStyle(color: Colors.black),),
-                    InkWell(
-                      child: Icon(Icons.remove_circle),
-                      onTap: () {
-                        if (set.repsOrDuration - 1 >= 0) {
-                          setState(() {
-                            set.repsOrDuration =
-                                set.repsOrDuration - 1;
-                          });
-                        }
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                      child: Text("${set.repsOrDuration}", style: TextStyle(color: Colors.black)),
-                    ),
-                    InkWell(
-                      child: Icon(Icons.add_circle),
-                      onTap: () {
-                        setState(() {
-                          set.repsOrDuration =
-                              set.repsOrDuration + 1;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ));
-              i++;
-            }
-            averageReps = (totalReps / nbSets).toPrecision(1);
-
-            return ExpansionPanel(
-              canTapOnHeader: true,
-              headerBuilder: (BuildContext context, bool isExpanded) {
-                return  Container(
-                  decoration: BoxDecoration(
-                      color: AppColors.greenArtichoke,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image.asset(
-                          "images/jpec_logo.png",
-                          height: 80,
-                        ),
-                        Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: Text("${sameExerciseSets[0].name}", textAlign: TextAlign.center),
-                            )),
-                        Text('$averageReps Moy'),
-                      ],
-                    ),
-                  ),
-                );
-              },
-              isExpanded: true,
-              body: ClipRRect(
-                  borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10)),
-                  child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.beige,
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 8.0, bottom: 8, left: 15, right: 15),
-                    child: Column(
-                      children: _tiles,
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
+          children: _generateExerciseExpansionPanelChildren(
+              cycleIndex, cycleExercises),
         ),
       ),
     );
   }
 
-  List<Widget> _renderExercises() {
+  List<Widget> _renderCycleWidgets() {
     List<Widget> cycleTiles = [];
 
     int cycleIndex = 0;
 
-    for (List<NamedExerciseSet> cycleExercises
+    for (List<NamedExerciseSet> cycleSets
         in _updatedTrainingData.doneExercises) {
+      int nbSetsInCycle = cycleSets.length;
+      List<List<NamedExerciseSet>> groupedExercises = [];
+
+      //Regrouping same exercise together
+      int setInCycleIndex = 0;
+      while (setInCycleIndex < nbSetsInCycle) {
+        List<NamedExerciseSet> sameExerciseSets = [];
+        int firstIndex = setInCycleIndex;
+        while (setInCycleIndex < nbSetsInCycle &&
+            cycleSets[setInCycleIndex].name == cycleSets[firstIndex].name) {
+          sameExerciseSets.add(cycleSets[setInCycleIndex]);
+          setInCycleIndex++;
+        }
+        groupedExercises.add(sameExerciseSets);
+      }
+      //END
       cycleTiles.add(Padding(
-        padding: const EdgeInsets.only(bottom: 12.0),
-        child: Text(
-          "Cycle ${cycleIndex + 1}",
-          style: TextStyle(fontFamily: 'NerkoOne', fontSize: 30),
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12.0),
+              child: Text(
+                "Cycle ${cycleIndex + 1}",
+                style: TextStyle(fontFamily: 'NerkoOne', fontSize: 30),
+              ),
+            ),
+            _renderCycleExercises(groupedExercises, cycleIndex)
+          ],
         ),
       ));
-
-      List<List<NamedExerciseSet>> exercises = [];
-
-      for (int exerciseIndex = 0;
-          exerciseIndex < cycleExercises.length;
-          exerciseIndex++) {
-        List<NamedExerciseSet> sameExerciseSets = [cycleExercises[exerciseIndex]];
-        int firstIndex = exerciseIndex;
-        while (exerciseIndex < cycleExercises.length && cycleExercises[exerciseIndex].name == cycleExercises[firstIndex].name){
-          sameExerciseSets.add(cycleExercises[exerciseIndex]);
-          exerciseIndex++;
-        }
-        exercises.add(sameExerciseSets);
-      }
-      cycleTiles.add(_renderCycleExercises(exercises, cycleIndex));
       cycleIndex++;
     }
 
@@ -227,6 +257,7 @@ class _TrainingResultPageState extends State<TrainingResultPage>
     return Scaffold(
       body: SafeArea(
         child: Container(
+          height: MediaQuery.of(context).size.height,
           color: AppColors.charlestonGreen,
           child: SingleChildScrollView(
             child: Column(
@@ -283,8 +314,8 @@ class _TrainingResultPageState extends State<TrainingResultPage>
                       left: 8.0, right: 8, top: 8, bottom: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: _renderExercises(),
+                    mainAxisSize: MainAxisSize.min,
+                    children: _renderCycleWidgets(),
                   ),
                 )
               ],
@@ -295,3 +326,33 @@ class _TrainingResultPageState extends State<TrainingResultPage>
     );
   }
 }
+
+/*
+  List<List<List<NamedExerciseSet>>> _buildFormattedExerciseList() {
+    List<List<List<NamedExerciseSet>>> groupedCycleExercises = [];
+
+    for (List<NamedExerciseSet> cycleSets
+        in _updatedTrainingData.doneExercises) {
+      int nbSetsInCycle = cycleSets.length;
+
+      List<List<NamedExerciseSet>> groupedExercises = [];
+
+      //Regrouping same exercise together
+      int setInCycleIndex = 0;
+      while (setInCycleIndex < nbSetsInCycle) {
+        List<NamedExerciseSet> sameExerciseSets = [];
+        int firstIndex = setInCycleIndex;
+        while (setInCycleIndex < nbSetsInCycle &&
+            cycleSets[setInCycleIndex].name == cycleSets[firstIndex].name) {
+          sameExerciseSets.add(cycleSets[setInCycleIndex]);
+          setInCycleIndex++;
+        }
+        groupedExercises.add(sameExerciseSets);
+      }
+      //END
+      groupedCycleExercises.add(groupedExercises);
+    }
+    return groupedCycleExercises;
+  }
+
+ */
