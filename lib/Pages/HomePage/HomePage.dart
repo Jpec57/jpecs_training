@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jpec_training/Animations/SlideLeftPageAnimation.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/HardCodedData/trainings.dart';
 import 'package:jpec_training/Models/Training.dart';
+import 'package:jpec_training/Pages/CreateTraining/CreateTrainingPage.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -149,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                       InkWell(
                           splashColor: Colors.black12,
                           onTap: () {
-                            print("Creating a training");
+                            Get.toNamed(CreateTrainingPage.routeName);
                           },
                           child: Container(
                             decoration: BoxDecoration(
