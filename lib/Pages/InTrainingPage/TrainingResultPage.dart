@@ -191,7 +191,7 @@ class _TrainingResultPageState extends State<TrainingResultPage>
       List<List<NamedExerciseSet>> cycleExercises, int cycleIndex) {
     return ClipRRect(
       child: Theme(
-        data: Theme.of(context).copyWith(cardColor: AppColors.greenArtichoke),
+        data: Theme.of(context),
         child: ExpansionPanelList(
           expandedHeaderPadding: EdgeInsets.zero,
           expansionCallback: (int index, bool isExpanded) {

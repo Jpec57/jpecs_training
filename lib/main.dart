@@ -43,6 +43,10 @@ class MyApp extends StatelessWidget {
       navigatorKey: Get.key,
       theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          cardColor: AppColors.greenArtichoke,
+          cardTheme: CardTheme(
+            color: Colors.black,
+          ),
           textTheme: TextTheme(
                   button: TextStyle(color: Colors.red),
                   headline1: TextStyle(
@@ -102,7 +106,7 @@ class MyApp extends StatelessWidget {
         TimerPage.routeName: (context) => TimerPage(),
         CreateTrainingPage.routeName: (context) => CreateTrainingPage(),
       },
-      home: HomePage(),
+      home: CreateTrainingPage(),
       //    home: InExercisePage(),
 //      home: InExerciseTimerPage(),
     );
