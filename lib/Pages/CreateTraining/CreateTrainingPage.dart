@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
+import 'package:jpec_training/Enums/MuscleEnum.dart';
+import 'package:jpec_training/Models/Exercise.dart';
 import 'package:jpec_training/Services/API/TrainingRequest.dart';
+import 'package:jpec_training/Widgets/DefaultButton.dart';
 import 'package:jpec_training/Widgets/DefaultScaffold.dart';
+import 'package:jpec_training/Services/Utils/stringExtension.dart';
 
 const TAB_WORKOUT = 'WORKOUT';
+const TAB_WORKOUT_INDEX = 0;
 const TAB_EXERCISE = 'EXERCISE';
+const TAB_EXERCISE_INDEX = 1;
 class CreateTrainingPage extends StatefulWidget {
   static const routeName = "/training/create";
 
@@ -18,13 +24,16 @@ class _CreateTrainingPageState extends State<CreateTrainingPage> with SingleTick
     Tab(text: TAB_EXERCISE),
   ];
   TabController _tabController;
+  List<Exercise> _exercises;
   
   var items = ["a", "b", "c"];
 
   @override
   void initState() {
     super.initState();
+    _exercises = [];
     _tabController = new TabController(length: myTabs.length, vsync: this);
+    _tabController.index = TAB_EXERCISE_INDEX;
   }
 
   @override
@@ -33,29 +42,36 @@ class _CreateTrainingPageState extends State<CreateTrainingPage> with SingleTick
     super.dispose();
   }
 
-  _renderTestButton() {
-    return Center(
-      child: RaisedButton(
-        onPressed: () async {
-          await createUserRequest();
-        },
-        child: Text("Clique"),
-      ),
-    );
-  }
-
   Widget _renderExerciseView(){
     return Column(
       children: [
-        RaisedButton(
-          onPressed: (){
+        ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: 50),
+          child: ListView(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
 
+            children: ((MuscleEnum.getAll()).map((muscle){
+              return Padding(
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                child: RaisedButton(
+                  color: AppColors.greenArtichoke,
+                    onPressed: (){},
+                child: Text("${muscle.toUpperCase()}",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),)),
+              );
+            })).toList(),
+          ),
+        ),
+        DefaultButton(onPressed: (){
+          _tabController.index = TAB_WORKOUT_INDEX;
         },
-        child: Text("Add"),),
-        RaisedButton(onPressed: (){
-
+          text: "Add",
+        ),
+        DefaultButton(onPressed: (){
+          _tabController.index = TAB_WORKOUT_INDEX;
         },
-          child: Text("Cancel"),)
+          text: "Cancel",
+        )
       ],
     );
   }
@@ -70,13 +86,12 @@ class _CreateTrainingPageState extends State<CreateTrainingPage> with SingleTick
               // items[index].isExpanded = !items[index].isExpanded;
             });
           },
-          children: items.map((item){
+          children: _exercises.map((exercise){
             return ExpansionPanel(
-
               headerBuilder: (BuildContext context, bool isExpanded) {
                 return  ListTile(
                     title:  Text(
-                      item,
+                      exercise.name,
                       textAlign: TextAlign.left,
                       style:  TextStyle(
                         fontSize: 20.0,
@@ -93,8 +108,7 @@ class _CreateTrainingPageState extends State<CreateTrainingPage> with SingleTick
         Padding(
           padding: const EdgeInsets.all(12),
           child: IconButton(icon: Icon(Icons.add_circle, color: AppColors.beige, size: 40,), onPressed: (){
-            _tabController.index = 1;
-
+            _tabController.index = TAB_EXERCISE_INDEX;
           }),
         ),
         Container(
