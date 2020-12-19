@@ -10,8 +10,13 @@ class DefaultButton extends StatefulWidget {
   final Color textColor;
 
   const DefaultButton(
-      {Key key, @required this.onPressed, this.text, this.buttonColor = AppColors
-          .beige, this.textColor = Colors.black, this.child}) : super(key: key);
+      {Key key,
+      @required this.onPressed,
+      this.text,
+      this.buttonColor = AppColors.beige,
+      this.textColor = Colors.black,
+      this.child})
+      : super(key: key);
 
   @override
   _DefaultButtonState createState() => _DefaultButtonState();
@@ -19,7 +24,6 @@ class DefaultButton extends StatefulWidget {
 
 class _DefaultButtonState extends State<DefaultButton> {
   bool isSending;
-
 
   @override
   void initState() {
@@ -51,7 +55,10 @@ class _DefaultButtonState extends State<DefaultButton> {
     return RaisedButton(
       color: widget.buttonColor,
       onPressed: _blockClick,
-      child: Text(widget.text.toUpperCase(), style: TextStyle(
-          color: Colors.black, fontWeight: FontWeight.bold),),);
+      child: Text(
+        widget.text.toUpperCase(),
+        style: TextStyle(color: widget.textColor, fontWeight: FontWeight.bold),
+      ),
+    );
   }
 }
