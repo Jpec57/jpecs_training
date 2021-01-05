@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,7 @@ const TAB_WORKOUT = 'WORKOUT';
 const TAB_WORKOUT_INDEX = 0;
 const TAB_EXERCISE = 'EXERCISE';
 const TAB_EXERCISE_INDEX = 1;
+const DEFAULT_SEARCH_SIZE = 40;
 
 class CreateTrainingPage extends StatefulWidget {
   static const routeName = "/training/create";
@@ -30,10 +32,12 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
     Tab(text: TAB_WORKOUT),
     Tab(text: TAB_EXERCISE),
   ];
+  TextEditingController _searchExerciseController;
   TabController _tabController;
   List<Exercise> _exercises;
   //ExerciseView
   List<String> _selectedMuscles = [];
+  double _searchBarWidth;
 
   @override
   void initState() {
@@ -41,11 +45,14 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
     _exercises = [];
     _tabController = new TabController(length: myTabs.length, vsync: this);
     _tabController.index = TAB_EXERCISE_INDEX;
+    _searchBarWidth = DEFAULT_SEARCH_SIZE * 1.0;
+    _searchExerciseController = new TextEditingController();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _searchExerciseController.dispose();
     super.dispose();
   }
 
@@ -81,14 +88,65 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
     );
   }
 
+  _triggerExerciseSearch(){
+    print("_triggerExerciseSearch");
+    if (_searchBarWidth > DEFAULT_SEARCH_SIZE){
+      print("TO DEFAULT");
+      _searchBarWidth = DEFAULT_SEARCH_SIZE * 1.0;
+    } else {
+      print("SEARCHING");
+      _searchBarWidth = 250;
+    }
+    setState(() {
+
+    });
+  }
+
   Widget _renderExerciseView() {
     return Column(
       children: [
-        Container(
-          child: IconButton(
-            icon: Icon(Icons.search),
-            color: AppColors.beige,
-            onPressed: () {},
+        Padding(
+          padding: const EdgeInsets.only(top: 8, bottom: 8.0),
+          child: AnimatedContainer(
+            width: _searchBarWidth,
+            height: 50,
+            decoration: BoxDecoration(
+              color: AppColors.greenArtichokeDarker,
+              borderRadius: BorderRadius.circular(10)
+            ),
+            duration: Duration(milliseconds: 800),
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Visibility(
+                      visible: _searchBarWidth > DEFAULT_SEARCH_SIZE,
+                        child: Flexible(child: Row(
+                          // crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+                                _searchExerciseController.clear();
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 5),
+                                child: Icon(Icons.close, color: Colors.grey, size: 20,),
+                              ),
+                            ),
+                            Flexible(child: TextField(controller: _searchExerciseController)),
+                          ],
+                        ))),
+                    GestureDetector(
+                      onTap: (){
+                        _triggerExerciseSearch();
+                      },
+                        child: Icon(Icons.search, color: AppColors.beige,)),
+                  ],
+                ),
+              ),
+            ),
           ),
         ),
         _renderMusclesToSelect(MuscleEnum.getUpperBody()),
