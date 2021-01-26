@@ -18,6 +18,7 @@ const TAB_WORKOUT_INDEX = 0;
 const TAB_EXERCISE = 'EXERCISE';
 const TAB_EXERCISE_INDEX = 1;
 const DEFAULT_SEARCH_SIZE = 40;
+const BIG_SEARCH_SIZE = 250;
 
 class CreateTrainingPage extends StatefulWidget {
   static const routeName = "/training/create";
@@ -95,7 +96,7 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
       _searchBarWidth = DEFAULT_SEARCH_SIZE * 1.0;
     } else {
       print("SEARCHING");
-      _searchBarWidth = 250;
+      _searchBarWidth = BIG_SEARCH_SIZE * 1.0;
     }
     setState(() {
 
@@ -122,20 +123,24 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Visibility(
-                      visible: _searchBarWidth > DEFAULT_SEARCH_SIZE,
-                        child: Flexible(child: Row(
+                      visible: _searchBarWidth > DEFAULT_SEARCH_SIZE + 50,
+                        child: Expanded(child: Row(
                           // crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            GestureDetector(
-                              onTap: (){
-                                _searchExerciseController.clear();
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 5),
-                                child: Icon(Icons.close, color: Colors.grey, size: 20,),
+                            Flexible(
+                              child: GestureDetector(
+                                onTap: (){
+                                  _searchExerciseController.clear();
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 5),
+                                  child: Icon(Icons.close, color: Colors.grey, size: 20,),
+                                ),
                               ),
                             ),
-                            Flexible(child: TextField(controller: _searchExerciseController)),
+                            Flexible(
+                              flex: 4,
+                                child: TextField(controller: _searchExerciseController)),
                           ],
                         ))),
                     GestureDetector(

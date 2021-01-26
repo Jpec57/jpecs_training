@@ -52,14 +52,15 @@ class MyApp extends StatelessWidget {
                   headline1: TextStyle(
                       fontSize: 50,
                       color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                  headline2: TextStyle(fontSize: 30),
-                  headline5: TextStyle(color: Colors.white),
-                  headline6: TextStyle(color: Colors.white),
+                      fontWeight: FontWeight.bold, fontFamily: 'PermanentMarker'),
+                  headline2: TextStyle(fontSize: 30, fontFamily: 'PermanentMarker'),
+                  headline3: TextStyle(fontSize: 25, color: Colors.white, fontFamily: 'PermanentMarker'),
+                  headline4: TextStyle(fontSize: 20, color: Colors.white, fontFamily: 'PermanentMarker'),
+                  headline5: TextStyle(color: Colors.white, fontFamily: 'PermanentMarker'),
+                  headline6: TextStyle(color: Colors.white, fontFamily: 'NerkoOne'),
                   caption: TextStyle(fontSize: 20),
-                  bodyText1: TextStyle(color: Colors.white, fontSize: 20),
-                  bodyText2: TextStyle(color: Colors.white, fontSize: 20))
-              .apply(fontFamily: 'Roboto'),
+                  bodyText1: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
+                  bodyText2: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto')),
           buttonTheme: ButtonThemeData(
             textTheme: ButtonTextTheme.primary,
             buttonColor: AppColors.charlestonGreen,
@@ -106,7 +107,8 @@ class MyApp extends StatelessWidget {
         TimerPage.routeName: (context) => TimerPage(),
         CreateTrainingPage.routeName: (context) => CreateTrainingPage(),
       },
-      home: CreateTrainingPage(),
+      home: HomePage(),
+      //home: CreateTrainingPage(),
       //    home: InExercisePage(),
 //      home: InExerciseTimerPage(),
     );

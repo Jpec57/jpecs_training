@@ -74,6 +74,7 @@ class _TopScrollablePageState extends State<TopScrollablePage> {
                         child: Container(
                           decoration: BoxDecoration(
                               color: AppColors.richBlack,
+                              border: Border.all(color: AppColors.beige),
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(getComputedRadius(screenHeight)),
                                   topRight: Radius.circular(getComputedRadius(screenHeight)))),

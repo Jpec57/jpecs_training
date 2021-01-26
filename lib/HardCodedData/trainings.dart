@@ -61,6 +61,45 @@ Future<List<Training>> loadChestTrainings() {
   chestTrainings.add(chestTraining);
   chestTraining.id = 4;
   chestTrainings.add(chestTraining);
+  chestTraining =
+  new Training(id: 5, name: "Yonkô Chest", exercises: [
+    new Exercise(
+        name: "Chest Fly",
+        sets: createStandardExerciseSet(6, 20, 25, weight: 20),
+      restAfter: 60
+    ),
+    new Exercise(
+        name: "Pike Push Ups", sets: createStandardExerciseSet(6, 15, 25)),
+    new Exercise(
+        name: "Declined Push Ups", sets: createStandardExerciseSet(6, 20, 25)),
+    new Exercise(
+        name: "Slow Dips", sets: createStandardExerciseSet(6, 15, 25), restAfter: 60),
+    //
+    new Exercise(
+        name: "Wide Push Ups (slow/quick)",
+        sets: createStandardExerciseSet(6, 10, 25),),
+    new Exercise(
+        name: "Slow Wide Dips", sets: createStandardExerciseSet(6, 15, 25)),
+    new Exercise(
+        name: "Close Push Ups", sets: createStandardExerciseSet(6, 15, 25), restAfter: 60),
+    //
+    new Exercise(
+        name: "Triceps extension (floor)", sets: createStandardExerciseSet(6, 10, 25)),
+    new Exercise(
+        name: "Triceps extension (weighted)", sets: createStandardExerciseSet(6, 10, 25, weight: 30)),
+    new Exercise(
+        name: "Triceps extension (gum)", sets: createStandardExerciseSet(6, 10, 25)),
+    //
+    new Exercise(
+        name: "Pike Push Ups", sets: createStandardExerciseSet(3, 10, 60)),
+    new Exercise(name: "Hold Wide Push Up Position", sets: createStandardExerciseSet(1, 20, 3), isHold: true),
+    new Exercise(name: "Wide Push Ups on Time", sets: createStandardExerciseSet(1, 40, 25), isHold: true),
+    new Exercise(name: "Hold Wide Push Up Position", sets: createStandardExerciseSet(1, 20, 3), isHold: true),
+    new Exercise(name: "Wide Push Ups on Time", sets: createStandardExerciseSet(1, 40, 25), isHold: true),
+    new Exercise(name: "Hold Wide Push Up Position", sets: createStandardExerciseSet(1, 20, 3), isHold: true),
+    new Exercise(name: "Wide Push Ups on Time", sets: createStandardExerciseSet(1, 40, 25), isHold: true),
+  ]);
+  chestTrainings.add(chestTraining);
   return Future.value(chestTrainings);
 }
 

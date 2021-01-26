@@ -77,7 +77,7 @@ class _TrainingShowState extends State<TrainingShow> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 15),
-                child: Text(widget.training.name),
+                child: Text(widget.training.name, style: Theme.of(context).textTheme.headline4,),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 15),

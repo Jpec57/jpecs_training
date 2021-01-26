@@ -27,8 +27,6 @@ class _HomePageState extends State<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
-      print("data");
-      print(sharedPreferences.getString('last'));
     });
   }
 
@@ -63,7 +61,6 @@ class _HomePageState extends State<HomePage> {
           return Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: InkWell(
-              // splashColor: Colors.,
               onTap: () {
                 Navigator.push(
                     context,
@@ -75,7 +72,14 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(15),
                   border:
                       Border.all(color: AppColors.charlestonGreen, width: 2),
-                  color: AppColors.greenArtichoke,
+                    color: AppColors.greenArtichoke,
+                    /*
+                    gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [AppColors.greenArtichoke, AppColors.beige])
+
+                     */
                 ),
                 height: screenWidth * 0.3,
                 width: screenWidth * 0.4,
@@ -146,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         "Trainings",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: Theme.of(context).textTheme.headline1,
                       ),
                       InkWell(
                           splashColor: Colors.black12,
@@ -161,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.all(3.0),
                               child: Icon(
                                 Icons.add,
-                                size: 30,
+                                size: 50,
                                 color: Colors.white,
                               ),
                             ),
@@ -184,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                               padding: const EdgeInsets.only(bottom: 5),
                               child: Text(
                                 _trainings[categoryIndex]['muscle'],
-                                style: Theme.of(context).textTheme.headline6,
+                                style: Theme.of(context).textTheme.headline4,
                               ),
                             ),
                             Container(
