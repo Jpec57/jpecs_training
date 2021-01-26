@@ -454,6 +454,7 @@ class _InExercisePageState extends State<InExercisePage>
                       ? "How long did you hold ?"
                       : "How many repetitions have you done ?",
                   textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headline5
                 ),
               ),
               Expanded(
