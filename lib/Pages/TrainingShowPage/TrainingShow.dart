@@ -40,6 +40,30 @@ class _TrainingShowState extends State<TrainingShow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: AppColors.richBlack,
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        notchMargin: 8.0,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.charlestonGreen,
+        onPressed: (){
+          Navigator.pushNamed(context, InExercisePage.routeName,
+              arguments:
+              InExercisePageArguments(training: widget.training));
+        },
+        /*
+        Text(
+          "Start".toUpperCase(),
+          style: TextStyle(fontWeight: FontWeight.bold),
+        )
+         */
+        child: Icon(Icons.play_arrow),
+      ),
       body: SafeArea(
         child: TopScrollablePage(
           headerChild: Container(
@@ -79,20 +103,6 @@ class _TrainingShowState extends State<TrainingShow> {
                 padding: const EdgeInsets.only(bottom: 15),
                 child: Text(widget.training.name, style: Theme.of(context).textTheme.headline4,),
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: RaisedButton(
-                  child: Text(
-                    "Start".toUpperCase(),
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, InExercisePage.routeName,
-                        arguments:
-                            InExercisePageArguments(training: widget.training));
-                  },
-                ),
-              ),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -103,7 +113,7 @@ class _TrainingShowState extends State<TrainingShow> {
                     padding: EdgeInsets.only(bottom: 15),
                     child: Container(
                       decoration: BoxDecoration(
-                          color: AppColors.greenArtichoke,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(10)),
                       child: ListTile(
                         onTap: () {
@@ -114,7 +124,7 @@ class _TrainingShowState extends State<TrainingShow> {
                           children: [
                             Text(
                               '${index + 1}',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 10.0),
@@ -135,21 +145,21 @@ class _TrainingShowState extends State<TrainingShow> {
                         subtitle: Text(
                           '${exo.requiredMaterial.join(', ')}',
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(fontSize: 14),
+                          style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
                         trailing: Text(
                           getSetsText(exo),
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14),
+                              fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),
                         ),
                       ),
                     ),
                   );
                 },
               ),
-              Text("Number of cycle: ${widget.training.nbCycle ?? 1}"),
+              Text("Number of cycle: ${widget.training.nbCycle ?? 1}", style: TextStyle(color: Colors.black),),
               Text(
-                  "Rest between cycle: ${widget.training.restBetweenCycle ?? 60}sec"),
+                  "Rest between cycle: ${widget.training.restBetweenCycle ?? 60}sec", style: TextStyle(color: Colors.black),),
             ],
           ),
         ),

@@ -43,6 +43,7 @@ class _InExercisePageState extends State<InExercisePage>
   int _cycleIndex = 0;
   int _exerciseIndex = 0;
   int _setIndex = 0;
+
   // Timer tab
   bool _isHold = false;
   int _countdown = 60;
@@ -52,6 +53,7 @@ class _InExercisePageState extends State<InExercisePage>
   Timer _timer;
   Timer _trainingTimer;
   Timer _beforeTrainingTimer;
+
   //Audio
   AudioCache _audioPlayer = AudioCache();
 
@@ -359,6 +361,14 @@ class _InExercisePageState extends State<InExercisePage>
           child: Container(
             decoration: BoxDecoration(
               color: AppColors.richBlack,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black45,
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(2, 3),
+                ),
+              ],
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30)),
             ),
             child: Padding(
@@ -450,46 +460,48 @@ class _InExercisePageState extends State<InExercisePage>
               Padding(
                 padding: const EdgeInsets.only(top: 8.0, bottom: 5),
                 child: Text(
-                  _isHold
-                      ? "How long did you hold ?"
-                      : "How many repetitions have you done ?",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline5
-                ),
+                    _isHold
+                        ? "How long did you hold ?"
+                        : "How many repetitions have you done ?",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline5),
               ),
               Expanded(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      _renderClickableRep(_doneReps - 2),
-                      _renderClickableRep(_doneReps - 1),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: AppColors.charlestonGreen),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: AutoSizeText(
-                              '$_doneReps',
-                              minFontSize: 30,
-                              maxFontSize: 40,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  // fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 3),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        _renderClickableRep(_doneReps - 2),
+                        _renderClickableRep(_doneReps - 1),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.charlestonGreen),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: AutoSizeText(
+                                '$_doneReps',
+                                minFontSize: 30,
+                                maxFontSize: 40,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    // fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      _renderClickableRep(_doneReps + 1),
-                      _renderClickableRep(_doneReps + 2),
-                    ],
+                        _renderClickableRep(_doneReps + 1),
+                        _renderClickableRep(_doneReps + 2),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -547,6 +559,14 @@ class _InExercisePageState extends State<InExercisePage>
           child: Container(
             decoration: BoxDecoration(
               color: AppColors.richBlack,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black45,
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(2, 3),
+                ),
+              ],
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30)),
             ),
             child: Padding(
@@ -645,7 +665,9 @@ class _InExercisePageState extends State<InExercisePage>
           },
           child: Container(
               height: MediaQuery.of(context).size.height * 0.15,
-              color: AppColors.greenArtichoke,
+              decoration: BoxDecoration(
+                color: AppColors.greenArtichoke,
+              ),
               child: Center(
                 child: Text(
                   "DONE",

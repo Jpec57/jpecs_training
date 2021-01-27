@@ -51,51 +51,47 @@ class _TopScrollablePageState extends State<TopScrollablePage> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    return DefaultScaffold(
-      child: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  AnimatedContainer(
-                    duration: Duration(seconds: 1),
+    return Column(
+      children: [
+        Expanded(
+          child: Stack(
+            children: [
+              AnimatedContainer(
+                duration: Duration(seconds: 1),
+                child: Container(
+                    height: (screenHeight + widget.topRadius) * (widget.headerPercentHeight * (1 - getOffsetAdvanceRatio(screenHeight))),
+                    child: widget.headerChild),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  child: Container(
+                    //The more we advance, the bigger it get
+                    height: screenHeight * ((1 - widget.headerPercentHeight) + (getOffsetAdvanceRatio(screenHeight))),
                     child: Container(
-                        height: (screenHeight + widget.topRadius) * (widget.headerPercentHeight * (1 - getOffsetAdvanceRatio(screenHeight))),
-                        child: widget.headerChild),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: AnimatedContainer(
-                      duration: Duration(seconds: 1),
-                      child: Container(
-                        //The more we advance, the bigger it get
-                        height: screenHeight * ((1 - widget.headerPercentHeight) + (getOffsetAdvanceRatio(screenHeight))),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: AppColors.richBlack,
-                              border: Border.all(color: AppColors.beige),
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(getComputedRadius(screenHeight)),
-                                  topRight: Radius.circular(getComputedRadius(screenHeight)))),
-                          child: Padding(
-                            padding: EdgeInsets.all(widget.topRadius / 4 + 8.0),
-                            child: SingleChildScrollView(
-                              controller: _scrollController,
-                              child: widget.bottomChild,
-                            ),
-                          ),
+                      decoration: BoxDecoration(
+                          color: AppColors.richBlack,
+                          border: Border.all(color: AppColors.beige),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(getComputedRadius(screenHeight)),
+                              topRight: Radius.circular(getComputedRadius(screenHeight)))),
+                      child: Padding(
+                        padding: EdgeInsets.all(widget.topRadius / 4 + 8.0),
+                        child: SingleChildScrollView(
+                          controller: _scrollController,
+                          child: widget.bottomChild,
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
-
-          ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
+
+      ],
     );
   }
 

@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
           cardColor: AppColors.greenArtichoke,
+
           cardTheme: CardTheme(
             color: Colors.black,
           ),
