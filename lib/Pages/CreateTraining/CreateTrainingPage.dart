@@ -368,7 +368,7 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
     return DefaultScaffold(
       withAppBar: false,
       child: Container(
-        color: AppColors.charlestonGreen,
+        color: AppColors.richBlack,
         child: TabBarView(
           controller: _tabController,
           physics: NeverScrollableScrollPhysics(),
