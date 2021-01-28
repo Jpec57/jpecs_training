@@ -14,6 +14,7 @@ import 'package:jpec_training/Pages/TrainingShowPage/TrainingShowArgument.dart';
 import 'package:jpec_training/Providers/UserProvider.dart';
 import 'package:provider/provider.dart';
 
+import 'Pages/LoginPage/LoginPage.dart';
 import 'Widgets/Localization.dart';
 
 void main() {
@@ -104,11 +105,11 @@ class MyApp extends StatelessWidget {
         return null;
       },
       routes: {
-        // LoginPage.routeName: (context) => LoginPage(),
+        LoginPage.routeName: (context) => LoginPage(),
         TimerPage.routeName: (context) => TimerPage(),
         CreateTrainingPage.routeName: (context) => CreateTrainingPage(),
       },
-      home: HomePage(),
+      home: LoginPage(),
       //home: CreateTrainingPage(),
       //    home: InExercisePage(),
 //      home: InExerciseTimerPage(),
