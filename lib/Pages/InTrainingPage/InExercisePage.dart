@@ -160,7 +160,7 @@ class _InExercisePageState extends State<InExercisePage>
 
   Future<void> saveTrainingData() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    DateTime now = new DateTime.now();
+    // DateTime now = new DateTime.now();
     //now.toIso8601String()
     sharedPreferences.setString('last', _trainingData.toString());
   }
@@ -176,7 +176,7 @@ class _InExercisePageState extends State<InExercisePage>
         // rest: currentSet.rest - _countdown,
         rest: currentSet.rest,
         exerciseId: currentExo.id));
-    print('TRAINING DATA ${_trainingData}');
+    print('TRAINING DATA $_trainingData');
   }
 
   void switchToExerciseView() async {

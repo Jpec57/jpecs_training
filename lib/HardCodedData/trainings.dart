@@ -4,8 +4,62 @@ import 'package:jpec_training/Models/Training.dart';
 
 Future<List<Training>> loadChestTrainings() {
   List<Training> chestTrainings = [];
-  Training chestTraining =
-      new Training(id: 1, name: "Santouryuu Chest", exercises: [
+  Training lafay = new Training(id: 57, name: "Lafay", exercises: [
+    new Exercise(name: "Dips", sets: createStandardExerciseSet(6, 30, 25)),
+    new Exercise(
+        name: "Inclined Push Ups", sets: createStandardExerciseSet(6, 30, 25)),
+    new Exercise(
+        name: "Declined Push Ups", sets: createStandardExerciseSet(6, 30, 25)),
+    new Exercise(
+        name: "Wide Pull Ups", sets: createStandardExerciseSet(6, 6, 25)),
+    new Exercise(name: "Pull Ups", sets: createStandardExerciseSet(6, 8, 25)),
+    new Exercise(
+        name: "Pike Push Ups", sets: createStandardExerciseSet(3, 12, 25)),
+    new Exercise(
+        name: "Triceps Extension", sets: createStandardExerciseSet(3, 20, 25)),
+    new Exercise(
+        name: "Wide Pull Ups", sets: createStandardExerciseSet(1, 20, 25)),
+    new Exercise(name: "Dips", sets: createStandardExerciseSet(1, 50, 25)),
+  ]);
+  chestTrainings.add(lafay);
+
+  Training chestTraining = new Training(
+      id: 0,
+      name: "Haki",
+      nbCycle: 10,
+      restBetweenCycle: 60,
+      exercises: [
+        new Exercise(
+            name: "Wide Pull Ups",
+            sets: [new ExerciseSet(repsOrDuration: 15, rest: 25)]),
+        new Exercise(
+            name: "Dips",
+            sets: [new ExerciseSet(repsOrDuration: 40, rest: 60)]),
+        //
+        new Exercise(
+            name: "Regular Pull Ups",
+            sets: [new ExerciseSet(repsOrDuration: 10, rest: 5)]),
+        new Exercise(
+            name: "Australian Pull Ups",
+            sets: [new ExerciseSet(repsOrDuration: 20, rest: 25)]),
+        //
+        new Exercise(
+            name: "Dips",
+            sets: [new ExerciseSet(repsOrDuration: 40, rest: 25)]),
+        new Exercise(
+            name: "Diamond Push Ups",
+            sets: [new ExerciseSet(repsOrDuration: 20, rest: 25)]),
+        //
+        new Exercise(
+            name: "Chin Ups",
+            sets: [new ExerciseSet(repsOrDuration: 10, rest: 25)]),
+        new Exercise(
+            name: "Triceps Extension",
+            sets: [new ExerciseSet(repsOrDuration: 20, rest: 60)]),
+      ]);
+  chestTrainings.add(chestTraining);
+
+  chestTraining = new Training(id: 1, name: "Santouryuu Chest", exercises: [
     new Exercise(
         name: "Chest Fly",
         sets: createStandardExerciseSet(6, 15, 25, weight: 20)),

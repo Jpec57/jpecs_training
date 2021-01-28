@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../AppColors.dart';
-import 'DefaultScaffold.dart';
 
 class TopScrollablePage extends StatefulWidget {
   final double topRadius;
@@ -10,7 +9,13 @@ class TopScrollablePage extends StatefulWidget {
   final Widget headerChild;
   final Widget bottomChild;
 
-  const TopScrollablePage({Key key, this.topRadius = 70, this.headerPercentHeight = 0.35, @required this.headerChild, @required this.bottomChild}) : super(key: key);
+  const TopScrollablePage(
+      {Key key,
+      this.topRadius = 70,
+      this.headerPercentHeight = 0.35,
+      @required this.headerChild,
+      @required this.bottomChild})
+      : super(key: key);
   @override
   _TopScrollablePageState createState() => _TopScrollablePageState();
 }
@@ -32,17 +37,17 @@ class _TopScrollablePageState extends State<TopScrollablePage> {
     });
   }
 
-  getComputedRadius(double screenHeight){
-    if (_offset > screenHeight * 0.25){
+  getComputedRadius(double screenHeight) {
+    if (_offset > screenHeight * 0.25) {
       return 0.0;
     }
     return widget.topRadius - _offset * 0.25;
   }
 
-  getOffsetAdvanceRatio(double screenHeight){
+  getOffsetAdvanceRatio(double screenHeight) {
     //to slow down image shrinking, dividing _offset
     var modifiedOffset = (_offset / 4);
-    if (modifiedOffset >= screenHeight * 0.25){
+    if (modifiedOffset >= screenHeight * 0.25) {
       return 1.0;
     }
     return (modifiedOffset / (screenHeight * 0.25));
@@ -59,7 +64,9 @@ class _TopScrollablePageState extends State<TopScrollablePage> {
               AnimatedContainer(
                 duration: Duration(seconds: 1),
                 child: Container(
-                    height: (screenHeight + widget.topRadius) * (widget.headerPercentHeight * (1 - getOffsetAdvanceRatio(screenHeight))),
+                    height: (screenHeight + widget.topRadius) *
+                        (widget.headerPercentHeight *
+                            (1 - getOffsetAdvanceRatio(screenHeight))),
                     child: widget.headerChild),
               ),
               Align(
@@ -68,14 +75,18 @@ class _TopScrollablePageState extends State<TopScrollablePage> {
                   duration: Duration(seconds: 1),
                   child: Container(
                     //The more we advance, the bigger it get
-                    height: screenHeight * ((1 - widget.headerPercentHeight) + (getOffsetAdvanceRatio(screenHeight))),
+                    height: screenHeight *
+                        ((1 - widget.headerPercentHeight) +
+                            (getOffsetAdvanceRatio(screenHeight))),
                     child: Container(
                       decoration: BoxDecoration(
                           color: AppColors.richBlack,
                           border: Border.all(color: AppColors.beige),
                           borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(getComputedRadius(screenHeight)),
-                              topRight: Radius.circular(getComputedRadius(screenHeight)))),
+                              topLeft: Radius.circular(
+                                  getComputedRadius(screenHeight)),
+                              topRight: Radius.circular(
+                                  getComputedRadius(screenHeight)))),
                       child: Padding(
                         padding: EdgeInsets.all(widget.topRadius / 4 + 8.0),
                         child: SingleChildScrollView(
@@ -90,7 +101,6 @@ class _TopScrollablePageState extends State<TopScrollablePage> {
             ],
           ),
         ),
-
       ],
     );
   }
@@ -101,5 +111,4 @@ class _TopScrollablePageState extends State<TopScrollablePage> {
     _scrollController.removeListener(onScroll);
     _scrollController.dispose();
   }
-
 }

@@ -1,3 +1,4 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -11,21 +12,29 @@ import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPageArguments.d
 import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShowArgument.dart';
-import 'package:jpec_training/Providers/UserProvider.dart';
-import 'package:provider/provider.dart';
+import 'package:user_repository/user_repository.dart';
 
-import 'Pages/LoginPage/LoginPage.dart';
 import 'Widgets/Localization.dart';
 
 void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => UserProvider(),
-    ),
-  ], child: MyApp()));
+  runApp(MyApp(
+    authenticationRepository: AuthenticationRepository(),
+    userRepository: UserRepository(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({
+    Key key,
+    @required this.authenticationRepository,
+    @required this.userRepository,
+  })  : assert(authenticationRepository != null),
+        assert(userRepository != null),
+        super(key: key);
+
+  final AuthenticationRepository authenticationRepository;
+  final UserRepository userRepository;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,24 +54,33 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
           cardColor: AppColors.greenArtichoke,
-
           cardTheme: CardTheme(
             color: Colors.black,
           ),
           textTheme: TextTheme(
-                  button: TextStyle(color: Colors.red),
-                  headline1: TextStyle(
-                      fontSize: 50,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold, fontFamily: 'PermanentMarker'),
-                  headline2: TextStyle(fontSize: 30, fontFamily: 'PermanentMarker'),
-                  headline3: TextStyle(fontSize: 25, color: Colors.white, fontFamily: 'PermanentMarker'),
-                  headline4: TextStyle(fontSize: 20, color: Colors.white, fontFamily: 'PermanentMarker'),
-                  headline5: TextStyle(color: Colors.white, fontFamily: 'PermanentMarker'),
-                  headline6: TextStyle(color: Colors.white, fontFamily: 'NerkoOne'),
-                  caption: TextStyle(fontSize: 20),
-                  bodyText1: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
-                  bodyText2: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'Roboto')),
+              button: TextStyle(color: Colors.red),
+              headline1: TextStyle(
+                  fontSize: 50,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'PermanentMarker'),
+              headline2: TextStyle(fontSize: 30, fontFamily: 'PermanentMarker'),
+              headline3: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                  fontFamily: 'PermanentMarker'),
+              headline4: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
+                  fontFamily: 'PermanentMarker'),
+              headline5:
+                  TextStyle(color: Colors.white, fontFamily: 'PermanentMarker'),
+              headline6: TextStyle(color: Colors.white, fontFamily: 'NerkoOne'),
+              caption: TextStyle(fontSize: 20),
+              bodyText1: TextStyle(
+                  color: Colors.white, fontSize: 20, fontFamily: 'Roboto'),
+              bodyText2: TextStyle(
+                  color: Colors.white, fontSize: 20, fontFamily: 'Roboto')),
           buttonTheme: ButtonThemeData(
             textTheme: ButtonTextTheme.primary,
             buttonColor: AppColors.charlestonGreen,
@@ -105,11 +123,11 @@ class MyApp extends StatelessWidget {
         return null;
       },
       routes: {
-        LoginPage.routeName: (context) => LoginPage(),
+        // LoginPage.routeName: (context) => LoginPage(),
         TimerPage.routeName: (context) => TimerPage(),
         CreateTrainingPage.routeName: (context) => CreateTrainingPage(),
       },
-      home: LoginPage(),
+      home: HomePage(),
       //home: CreateTrainingPage(),
       //    home: InExercisePage(),
 //      home: InExerciseTimerPage(),

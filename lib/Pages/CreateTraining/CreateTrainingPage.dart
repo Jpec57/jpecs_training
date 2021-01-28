@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -89,18 +87,16 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
     );
   }
 
-  _triggerExerciseSearch(){
+  _triggerExerciseSearch() {
     print("_triggerExerciseSearch");
-    if (_searchBarWidth > DEFAULT_SEARCH_SIZE){
+    if (_searchBarWidth > DEFAULT_SEARCH_SIZE) {
       print("TO DEFAULT");
       _searchBarWidth = DEFAULT_SEARCH_SIZE * 1.0;
     } else {
       print("SEARCHING");
       _searchBarWidth = BIG_SEARCH_SIZE * 1.0;
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   Widget _renderExerciseView() {
@@ -112,9 +108,8 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
             width: _searchBarWidth,
             height: 50,
             decoration: BoxDecoration(
-              color: AppColors.greenArtichokeDarker,
-              borderRadius: BorderRadius.circular(10)
-            ),
+                color: AppColors.greenArtichokeDarker,
+                borderRadius: BorderRadius.circular(10)),
             duration: Duration(milliseconds: 800),
             child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -123,31 +118,40 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Visibility(
-                      visible: _searchBarWidth > DEFAULT_SEARCH_SIZE + 50,
-                        child: Expanded(child: Row(
+                        visible: _searchBarWidth > DEFAULT_SEARCH_SIZE + 50,
+                        child: Expanded(
+                            child: Row(
                           // crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Flexible(
                               child: GestureDetector(
-                                onTap: (){
+                                onTap: () {
                                   _searchExerciseController.clear();
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 5),
-                                  child: Icon(Icons.close, color: Colors.grey, size: 20,),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.grey,
+                                    size: 20,
+                                  ),
                                 ),
                               ),
                             ),
                             Flexible(
-                              flex: 4,
-                                child: TextField(controller: _searchExerciseController)),
+                                flex: 4,
+                                child: TextField(
+                                    controller: _searchExerciseController)),
                           ],
                         ))),
                     GestureDetector(
-                      onTap: (){
-                        _triggerExerciseSearch();
-                      },
-                        child: Icon(Icons.search, color: AppColors.beige,)),
+                        onTap: () {
+                          _triggerExerciseSearch();
+                        },
+                        child: Icon(
+                          Icons.search,
+                          color: AppColors.beige,
+                        )),
                   ],
                 ),
               ),
@@ -166,9 +170,11 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       print(_exercises);
-                      _exercises.add(new Exercise(name: 'Toto', sets: [new ExerciseSet(repsOrDuration: 30, rest: 50)]));
+                      _exercises.add(new Exercise(name: 'Toto', sets: [
+                        new ExerciseSet(repsOrDuration: 30, rest: 50)
+                      ]));
                       _tabController.index = TAB_WORKOUT_INDEX;
                       print(_exercises);
                     },
@@ -197,7 +203,8 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Exercise name",
@@ -213,7 +220,8 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
                                             fontStyle: FontStyle.italic),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(top: 8.0),
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
                                         child: Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
@@ -323,23 +331,25 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text("Test"),
-                    ...exercise.sets.map((exercise){
+                    ...exercise.sets.map((exercise) {
                       return Column(
                         children: [
                           Row(
                             children: [
-                            Text('Rest ${exercise.rest}'),
+                              Text('Rest ${exercise.rest}'),
                               Text('Reps ${exercise.repsOrDuration}'),
-                          ],)
+                            ],
+                          )
                         ],
                       );
                     }).toList(),
-                    IconButton(icon: Icon(Icons.add_circle), onPressed: (){
-                      exercise.sets.add(new ExerciseSet(repsOrDuration: 10, rest: 60));
-                      setState(() {
-
-                      });
-                    })
+                    IconButton(
+                        icon: Icon(Icons.add_circle),
+                        onPressed: () {
+                          exercise.sets.add(
+                              new ExerciseSet(repsOrDuration: 10, rest: 60));
+                          setState(() {});
+                        })
                   ],
                 ),
               );

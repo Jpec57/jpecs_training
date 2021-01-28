@@ -9,7 +9,6 @@ import 'package:jpec_training/Pages/CreateTraining/CreateTrainingPage.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
 import 'package:jpec_training/Widgets/DefaultScaffold.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/';
@@ -26,8 +25,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     loadTrainingData();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      // SharedPreferences sharedPreferences =
+      //     await SharedPreferences.getInstance();
     });
   }
 
@@ -73,8 +72,8 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(15),
                   border:
                       Border.all(color: AppColors.charlestonGreen, width: 2),
-                    color: AppColors.greenArtichoke,
-                    /*
+                  color: AppColors.greenArtichoke,
+                  /*
                     gradient: LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
@@ -115,7 +114,8 @@ class _HomePageState extends State<HomePage> {
           headerChild: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("images/backlever2.png"), fit: BoxFit.cover),
+                  image: AssetImage("images/backlever2.png"),
+                  fit: BoxFit.cover),
             ),
             // the more we advance, the smaller it should get (1 - ratio)
             child: Padding(
@@ -196,7 +196,8 @@ class _HomePageState extends State<HomePage> {
                               Container(
                                 height: screenWidth * 0.3,
                                 child: FutureBuilder(
-                                  future: _trainings[categoryIndex]['trainings'],
+                                  future: _trainings[categoryIndex]
+                                      ['trainings'],
                                   builder: (BuildContext context,
                                       AsyncSnapshot<List<Training>>
                                           trainingSnap) {
