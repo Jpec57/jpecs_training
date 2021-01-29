@@ -48,6 +48,7 @@ dependencies:
     path: packages/authentication_repository
   user_repository:
     path: packages/user_repository
+  formz: ^0.3.2
   #cloud_firestore: ^0.12.9+5
   #firebase_analytics: ^5.0.2
   #sentry: ">=3.0.0 <4.0.0"
@@ -87,7 +88,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/
-    - lib/HardCodedData/
+    - lib/hard_coded_data/
     - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see

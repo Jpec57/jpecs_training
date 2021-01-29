@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/Animations/SlideLeftPageAnimation.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/HardCodedData/trainings.dart';
 import 'package:jpec_training/Models/Training.dart';
 import 'package:jpec_training/Pages/CreateTraining/CreateTrainingPage.dart';
 import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
 import 'package:jpec_training/Widgets/DefaultScaffold.dart';
 import 'package:jpec_training/Widgets/TopScrollablePage.dart';
+import 'package:jpec_training/hard_coded_data/trainings.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/';
