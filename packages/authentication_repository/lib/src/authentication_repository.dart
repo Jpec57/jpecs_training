@@ -13,7 +13,7 @@ class AuthenticationRepository {
     yield* _controller.stream;
   }
 
-  Future<void> logIn({
+  Future<bool> logIn({
     @required String username,
     @required String password,
   }) async {
@@ -22,8 +22,13 @@ class AuthenticationRepository {
 
     await Future.delayed(
       const Duration(milliseconds: 300),
-      () => _controller.add(AuthenticationStatus.authenticated),
+      () {},
     );
+    bool isLoginSuccess = username.contains("jpec");
+    _controller.add(isLoginSuccess
+        ? AuthenticationStatus.authenticated
+        : AuthenticationStatus.unauthenticated);
+    return isLoginSuccess;
   }
 
   void logOut() {

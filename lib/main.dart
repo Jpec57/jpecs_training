@@ -44,10 +44,14 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: authenticationRepository,
-      child: BlocProvider(
-        create: (_) => AuthenticationBloc(
-            authenticationRepository: authenticationRepository,
-            userRepository: userRepository),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthenticationBloc>(
+              create: (_) => AuthenticationBloc(
+                  authenticationRepository: authenticationRepository,
+                  userRepository: userRepository)),
+          // BlocProvider<ServerBloc>(create: (_) => ServerBloc())
+        ],
         child: AppView(),
       ),
     );
@@ -81,6 +85,7 @@ class _AppViewState extends State<AppView> {
       ],
       navigatorKey: Get.key,
       theme: ThemeData(
+          primaryColor: AppColors.charlestonGreen,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           cardColor: AppColors.greenArtichoke,
           cardTheme: CardTheme(

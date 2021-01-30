@@ -5,6 +5,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:jpec_training/login/models/models.dart';
+import 'package:jpec_training/login/models/username.dart';
+import 'package:jpec_training/server/bloc/server_state.dart';
 import 'package:meta/meta.dart';
 
 part 'login_event.dart';
@@ -54,6 +56,26 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
+  String getUsernameError(LoginState state) {
+    if (state.username.invalid) {
+      if (state.username.error == UsernameValidationError.tooShort) {
+        return "Your username must have at least $MIN_LENGTH_USERNAME";
+      }
+      return 'Username cannot be left blank';
+    }
+    return null;
+  }
+
+  String getPasswordError(LoginState state) {
+    if (state.password.invalid) {
+      if (state.password.error == PasswordValidationError.tooShort) {
+        return "Too short.";
+      }
+      return 'Password cannot be left blank';
+    }
+    return null;
+  }
+
   Stream<LoginState> _mapLoginSubmittedToState(
     LoginSubmitted event,
     LoginState state,
@@ -61,11 +83,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.status.isValidated) {
       yield state.copyWith(status: FormzStatus.submissionInProgress);
       try {
-        await _authenticationRepository.logIn(
+        bool isLoginSuccess = await _authenticationRepository.logIn(
           username: state.username.value,
           password: state.password.value,
         );
-        yield state.copyWith(status: FormzStatus.submissionSuccess);
+        if (isLoginSuccess) {
+          yield state.copyWith(status: FormzStatus.submissionSuccess);
+        } else {
+          yield state.copyWith(
+              serverState: ServerState(
+                  code: 403, message: "You are not Jpec and never will be."),
+              status: FormzStatus.submissionFailure);
+        }
       } on Exception catch (_) {
         yield state.copyWith(status: FormzStatus.submissionFailure);
       }

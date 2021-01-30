@@ -67,19 +67,14 @@ class MainDrawerState extends State<MainDrawer> {
                 );
               },
             ),
-            Builder(
-              builder: (_) {
-                return ListTile(
-                  title: Text("Log out"),
-                  onTap: () {
-                    context
-                        .read<AuthenticationBloc>()
-                        .add(AuthenticationLogoutRequested());
-                    // Get.offUntil(LoginPage.route(), (route) => false);
-                  },
-                );
+            ListTile(
+              title: Text("Log out"),
+              onTap: () {
+                context
+                    .read<AuthenticationBloc>()
+                    .add(AuthenticationLogoutRequested());
               },
-            ),
+            )
           ],
         ),
       ),

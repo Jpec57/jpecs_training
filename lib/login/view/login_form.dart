@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:formz/formz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:jpec_training/login/bloc/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
@@ -25,10 +25,36 @@ class LoginForm extends StatelessWidget {
             const Padding(padding: EdgeInsets.all(12)),
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
+            _ServerTextError(),
+            const Padding(padding: EdgeInsets.all(12)),
             _LoginButton(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _ServerTextError extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      buildWhen: (previous, current) =>
+          previous.serverState != current.serverState,
+      builder: (context, state) {
+        if (state.serverState.hasError) {
+          if (state.serverState.message == null ||
+              state.serverState.message.isEmpty) {
+            return Text('An error occurred. Please try again later.',
+                style: TextStyle(color: Colors.red.shade900));
+          }
+          return Text(
+            state.serverState.message,
+            style: TextStyle(color: Colors.red.shade900),
+          );
+        }
+        return Container();
+      },
     );
   }
 }
@@ -44,8 +70,8 @@ class _UsernameInput extends StatelessWidget {
           onChanged: (username) =>
               context.read<LoginBloc>().add(LoginUsernameChanged(username)),
           decoration: InputDecoration(
-            labelText: 'username',
-            errorText: state.username.invalid ? 'invalid username' : null,
+            labelText: 'Username',
+            errorText: context.read<LoginBloc>().getUsernameError(state),
           ),
         );
       },
@@ -65,8 +91,8 @@ class _PasswordInput extends StatelessWidget {
               context.read<LoginBloc>().add(LoginPasswordChanged(password)),
           obscureText: true,
           decoration: InputDecoration(
-            labelText: 'password',
-            errorText: state.password.invalid ? 'invalid password' : null,
+            labelText: 'Password',
+            errorText: context.read<LoginBloc>().getPasswordError(state),
           ),
         );
       },
@@ -83,14 +109,14 @@ class _LoginButton extends StatelessWidget {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : RaisedButton(
-          key: const Key('loginForm_continue_raisedButton'),
-          child: const Text('Login'),
-          onPressed: state.status.isValidated
-              ? () {
-            context.read<LoginBloc>().add(const LoginSubmitted());
-          }
-              : null,
-        );
+                key: const Key('loginForm_continue_raisedButton'),
+                child: const Text('Login'),
+                onPressed: state.status.isValidated
+                    ? () {
+                        context.read<LoginBloc>().add(const LoginSubmitted());
+                      }
+                    : null,
+              );
       },
     );
   }
