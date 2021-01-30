@@ -4,12 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/Enums/MuscleEnum.dart';
-import 'package:jpec_training/Models/Exercise.dart';
-import 'package:jpec_training/Models/ExerciseSet.dart';
-import 'package:jpec_training/Pages/HomePage/HomePage.dart';
-import 'package:jpec_training/Widgets/DefaultButton.dart';
-import 'package:jpec_training/Widgets/DefaultScaffold.dart';
-import 'package:jpec_training/Widgets/Dialogs/ExerciseExplanationDialog.dart';
+import 'package:jpec_training/models/Exercise.dart';
+import 'package:jpec_training/models/ExerciseSet.dart';
+import 'package:jpec_training/pages/HomePage/HomePage.dart';
+import 'package:jpec_training/widgets/DefaultButton.dart';
+import 'package:jpec_training/widgets/DefaultScaffold.dart';
+import 'package:jpec_training/widgets/Dialogs/ExerciseExplanationDialog.dart';
 
 const TAB_WORKOUT = 'WORKOUT';
 const TAB_WORKOUT_INDEX = 0;

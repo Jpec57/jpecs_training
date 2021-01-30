@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Models/Exercise.dart';
-import 'package:jpec_training/Widgets/DefaultButton.dart';
+import 'package:jpec_training/models/Exercise.dart';
+import 'package:jpec_training/widgets/DefaultButton.dart';
 
 class ExerciseExplanationDialog extends StatelessWidget {
   static const RADIUS = 32.0;

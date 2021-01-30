@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/Animations/SlideLeftPageAnimation.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Models/Training.dart';
-import 'package:jpec_training/Pages/CreateTraining/CreateTrainingPage.dart';
-import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
-import 'package:jpec_training/Widgets/DefaultScaffold.dart';
-import 'package:jpec_training/Widgets/TopScrollablePage.dart';
 import 'package:jpec_training/hard_coded_data/trainings.dart';
+import 'package:jpec_training/models/Training.dart';
+import 'package:jpec_training/pages/CreateTraining/CreateTrainingPage.dart';
+import 'package:jpec_training/pages/TrainingShowPage/TrainingShow.dart';
+import 'package:jpec_training/widgets/DefaultScaffold.dart';
+import 'package:jpec_training/widgets/TopScrollablePage.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/';
@@ -19,7 +19,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> _trainings = [];
-
   @override
   void initState() {
     super.initState();

@@ -1,7 +1,7 @@
-import 'package:jpec_training/Models/Exercise.dart';
-import 'package:jpec_training/Models/NamedExerciseSet.dart';
-import 'package:jpec_training/Models/Training.dart';
-import 'package:jpec_training/Models/TrainingData.dart';
+import 'package:jpec_training/models/Exercise.dart';
+import 'package:jpec_training/models/NamedExerciseSet.dart';
+import 'package:jpec_training/models/Training.dart';
+import 'package:jpec_training/models/TrainingData.dart';
 
 int getTotalSetNumber(Training training) {
   int totalSets = 0;

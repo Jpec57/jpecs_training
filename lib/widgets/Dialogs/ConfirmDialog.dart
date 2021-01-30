@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jpec_training/Widgets/Localization.dart';
 
 class ConfirmDialog extends StatelessWidget {
   final String action;
@@ -23,7 +22,7 @@ class ConfirmDialog extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(32.0))),
       contentPadding: EdgeInsets.all(10.0),
       title: Text(
-        LocalizationWidget.of(context).getLocalizeValue('confirm_action'),
+        "Confirm",
         style: TextStyle(color: Colors.black),
       ),
       content: GestureDetector(
@@ -58,9 +57,7 @@ class ConfirmDialog extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             // color: Color(COLOR_DARK_BLUE),
                             child: Text(
-                              LocalizationWidget.of(context)
-                                  .getLocalizeValue('no')
-                                  .toUpperCase(),
+                              "No".toUpperCase(),
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () async {
@@ -80,9 +77,7 @@ class ConfirmDialog extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             // color: Color(COLOR_ORANGE),
                             child: Text(
-                              LocalizationWidget.of(context)
-                                  .getLocalizeValue('yes')
-                                  .toUpperCase(),
+                              "Yes".toUpperCase(),
                               style: TextStyle(color: Colors.white),
                             ),
                             onPressed: () async {

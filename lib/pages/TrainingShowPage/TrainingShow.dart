@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Models/Exercise.dart';
-import 'package:jpec_training/Models/ExerciseSet.dart';
-import 'package:jpec_training/Models/Training.dart';
-import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
-import 'package:jpec_training/Pages/InTrainingPage/InExercisePageArguments.dart';
-import 'package:jpec_training/Widgets/TopScrollablePage.dart';
+import 'package:jpec_training/pages/InTrainingPage/InExercisePage.dart';
+import 'package:jpec_training/pages/InTrainingPage/InExercisePageArguments.dart';
+import 'package:jpec_training/widgets/TopScrollablePage.dart';
+import 'package:jpec_training/models/Exercise.dart';
+import 'package:jpec_training/models/ExerciseSet.dart';
+import 'package:jpec_training/models/Training.dart';
 
 class TrainingShow extends StatefulWidget {
   static const routeName = '/training/show';
@@ -51,10 +51,9 @@ class _TrainingShowState extends State<TrainingShow> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.charlestonGreen,
-        onPressed: (){
+        onPressed: () {
           Navigator.pushNamed(context, InExercisePage.routeName,
-              arguments:
-              InExercisePageArguments(training: widget.training));
+              arguments: InExercisePageArguments(training: widget.training));
         },
         /*
         Text(
@@ -101,7 +100,10 @@ class _TrainingShowState extends State<TrainingShow> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(bottom: 15),
-                child: Text(widget.training.name, style: Theme.of(context).textTheme.headline4,),
+                child: Text(
+                  widget.training.name,
+                  style: Theme.of(context).textTheme.headline4,
+                ),
               ),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
@@ -124,7 +126,9 @@ class _TrainingShowState extends State<TrainingShow> {
                           children: [
                             Text(
                               '${index + 1}',
-                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 10.0),
@@ -150,16 +154,23 @@ class _TrainingShowState extends State<TrainingShow> {
                         trailing: Text(
                           getSetsText(exo),
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Colors.black),
                         ),
                       ),
                     ),
                   );
                 },
               ),
-              Text("Number of cycle: ${widget.training.nbCycle ?? 1}", style: TextStyle(color: Colors.black),),
               Text(
-                  "Rest between cycle: ${widget.training.restBetweenCycle ?? 60}sec", style: TextStyle(color: Colors.black),),
+                "Number of cycle: ${widget.training.nbCycle ?? 1}",
+                style: TextStyle(color: Colors.black),
+              ),
+              Text(
+                "Rest between cycle: ${widget.training.restBetweenCycle ?? 60}sec",
+                style: TextStyle(color: Colors.black),
+              ),
             ],
           ),
         ),

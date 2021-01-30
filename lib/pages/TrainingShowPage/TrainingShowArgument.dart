@@ -1,4 +1,4 @@
-import 'package:jpec_training/Models/Training.dart';
+import 'package:jpec_training/models/Training.dart';
 
 class TrainingShowArgument {
   Training training;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jpec_training/Models/NamedExerciseSet.dart';
+import 'package:jpec_training/models/NamedExerciseSet.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'TrainingData.g.dart';

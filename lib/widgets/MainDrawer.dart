@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Pages/HomePage/HomePage.dart';
-import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
-import 'package:jpec_training/Widgets/Localization.dart';
+import 'package:jpec_training/authentication/bloc/authentication_bloc.dart';
+import 'package:jpec_training/pages/HomePage/HomePage.dart';
+import 'package:jpec_training/pages/TimerPage/TimerPage.dart';
 
 class MainDrawer extends StatefulWidget {
   @override
@@ -46,7 +47,8 @@ class MainDrawerState extends State<MainDrawer> {
             ),
             ListTile(
               title:
-                  Text(LocalizationWidget.of(context).getLocalizeValue('home')),
+                  // Text(LocalizationWidget.of(context).getLocalizeValue('home')),
+                  Text("Home"),
               onTap: () {
                 Navigator.pushNamed(
                   context,
@@ -56,11 +58,25 @@ class MainDrawerState extends State<MainDrawer> {
             ),
             ListTile(
               title: Text(
-                  LocalizationWidget.of(context).getLocalizeValue('timer')),
+                  // LocalizationWidget.of(context).getLocalizeValue('timer')),
+                  "Timer"),
               onTap: () {
                 Navigator.pushNamed(
                   context,
                   TimerPage.routeName,
+                );
+              },
+            ),
+            Builder(
+              builder: (_) {
+                return ListTile(
+                  title: Text("Log out"),
+                  onTap: () {
+                    context
+                        .read<AuthenticationBloc>()
+                        .add(AuthenticationLogoutRequested());
+                    // Get.offUntil(LoginPage.route(), (route) => false);
+                  },
                 );
               },
             ),

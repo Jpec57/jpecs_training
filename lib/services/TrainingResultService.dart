@@ -1,4 +1,4 @@
-import 'package:jpec_training/Models/NamedExerciseSet.dart';
+import 'package:jpec_training/models/NamedExerciseSet.dart';
 
 int calculateWorkoutScore(List<List<NamedExerciseSet>> cycles) {
   int score = 0;

@@ -4,17 +4,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Pages/CreateTraining/CreateTrainingPage.dart';
-import 'package:jpec_training/Pages/HomePage/HomePage.dart';
-import 'package:jpec_training/Pages/InTrainingPage/InExercisePage.dart';
-import 'package:jpec_training/Pages/InTrainingPage/InExercisePageArguments.dart';
-import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPage.dart';
-import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPageArguments.dart';
-import 'package:jpec_training/Pages/TimerPage/TimerPage.dart';
-import 'package:jpec_training/Pages/TrainingShowPage/TrainingShow.dart';
-import 'package:jpec_training/Pages/TrainingShowPage/TrainingShowArgument.dart';
 import 'package:jpec_training/authentication/bloc/authentication_bloc.dart';
 import 'package:jpec_training/login/view/login_page.dart';
+import 'package:jpec_training/pages/CreateTraining/CreateTrainingPage.dart';
+import 'package:jpec_training/pages/HomePage/HomePage.dart';
+import 'package:jpec_training/pages/InTrainingPage/InExercisePage.dart';
+import 'package:jpec_training/pages/InTrainingPage/InExercisePageArguments.dart';
+import 'package:jpec_training/pages/InTrainingPage/TrainingResultPage.dart';
+import 'package:jpec_training/pages/InTrainingPage/TrainingResultPageArguments.dart';
+import 'package:jpec_training/pages/TimerPage/TimerPage.dart';
+import 'package:jpec_training/pages/TrainingShowPage/TrainingShow.dart';
+import 'package:jpec_training/pages/TrainingShowPage/TrainingShowArgument.dart';
+import 'package:jpec_training/splash/view/splash_page.dart';
 import 'package:user_repository/user_repository.dart';
 
 import 'Widgets/Localization.dart';
@@ -25,6 +26,7 @@ void main() {
     userRepository: UserRepository(),
   ));
 }
+
 //https://bloclibrary.dev/#/flutterlogintutorial
 class App extends StatelessWidget {
   const App({
@@ -43,7 +45,9 @@ class App extends StatelessWidget {
     return RepositoryProvider.value(
       value: authenticationRepository,
       child: BlocProvider(
-        create: (_) => AuthenticationBloc(authenticationRepository: authenticationRepository, userRepository: userRepository),
+        create: (_) => AuthenticationBloc(
+            authenticationRepository: authenticationRepository,
+            userRepository: userRepository),
         child: AppView(),
       ),
     );
@@ -60,10 +64,6 @@ class AppView extends StatefulWidget {
 }
 
 class _AppViewState extends State<AppView> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
-
-  NavigatorState get _navigator => _navigatorKey.currentState;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -121,18 +121,12 @@ class _AppViewState extends State<AppView> {
               case AuthenticationStatus.authenticated:
                 //TODO
                 print("authenticated");
-
-                _navigator.pushNamedAndRemoveUntil(
-                  HomePage.routeName,
-                      (route) => false,
-                );
+                Get.offNamedUntil(HomePage.routeName, (route) => false);
                 break;
               case AuthenticationStatus.unauthenticated:
                 print("unauthenticated");
-                // _navigator.pushAndRemoveUntil(
-                //   LoginPage.route(),
-                //       (route) => false,
-                // );
+                Get.offUntil(LoginPage.route(), (route) => false);
+
                 break;
               default:
                 break;
@@ -175,8 +169,7 @@ class _AppViewState extends State<AppView> {
             },
           );
         }
-        assert(false, 'Need to implement ${settings.name}');
-        return null;
+        return SplashPage.route();
       },
       routes: {
         // LoginPage.routeName: (context) => LoginPage(),

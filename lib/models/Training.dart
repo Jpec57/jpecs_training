@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:jpec_training/Models/Exercise.dart';
+import 'package:jpec_training/models/Exercise.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'Training.g.dart';

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Models/NamedExerciseSet.dart';
-import 'package:jpec_training/Models/TrainingData.dart';
-import 'package:jpec_training/Pages/HomePage/HomePage.dart';
-import 'package:jpec_training/Services/TrainingResultService.dart';
+import 'package:jpec_training/models/NamedExerciseSet.dart';
+import 'package:jpec_training/models/TrainingData.dart';
+import 'package:jpec_training/pages/HomePage/HomePage.dart';
+import 'package:jpec_training/services/TrainingResultService.dart';
 
 class TrainingResultPage extends StatefulWidget {
   static const routeName = "/training/result";
@@ -74,6 +74,7 @@ class _TrainingResultPageState extends State<TrainingResultPage>
 
   @override
   void dispose() {
+    _scoreAnimController.dispose();
     super.dispose();
   }
 

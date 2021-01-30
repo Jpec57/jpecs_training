@@ -4,7 +4,7 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Widgets/DefaultScaffold.dart';
+import 'package:jpec_training/widgets/DefaultScaffold.dart';
 
 class TimerPage extends StatefulWidget {
   static const routeName = '/timer';
@@ -89,7 +89,10 @@ class _TimerPageState extends State<TimerPage>
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Text(
               "$time",
-              style: Theme.of(context).textTheme.headline1,
+              style: Theme.of(context)
+                  .textTheme
+                  .headline1
+                  .copyWith(fontFamily: 'Roboto'),
             ),
           ),
         ),

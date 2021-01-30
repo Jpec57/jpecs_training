@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/Widgets/MainDrawer.dart';
+import 'package:jpec_training/widgets/MainDrawer.dart';
 
 class DefaultScaffold extends StatelessWidget {
   final Widget child;

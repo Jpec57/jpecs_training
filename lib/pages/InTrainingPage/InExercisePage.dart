@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:jpec_training/Models/Exercise.dart';
-import 'package:jpec_training/Models/ExerciseSet.dart';
-import 'package:jpec_training/Models/NamedExerciseSet.dart';
-import 'package:jpec_training/Models/Training.dart';
-import 'package:jpec_training/Models/TrainingData.dart';
-import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPage.dart';
-import 'package:jpec_training/Pages/InTrainingPage/TrainingResultPageArguments.dart';
-import 'package:jpec_training/Services/InWorkoutService.dart';
-import 'package:jpec_training/Widgets/Dialogs/ConfirmDialog.dart';
-import 'package:jpec_training/Widgets/TrainingProgressBar.dart';
+import 'package:jpec_training/models/Exercise.dart';
+import 'package:jpec_training/models/ExerciseSet.dart';
+import 'package:jpec_training/models/NamedExerciseSet.dart';
+import 'package:jpec_training/models/Training.dart';
+import 'package:jpec_training/models/TrainingData.dart';
+import 'package:jpec_training/pages/InTrainingPage/TrainingResultPage.dart';
+import 'package:jpec_training/pages/InTrainingPage/TrainingResultPageArguments.dart';
+import 'package:jpec_training/services/InWorkoutService.dart';
+import 'package:jpec_training/widgets/Dialogs/ConfirmDialog.dart';
+import 'package:jpec_training/widgets/TrainingProgressBar.dart';
 import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -93,9 +93,9 @@ class _InExercisePageState extends State<InExercisePage>
 
   @override
   void dispose() {
-    super.dispose();
     _trainingData = null;
     clean();
+    super.dispose();
   }
 
   void startTrainingTimers() {
@@ -123,7 +123,9 @@ class _InExercisePageState extends State<InExercisePage>
     if (_trainingTimer != null && _trainingTimer.isActive) {
       _trainingTimer.cancel();
     }
-    _tabController.dispose();
+    // if (_tabController != null) {
+    //   _tabController.dispose();
+    // }
     for (String sound in CACHED_SOUNDS) {
       _audioPlayer.clear(sound);
     }

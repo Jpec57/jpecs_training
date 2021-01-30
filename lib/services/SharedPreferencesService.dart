@@ -1,11 +1,12 @@
 import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:jpec_training/Models/User.dart';
+import 'package:jpec_training/models/User.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> setUserFromSharedPrefs(User user) async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  return  await sharedPreferences.setString('user', jsonEncode(user.toJson()));
+  return await sharedPreferences.setString('user', jsonEncode(user.toJson()));
 }
 
 Future<User> getUserFromSharedPrefs() async {
