@@ -49,23 +49,33 @@ class AuthenticationBloc
   Future<AuthenticationState> _mapAuthenticationStatusChangedToState(
     AuthenticationStatusChanged event,
   ) async {
+    print("event status ${event.status}");
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
         return const AuthenticationState.unauthenticated();
       case AuthenticationStatus.authenticated:
-        final user = await _tryGetUser();
+        final user = await _tryGetUserWithToken();
         return user != null
             ? AuthenticationState.authenticated(user)
             : const AuthenticationState.unauthenticated();
       default:
-        return const AuthenticationState.unknown();
+        print("DEFAULT status");
+        final user = await _tryGetUserWithToken();
+        return user != null
+            ? AuthenticationState.authenticated(user)
+            : const AuthenticationState.unauthenticated();
     }
   }
 
-  Future<User> _tryGetUser() async {
+  Future<User> _tryGetUserWithToken() async {
     try {
-      final user = await _userRepository.getUser();
-      return user;
+      String token = await _authenticationRepository.getUserToken();
+      print("User token $token");
+      if (token != null) {
+        final user = await _userRepository.getUserWithToken(token);
+        return user;
+      }
+      return null;
     } on Exception {
       return null;
     }

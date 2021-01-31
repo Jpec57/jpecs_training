@@ -8,12 +8,22 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Column(
-        children: [
-          Text("Splash"),
-          CircularProgressIndicator(),
-        ],
-      )),
+      body: SafeArea(
+        child: Center(
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Splash",
+              style: Theme.of(context)
+                  .textTheme
+                  .headline1
+                  .copyWith(color: Colors.black),
+            ),
+            CircularProgressIndicator(),
+          ],
+        )),
+      ),
     );
   }
 }

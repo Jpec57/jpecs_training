@@ -14,4 +14,15 @@ class UserRepository {
       () => _user = User(Uuid().v4()),
     );
   }
+
+  Future<User> getUserWithToken(String token) async {
+    if (_user != null) return _user;
+    if (token != null) {
+      return Future.delayed(
+        const Duration(milliseconds: 300),
+        () => _user = User(Uuid().v4()),
+      );
+    }
+    return null;
+  }
 }

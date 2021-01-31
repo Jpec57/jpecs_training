@@ -6,8 +6,9 @@ import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/hard_coded_data/trainings.dart';
 import 'package:jpec_training/models/Training.dart';
 import 'package:jpec_training/pages/CreateTraining/CreateTrainingPage.dart';
+import 'package:jpec_training/pages/TimerPage/TimerPage.dart';
 import 'package:jpec_training/pages/TrainingShowPage/TrainingShow.dart';
-import 'package:jpec_training/widgets/DefaultScaffold.dart';
+import 'package:jpec_training/widgets/MainDrawer.dart';
 import 'package:jpec_training/widgets/TopScrollablePage.dart';
 
 class HomePage extends StatefulWidget {
@@ -68,18 +69,21 @@ class _HomePageState extends State<HomePage> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border:
-                      Border.all(color: AppColors.charlestonGreen, width: 2),
-                  color: AppColors.greenArtichoke,
-                  /*
+                    borderRadius: BorderRadius.circular(15),
+                    border:
+                        Border.all(color: AppColors.charlestonGreen, width: 2),
+                    color: AppColors.greenArtichoke,
                     gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: [AppColors.greenArtichoke, AppColors.beige])
-
-                     */
-                ),
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        stops: [
+                          0.1,
+                          0.8
+                        ],
+                        colors: [
+                          AppColors.greenArtichokeDarker,
+                          AppColors.beige
+                        ])),
                 height: screenWidth * 0.3,
                 width: screenWidth * 0.4,
                 child: Center(
@@ -107,9 +111,25 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-
-    return DefaultScaffold(
-      child: TopScrollablePage(
+    return Scaffold(
+      extendBodyBehindAppBar: false,
+      appBar: AppBar(
+        elevation: 6,
+        backgroundColor: AppColors.richBlack,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              icon: Icon(Icons.timer),
+              onPressed: () {
+                Get.toNamed(TimerPage.routeName);
+              },
+            ),
+          )
+        ],
+      ),
+      drawer: MainDrawer(),
+      body: TopScrollablePage(
           headerChild: Container(
             decoration: BoxDecoration(
               image: DecorationImage(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:jpec_training/AppColors.dart';
 import 'package:jpec_training/login/bloc/login_bloc.dart';
 
 class LoginForm extends StatelessWidget {
@@ -16,19 +19,25 @@ class LoginForm extends StatelessWidget {
             );
         }
       },
-      child: Align(
-        alignment: const Alignment(0, -1 / 3),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _UsernameInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _PasswordInput(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _ServerTextError(),
-            const Padding(padding: EdgeInsets.all(12)),
-            _LoginButton(),
-          ],
+      child: Container(
+        decoration: BoxDecoration(
+            color: AppColors.beige,
+            border: Border.all(color: AppColors.richBlack, width: 3),
+            borderRadius: BorderRadius.circular(10)),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _UsernameInput(),
+              const Padding(padding: EdgeInsets.all(12)),
+              _PasswordInput(),
+              const Padding(padding: EdgeInsets.all(12)),
+              _ServerTextError(),
+              const Padding(padding: EdgeInsets.all(12)),
+              _LoginButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -71,6 +80,8 @@ class _UsernameInput extends StatelessWidget {
               context.read<LoginBloc>().add(LoginUsernameChanged(username)),
           decoration: InputDecoration(
             labelText: 'Username',
+            fillColor: AppColors.charlestonGreen,
+            errorStyle: TextStyle(fontSize: 12, color: Colors.red.shade900),
             errorText: context.read<LoginBloc>().getUsernameError(state),
           ),
         );
@@ -92,6 +103,7 @@ class _PasswordInput extends StatelessWidget {
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'Password',
+            errorStyle: TextStyle(fontSize: 12, color: Colors.red.shade900),
             errorText: context.read<LoginBloc>().getPasswordError(state),
           ),
         );
