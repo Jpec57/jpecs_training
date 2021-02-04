@@ -1,13 +1,11 @@
 #! /bin/bash
-# Si vous rencontrez une erreur du type `declare: -A: invalid option`
-# c’est qu’il vous faut mettre à jour votre version bash à v4.
-# Pour Mac OS, regardez ici : http://clubmate.fi/upgrade-to-bash-4-in-mac-os-x/
+RED='\033[0;31m'
+NC='\033[0m' # No Color
 
 # Hash utilisant la clé comme expression de recherche (Regex) et la valeur
 # associée comme message d’erreur
-declare -A PATTERNS;
-PATTERNS['^[<>|=]{4,}']="Vous avez des marqueurs de conflits qui traînent";
-PATTERNS['TODO|FIXME']="Vous avez des tâches non terminées (FIXME/TODO)";
+declare -a PATTERNS;
+PATTERNS['FIXME']="Vous avez des tâches non terminées";
 
 # Déclare un tableau d’erreurs vide
 declare -a errors;
@@ -26,12 +24,11 @@ done
 # Utilise la synthèse vocale si disponible pour énoncer les messages.
 author=$(git config --get user.name)
 for error in "${errors[@]}"; do
-  echo -e "\[\033[1;31m\]${error}\[\033[0m\]"
-  # Seulement sur Mac OS : synthèse vocale
-  which -s say && say -v Samantha -r 250 "$author $error"
+  echo -e "${RED}${error}${NC}"
 done
 
 # S’il existe au moins une erreur, arrête la création du commit
 if [ ${#errors[@]} -ne 0 ]; then
   exit 1
 fi
+echo "おめでとう御座います"
