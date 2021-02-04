@@ -1,0 +1,37 @@
+#! /bin/bash
+# Si vous rencontrez une erreur du type `declare: -A: invalid option`
+# c’est qu’il vous faut mettre à jour votre version bash à v4.
+# Pour Mac OS, regardez ici : http://clubmate.fi/upgrade-to-bash-4-in-mac-os-x/
+
+# Hash utilisant la clé comme expression de recherche (Regex) et la valeur
+# associée comme message d’erreur
+declare -A PATTERNS;
+PATTERNS['^[<>|=]{4,}']="Vous avez des marqueurs de conflits qui traînent";
+PATTERNS['TODO|FIXME']="Vous avez des tâches non terminées (FIXME/TODO)";
+
+# Déclare un tableau d’erreurs vide
+declare -a errors;
+
+# Boucle sur les noms de fichiers présents dans le `stage`/`index` et
+# vérifie que leur contenu contient les chaînes listées dans PATTERNS.
+# Filtre uniquement sur les fichiers ajoutés (A), copiés (C), modifiés (M).
+for file in $(git diff --staged --name-only --diff-filter=ACM); do
+  for elem in ${!PATTERNS[*]} ; do
+    { git show :0:"$file" | grep -Eq ${elem}; } || continue;
+    errors+=("${PATTERNS[${elem}]} in ${file}…");
+  done
+done
+
+# Affiche les erreurs dans la console.
+# Utilise la synthèse vocale si disponible pour énoncer les messages.
+author=$(git config --get user.name)
+for error in "${errors[@]}"; do
+  echo -e "\[\033[1;31m\]${error}\[\033[0m\]"
+  # Seulement sur Mac OS : synthèse vocale
+  which -s say && say -v Samantha -r 250 "$author $error"
+done
+
+# S’il existe au moins une erreur, arrête la création du commit
+if [ ${#errors[@]} -ne 0 ]; then
+  exit 1
+fi
