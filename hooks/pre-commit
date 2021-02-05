@@ -4,7 +4,7 @@ NC='\033[0m' # No Color
 
 # Hash utilisant la clé comme expression de recherche (Regex) et la valeur
 # associée comme message d’erreur
-declare -a PATTERNS;
+declare -A PATTERNS;
 PATTERNS['FIXME']="Vous avez des tâches non terminées";
 
 # Déclare un tableau d’erreurs vide
