@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
           headerChild: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("images/backlever2.png"),
+                  image: AssetImage("assets/images/backlever2.png"),
                   fit: BoxFit.cover),
             ),
             // the more we advance, the smaller it should get (1 - ratio)

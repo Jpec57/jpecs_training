@@ -84,7 +84,7 @@ class __LogoContainerState extends State<_LogoContainer> {
       child: Padding(
         padding: const EdgeInsets.all(40),
         child: Image.asset(
-          'images/jpec_logo.png',
+          'assets/images/jpec_logo.png',
           height: 90,
         ),
       ),

@@ -194,7 +194,7 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
                                   Get.dialog(ExerciseExplanationDialog());
                                 },
                                 child: Image.asset(
-                                  'images/jpec_logo.png',
+                                  'assets/images/jpec_logo.png',
                                   height: 90,
                                 ),
                               ),

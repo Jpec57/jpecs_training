@@ -68,7 +68,8 @@ class _TrainingShowState extends State<TrainingShow> {
           headerChild: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("images/fluff.png"), fit: BoxFit.cover),
+                  image: AssetImage("assets/images/fluff.png"),
+                  fit: BoxFit.cover),
             ),
             // the more we advance, the smaller it should get (1 - ratio)
             child: Padding(
@@ -133,7 +134,7 @@ class _TrainingShowState extends State<TrainingShow> {
                             Padding(
                               padding: const EdgeInsets.only(left: 10.0),
                               child: Image.asset(
-                                "images/jpec_logo.png",
+                                "assets/images/jpec_logo.png",
                                 height: 50,
                               ),
                             )

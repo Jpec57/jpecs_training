@@ -317,7 +317,7 @@ class _InExercisePageState extends State<InExercisePage>
           child: Image.asset(
             nextExo.img != null && nextExo.img.isNotEmpty
                 ? nextExo.img
-                : "images/jpec_logo.png",
+                : "assets/images/jpec_logo.png",
             height: 100,
           ),
         ),
@@ -636,7 +636,7 @@ class _InExercisePageState extends State<InExercisePage>
                                             .isNotEmpty
                                     ? widget
                                         .training.exercises[_exerciseIndex].img
-                                    : "images/jpec_logo.png",
+                                    : "assets/images/jpec_logo.png",
                               ),
                             ),
                           ),
