@@ -1,6 +1,6 @@
-import 'package:jpec_training/models/Exercise.dart';
-import 'package:jpec_training/models/ExerciseSet.dart';
-import 'package:jpec_training/models/Training.dart';
+import 'package:jpec_training/models/exercise.dart';
+import 'package:jpec_training/models/exercise_set.dart';
+import 'package:jpec_training/models/training.dart';
 
 Future<List<Training>> loadChestTrainings() {
   List<Training> chestTrainings = [];

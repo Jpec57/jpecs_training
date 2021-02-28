@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:jpec_training/AppColors.dart';
-import 'package:jpec_training/authentication/bloc/authentication_bloc.dart';
-import 'package:jpec_training/login/view/login_page.dart';
-import 'package:jpec_training/pages/CreateTraining/CreateTrainingPage.dart';
-import 'package:jpec_training/pages/HomePage/HomePage.dart';
-import 'package:jpec_training/pages/InTrainingPage/InExercisePage.dart';
-import 'package:jpec_training/pages/InTrainingPage/InExercisePageArguments.dart';
-import 'package:jpec_training/pages/InTrainingPage/TrainingResultPage.dart';
-import 'package:jpec_training/pages/InTrainingPage/TrainingResultPageArguments.dart';
-import 'package:jpec_training/pages/TimerPage/TimerPage.dart';
-import 'package:jpec_training/pages/TrainingShowPage/TrainingShow.dart';
-import 'package:jpec_training/pages/TrainingShowPage/TrainingShowArgument.dart';
-import 'package:jpec_training/splash/view/splash_page.dart';
+import 'package:jpec_training/app_colors.dart';
+import 'package:jpec_training/blocs/authentication/bloc/authentication_bloc.dart';
+import 'package:jpec_training/blocs/login/view/login_page.dart';
+import 'package:jpec_training/pages/create_training/create_training_page.dart';
+import 'package:jpec_training/pages/home/home_page.dart';
+import 'package:jpec_training/pages/in_training/in_exercise_page.dart';
+import 'package:jpec_training/pages/in_training/in_exercise_page_arguments.dart';
+import 'package:jpec_training/pages/in_training/training_result_page.dart';
+import 'package:jpec_training/pages/in_training/training_result_page_arguments.dart';
+import 'package:jpec_training/pages/timer/timer_page.dart';
+import 'package:jpec_training/pages/training_show/training_show_page.dart';
+import 'package:jpec_training/pages/training_show/training_show_page_argument.dart';
+import 'package:jpec_training/blocs/splash/view/splash_page.dart';
 import 'package:user_repository/user_repository.dart';
 
-import 'Widgets/Localization.dart';
+import 'Widgets/localization.dart';
 
 void main() {
   runApp(App(
