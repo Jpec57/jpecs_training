@@ -144,7 +144,7 @@ class _TrainingResultPageState extends State<TrainingResultPage>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset(
-                    "images/jpec_logo.png",
+                    "assets/images/jpec_logo.png",
                     height: 80,
                   ),
                   Flexible(
