@@ -4,6 +4,28 @@ import 'package:jpec_training/models/training.dart';
 
 Future<List<Training>> loadChestTrainings() {
   List<Training> chestTrainings = [];
+
+  Training jpec = new Training(id: 57, name: "TRICEPS", exercises: [
+    new Exercise(name: "Dips", sets: createStandardExerciseSet(6, 25, 25)),
+    new Exercise(
+        name: "Inclined Push Ups", sets: createStandardExerciseSet(6, 25, 25)),
+    new Exercise(
+        name: "Declined Push Ups",
+        sets: createStandardExerciseSet(6, 25, 25),
+        restAfter: 60),
+    new Exercise(
+        name: "Wall Triceps Extension",
+        sets: createStandardExerciseSet(4, 20, 25)),
+    new Exercise(
+        name: "Floor Triceps Extension",
+        sets: createStandardExerciseSet(4, 20, 25)),
+    new Exercise(
+        name: "Elastic Triceps Extension",
+        sets: createStandardExerciseSet(4, 20, 25)),
+    new Exercise(name: "Dips", sets: createStandardExerciseSet(1, 50, 25)),
+  ]);
+  chestTrainings.add(jpec);
+
   Training lafay = new Training(id: 57, name: "Lafay", exercises: [
     new Exercise(name: "Dips", sets: createStandardExerciseSet(6, 30, 25)),
     new Exercise(
@@ -260,12 +282,48 @@ Future<List<Training>> loadBackTrainings() {
 
 Future<List<Training>> loadAbsTrainings() {
   List<Training> trainings = [];
-  Training training = new Training(name: "Test abs", exercises: [
+  Training training = new Training(name: "V-Sit Hunt", exercises: [
     new Exercise(
-        name: "Squat hold",
-        sets: createStandardExerciseSet(2, 10, 60),
-        isHold: true),
-    new Exercise(name: "Squat", sets: createStandardExerciseSet(3, 10, 60))
+        name: "V-Sit",
+        sets: createStandardExerciseSet(4, 20, 60),
+        isHold: true
+    ),
+    new Exercise(
+        name: "L-to-V Sit Raises",
+        sets: createStandardExerciseSet(4, 10, 60),
+        isHold: false
+    ),
+    new Exercise(
+        name: "V-Sit",
+        sets: createStandardExerciseSet(4, 20, 60),
+        isHold: true
+    ),
+    new Exercise(
+        name: "Floor Leg Raises",
+        sets: createStandardExerciseSet(4, 10, 30),
+        isHold: false
+    ),
+    //
+    new Exercise(
+        name: "Star Fish Abs",
+        sets: createStandardExerciseSet(5, 30, 25),
+        isHold: false
+    ),
+    new Exercise(
+        name: "Toe Touches",
+        sets: createStandardExerciseSet(5, 20, 20),
+        isHold: false
+    ),
+    new Exercise(
+        name: "Bicycle Abs",
+        sets: createStandardExerciseSet(5, 50, 15),
+        isHold: false
+    ),
+    new Exercise(
+        name: "Plank",
+        sets: createStandardExerciseSet(1, 500, 5),
+        isHold: true
+    ),
   ]);
   trainings.add(training);
   return Future.value(trainings);
