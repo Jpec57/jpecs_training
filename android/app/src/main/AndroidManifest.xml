@@ -9,7 +9,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="jpec_training"
+        android:label="Jpec's training"
         android:icon="@mipmap/jpec_logo">
         <activity
             android:name=".MainActivity"

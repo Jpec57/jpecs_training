@@ -46,18 +46,23 @@ class _DefaultButtonState extends State<DefaultButton> {
   @override
   Widget build(BuildContext context) {
     if (widget.child != null) {
-      return RaisedButton(
-        color: widget.buttonColor,
-        onPressed: _blockClick,
-        child: widget.child,
+      return GestureDetector(
+        onTap: _blockClick,
+        child: Container(
+          color: widget.buttonColor,
+          child: widget.child,
+        ),
       );
     }
-    return RaisedButton(
-      color: widget.buttonColor,
-      onPressed: _blockClick,
-      child: Text(
-        widget.text.toUpperCase(),
-        style: TextStyle(color: widget.textColor, fontWeight: FontWeight.bold),
+    return GestureDetector(
+      onTap: _blockClick,
+      child: Container(
+        color: widget.buttonColor,
+        child: Text(
+          widget.text.toUpperCase(),
+          style:
+              TextStyle(color: widget.textColor, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

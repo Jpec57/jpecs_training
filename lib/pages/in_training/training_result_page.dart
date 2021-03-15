@@ -298,16 +298,23 @@ class _TrainingResultPageState extends State<TrainingResultPage>
                     ],
                   ),
                 ),
-                RaisedButton(
-                  color: AppColors.beige,
-                  onPressed: () {
+                GestureDetector(
+                  onTap: () {
                     Get.toNamed(HomePage.routeName);
                   },
-                  child: Text(
-                    "Validate".toUpperCase(),
-                    style: TextStyle(
-                        color: AppColors.richBlack,
-                        fontWeight: FontWeight.bold),
+                  child: Container(
+                    color: AppColors.beige,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          "Validate".toUpperCase(),
+                          style: TextStyle(
+                              color: AppColors.richBlack,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Padding(

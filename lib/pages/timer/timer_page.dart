@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/app_colors.dart';
 import 'package:jpec_training/widgets/default_scaffold.dart';
+import 'package:wakelock/wakelock.dart';
 
 class TimerPage extends StatefulWidget {
   static const routeName = '/timer';
@@ -29,12 +30,14 @@ class _TimerPageState extends State<TimerPage>
   @override
   void initState() {
     super.initState();
+    Wakelock.enable();
     _tabController = new TabController(length: 2, vsync: this);
     _audioPlayer.loadAll(CACHED_SOUNDS);
   }
 
   @override
   void dispose() {
+    Wakelock.disable();
     _tabController.dispose();
     for (String sound in CACHED_SOUNDS) {
       _audioPlayer.clear(sound);
@@ -81,12 +84,17 @@ class _TimerPageState extends State<TimerPage>
       child: InkWell(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: RaisedButton(
+          child: ElevatedButton(
             onPressed: () {
               onTimerPress(time);
             },
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            style: ElevatedButton.styleFrom(
+              primary: AppColors.charlestonGreen,
+              elevation: 8.0,
+              shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(20.0),
+              ),
+            ),
             child: Text(
               "$time",
               style: Theme.of(context)
@@ -188,9 +196,13 @@ class _TimerPageState extends State<TimerPage>
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: AppColors.charlestonGreen,
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(20.0),
+                    ),
+                  ),
                   child: Text("Skip"),
                   onPressed: () {
                     if (_timer.isActive) {

@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/app_colors.dart';
-import 'package:jpec_training/pages/in_training/in_exercise_page.dart';
-import 'package:jpec_training/pages/in_training/in_exercise_page_arguments.dart';
-import 'package:jpec_training/widgets/top_scrollable_page.dart';
 import 'package:jpec_training/models/exercise.dart';
 import 'package:jpec_training/models/exercise_set.dart';
 import 'package:jpec_training/models/training.dart';
+import 'package:jpec_training/pages/in_training/in_exercise_page.dart';
+import 'package:jpec_training/pages/in_training/in_exercise_page_arguments.dart';
+import 'package:jpec_training/widgets/top_scrollable_page.dart';
 
 class TrainingShow extends StatefulWidget {
   static const routeName = '/training/show';
@@ -166,11 +166,14 @@ class _TrainingShowState extends State<TrainingShow> {
               ),
               Text(
                 "Number of cycle: ${widget.training.nbCycle ?? 1}",
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.white),
               ),
-              Text(
-                "Rest between cycle: ${widget.training.restBetweenCycle ?? 60}sec",
-                style: TextStyle(color: Colors.black),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 50),
+                child: Text(
+                  "Rest between cycle: ${widget.training.restBetweenCycle ?? 60}sec",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

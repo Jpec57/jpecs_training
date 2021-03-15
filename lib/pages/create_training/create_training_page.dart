@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:jpec_training/app_colors.dart';
 import 'package:jpec_training/Enums/muscle_enum.dart';
+import 'package:jpec_training/app_colors.dart';
 import 'package:jpec_training/models/exercise.dart';
 import 'package:jpec_training/models/exercise_set.dart';
 import 'package:jpec_training/pages/home/home_page.dart';
+import 'package:jpec_training/widgets/Dialogs/exercise_explanation_dialog.dart';
 import 'package:jpec_training/widgets/default_button.dart';
 import 'package:jpec_training/widgets/default_scaffold.dart';
-import 'package:jpec_training/widgets/Dialogs/exercise_explanation_dialog.dart';
 
 const TAB_WORKOUT = 'WORKOUT';
 const TAB_WORKOUT_INDEX = 0;
@@ -64,23 +64,26 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
         children: ((muscles).map((muscle) {
           return Padding(
             padding: const EdgeInsets.only(left: 8, right: 8),
-            child: RaisedButton(
+            child: GestureDetector(
+              onTap: () {
+                if (_selectedMuscles.contains(muscle)) {
+                  _selectedMuscles.remove(muscle);
+                } else {
+                  _selectedMuscles.add(muscle);
+                }
+                setState(() {});
+              },
+              child: Container(
                 color: _selectedMuscles.contains(muscle)
                     ? AppColors.greenArtichoke
                     : Colors.grey,
-                onPressed: () {
-                  if (_selectedMuscles.contains(muscle)) {
-                    _selectedMuscles.remove(muscle);
-                  } else {
-                    _selectedMuscles.add(muscle);
-                  }
-                  setState(() {});
-                },
                 child: Text(
                   "${muscle.toUpperCase()}",
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
-                )),
+                ),
+              ),
+            ),
           );
         })).toList(),
       ),

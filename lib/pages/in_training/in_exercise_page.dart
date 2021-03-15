@@ -14,9 +14,8 @@ import 'package:jpec_training/pages/in_training/training_result_page_arguments.d
 import 'package:jpec_training/services/in_workout_service.dart';
 import 'package:jpec_training/widgets/Dialogs/confirm_dialog.dart';
 import 'package:jpec_training/widgets/training_progress_bar.dart';
-import 'package:screen/screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:wakelock/wakelock.dart';
 
 class InExercisePage extends StatefulWidget {
   static const routeName = "/training/exercise";
@@ -73,7 +72,7 @@ class _InExercisePageState extends State<InExercisePage>
     _trainingData = new TrainingData(trainingId: widget.training.id);
     _trainingData.doneExercises = initDoneExercises();
     _audioPlayer.loadAll(CACHED_SOUNDS);
-    Screen.keepOn(true);
+    Wakelock.enable();
     _tabController.index = TIMER_START_INDEX;
     _beforeTrainingTimer = new Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -94,6 +93,7 @@ class _InExercisePageState extends State<InExercisePage>
   @override
   void dispose() {
     _trainingData = null;
+    Wakelock.disable();
     clean();
     super.dispose();
   }
@@ -442,7 +442,7 @@ class _InExercisePageState extends State<InExercisePage>
                           fontSize: 50),
                     ),
                   ),
-                  RaisedButton(
+                  ElevatedButton(
                     onPressed: () {
                       switchToExerciseView();
                     },
