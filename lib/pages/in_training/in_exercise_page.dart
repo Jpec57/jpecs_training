@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:audioplayers/audio_cache.dart';
+// import 'package:audioplayers/audio_cache.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/app_colors.dart';
@@ -54,7 +54,7 @@ class _InExercisePageState extends State<InExercisePage>
   Timer _beforeTrainingTimer;
 
   //Audio
-  AudioCache _audioPlayer = AudioCache();
+  // AudioCache _audioPlayer = AudioCache();
 
   List<List<NamedExerciseSet>> initDoneExercises() {
     List<List<NamedExerciseSet>> cycles = [];
@@ -71,7 +71,7 @@ class _InExercisePageState extends State<InExercisePage>
     _tabController = new TabController(length: 3, vsync: this);
     _trainingData = new TrainingData(trainingId: widget.training.id);
     _trainingData.doneExercises = initDoneExercises();
-    _audioPlayer.loadAll(CACHED_SOUNDS);
+    // _audioPlayer.loadAll(CACHED_SOUNDS);
     Wakelock.enable();
     _tabController.index = TIMER_START_INDEX;
     _beforeTrainingTimer = new Timer.periodic(Duration(seconds: 1), (timer) {
@@ -79,7 +79,7 @@ class _InExercisePageState extends State<InExercisePage>
         _countdownBeforeStart = _countdownBeforeStart - 1;
       });
       if (_countdownBeforeStart < 3) {
-        _audioPlayer.play(CACHED_SOUNDS[(_countdownBeforeStart == 0) ? 1 : 0]);
+        // _audioPlayer.play(CACHED_SOUNDS[(_countdownBeforeStart == 0) ? 1 : 0]);
       }
 
       if (_countdownBeforeStart <= 0) {
@@ -127,7 +127,7 @@ class _InExercisePageState extends State<InExercisePage>
     //   _tabController.dispose();
     // }
     for (String sound in CACHED_SOUNDS) {
-      _audioPlayer.clear(sound);
+      // _audioPlayer.clear(sound);
     }
   }
 
@@ -147,11 +147,11 @@ class _InExercisePageState extends State<InExercisePage>
         _countdown = _countdown - 1;
       });
       if (_countdown == 10) {
-        _audioPlayer.play(CACHED_SOUNDS[0]);
+        // _audioPlayer.play(CACHED_SOUNDS[0]);
       }
 
       if (_countdown < 3) {
-        _audioPlayer.play(CACHED_SOUNDS[(_countdown == 0) ? 1 : 0]);
+        // _audioPlayer.play(CACHED_SOUNDS[(_countdown == 0) ? 1 : 0]);
       }
       if (_countdown <= 0) {
         _timer.cancel();
@@ -225,9 +225,9 @@ class _InExercisePageState extends State<InExercisePage>
         int goal = currentExo.sets[_setIndex].repsOrDuration;
         if (goal - _doneReps < 3 && goal - _doneReps >= 0) {
           if (_doneReps == goal) {
-            _audioPlayer.play(CACHED_SOUNDS[1]);
+            // _audioPlayer.play(CACHED_SOUNDS[1]);
           } else {
-            _audioPlayer.play(CACHED_SOUNDS[0]);
+            // _audioPlayer.play(CACHED_SOUNDS[0]);
           }
         }
       });

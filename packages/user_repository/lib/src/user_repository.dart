@@ -5,9 +5,9 @@ import 'package:uuid/uuid.dart';
 import 'models/models.dart';
 
 class UserRepository {
-  User _user;
+  User? _user;
 
-  Future<User> getUser() async {
+  Future<User?> getUser() async {
     if (_user != null) return _user;
     return Future.delayed(
       const Duration(milliseconds: 300),
@@ -15,7 +15,7 @@ class UserRepository {
     );
   }
 
-  Future<User> getUserWithToken(String token) async {
+  Future<User?> getUserWithToken(String? token) async {
     if (_user != null) return _user;
     if (token != null) {
       return Future.delayed(

@@ -23,46 +23,36 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  get: ^3.25.4
+  get: ^4.0.0-nullsafety.2
   flutter_localizations:
     sdk: flutter
-  # intl: ^0.16.1
-  shared_preferences: ^0.5.6
-  flare_flutter: ^2.0.6
-  http: ^0.12.2
-  path_provider: ^1.6.11
+  intl: ^0.17.0
+  shared_preferences: ^2.0.5
+  flare_flutter: ^3.0.0-nullsafety.0
+  http: ^0.13.0
+  path_provider: ^2.0.1
   path: any
   provider: ^5.0.0
-  flutter_launcher_icons: ^0.7.3
-  audioplayers: ^0.16.1
+  auto_size_text: ^3.0.0-nullsafety.0
+  flutter_launcher_icons: ^0.9.0
+  #audioplayers: ^0.16.1
   wakelock: ^0.5.0+2
-  flutter_secure_storage: ^4.0.0
-
-  flutter_local_notifications: ^1.1.1
-  auto_size_text: ^2.1.0
+  flutter_secure_storage: ^4.1.0
+  # flutter_local_notifications: ^4.0.1+2
   flutter_bloc: ^7.0.0-nullsafety.3
-#  flutter_bloc: ^6.1.1
-  equatable: ^1.2.6
-  permission_handler: ^5.1.0+2
-  formz: ^0.3.2
+  #  flutter_bloc: ^6.1.1
+  equatable: ^2.0.0
+  permission_handler: ^6.1.0
+  formz: ^0.4.0-nullsafety.0
   authentication_repository:
     path: packages/authentication_repository
   user_repository:
     path: packages/user_repository
-  json_serializable: ^3.2.0
-  json_annotation: ^3.0.0
-  dio: ^3.0.10
-#  firebase_core: ^0.5.0+1
-#  firebase_admin: ^0.1.3
-#  firebase_messaging: ^7.0.3
-  #cloud_firestore: ^0.12.9+5
-  #firebase_analytics: ^5.0.2
+  #json_serializable: ^4.0.3
+  json_annotation: ^4.0.0
+  dio: ^4.0.0-prev1
   #sentry: ">=3.0.0 <4.0.0"
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
-# dependency_overrides:
-#   intl: ^0.17.0-nullsafety.2
+  cupertino_icons: ^1.0.2
 
 flutter_icons:
   android: "jpec_logo"
@@ -73,12 +63,12 @@ flutter_icons:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_driver:
-    sdk: flutter
+  # flutter_driver:
+  #   sdk: flutter
   test: any
   bloc_test: ^8.0.0-nullsafety.5
-  mockito: ^4.1.1
-  build_runner: ^1.10.3
+  #mockito: ^5.0.1
+  #build_runner: ^1.12.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
