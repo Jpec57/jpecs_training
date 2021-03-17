@@ -43,7 +43,7 @@ Future<http.Response> getFileRequestResponse(String uri,
     {canHandleGenericErrors = true}) async {
   HttpClient client = new HttpClient();
   client.badCertificateCallback =
-  ((X509Certificate cert, String host, int port) => true);
+      ((X509Certificate cert, String host, int port) => true);
   String url;
   if (IS_LOCALE) {
     url = 'https://10.0.2.2:8000$uri';
@@ -56,14 +56,14 @@ Future<http.Response> getFileRequestResponse(String uri,
   headers.putIfAbsent(
       HttpHeaders.authorizationHeader, () => 'Bearer $apiToken');
   headers.putIfAbsent(HttpHeaders.contentTypeHeader, () => 'application/json');
-  return http.get(url, headers: headers);
+  return http.get(Uri.parse(url), headers: headers);
 }
 
 Future<HttpClientResponse> getLocaleGetRequestResponse(String uri,
     {canHandleGenericErrors = true}) async {
   HttpClient client = new HttpClient();
   client.badCertificateCallback =
-  ((X509Certificate cert, String host, int port) => true);
+      ((X509Certificate cert, String host, int port) => true);
   Uri url;
   if (IS_LOCALE) {
     url = new Uri.http("localhost:8000", uri);
@@ -90,7 +90,7 @@ Future<HttpClientResponse> getLocalePostRequestResponse(String uri, Map body,
     {canHandleGenericErrors = true}) async {
   HttpClient client = new HttpClient();
   client.badCertificateCallback =
-  ((X509Certificate cert, String host, int port) => true);
+      ((X509Certificate cert, String host, int port) => true);
   Uri url;
   if (IS_LOCALE) {
     url = new Uri.http("localhost:8000", uri);
@@ -120,7 +120,7 @@ Future<HttpClientResponse> getLocaleDeleteRequestResponse(String uri,
     {canHandleGenericErrors = true}) async {
   HttpClient client = new HttpClient();
   client.badCertificateCallback =
-  ((X509Certificate cert, String host, int port) => true);
+      ((X509Certificate cert, String host, int port) => true);
   Uri url;
   if (IS_LOCALE) {
     url = new Uri.http("localhost:8000", uri);
