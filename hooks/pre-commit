@@ -2,33 +2,7 @@
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-# Hash utilisant la clé comme expression de recherche (Regex) et la valeur
-# associée comme message d’erreur
-declare -A PATTERNS;
-PATTERNS['FIXME']="Vous avez des tâches non terminées";
+# echo -e "${RED}${error}${NC}"
 
-# Déclare un tableau d’erreurs vide
-declare -a errors;
 
-# Boucle sur les noms de fichiers présents dans le `stage`/`index` et
-# vérifie que leur contenu contient les chaînes listées dans PATTERNS.
-# Filtre uniquement sur les fichiers ajoutés (A), copiés (C), modifiés (M).
-for file in $(git diff --staged --name-only --diff-filter=ACM); do
-  for elem in ${!PATTERNS[*]} ; do
-    { git show :0:"$file" | grep -Eq ${elem}; } || continue;
-    errors+=("${PATTERNS[${elem}]} in ${file}…");
-  done
-done
-
-# Affiche les erreurs dans la console.
-# Utilise la synthèse vocale si disponible pour énoncer les messages.
-author=$(git config --get user.name)
-for error in "${errors[@]}"; do
-  echo -e "${RED}${error}${NC}"
-done
-
-# S’il existe au moins une erreur, arrête la création du commit
-if [ ${#errors[@]} -ne 0 ]; then
-  exit 1
-fi
 echo "おめでとう御座います"
