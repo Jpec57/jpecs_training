@@ -8,9 +8,9 @@ class Password extends FormzInput<String, PasswordValidationError> {
   const Password.dirty([String value = '']) : super.dirty(value);
 
   @override
-  PasswordValidationError validator(String value) {
+  PasswordValidationError? validator(String? value) {
     if (value?.isNotEmpty == true) {
-      if (value.length < MIN_LENGTH_PASSWORD) {
+      if (value!.length < MIN_LENGTH_PASSWORD) {
         return PasswordValidationError.tooShort;
       }
     }

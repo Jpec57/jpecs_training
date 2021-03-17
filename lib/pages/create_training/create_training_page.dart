@@ -33,10 +33,10 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
   ];
   TextEditingController _searchExerciseController;
   TabController _tabController;
-  List<Exercise> _exercises;
+  List<Exercise>? _exercises;
   //ExerciseView
   List<String> _selectedMuscles = [];
-  double _searchBarWidth;
+  double? _searchBarWidth;
 
   @override
   void initState() {
@@ -92,7 +92,7 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
 
   _triggerExerciseSearch() {
     print("_triggerExerciseSearch");
-    if (_searchBarWidth > DEFAULT_SEARCH_SIZE) {
+    if (_searchBarWidth! > DEFAULT_SEARCH_SIZE) {
       print("TO DEFAULT");
       _searchBarWidth = DEFAULT_SEARCH_SIZE * 1.0;
     } else {
@@ -121,7 +121,7 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Visibility(
-                        visible: _searchBarWidth > DEFAULT_SEARCH_SIZE + 50,
+                        visible: _searchBarWidth! > DEFAULT_SEARCH_SIZE + 50,
                         child: Expanded(
                             child: Row(
                           // crossAxisAlignment: CrossAxisAlignment.end,
@@ -175,7 +175,7 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
                   return GestureDetector(
                     onTap: () {
                       print(_exercises);
-                      _exercises.add(new Exercise(name: 'Toto', sets: [
+                      _exercises!.add(new Exercise(name: 'Toto', sets: [
                         new ExerciseSet(repsOrDuration: 30, rest: 50)
                       ]));
                       _tabController.index = TAB_WORKOUT_INDEX;
@@ -316,7 +316,7 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
                 // items[index].isExpanded = !items[index].isExpanded;
               });
             },
-            children: _exercises.map((exercise) {
+            children: _exercises!.map((exercise) {
               return ExpansionPanel(
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
@@ -386,7 +386,7 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
           controller: _tabController,
           physics: NeverScrollableScrollPhysics(),
           children: myTabs.map((Tab tab) {
-            final String label = tab.text;
+            final String? label = tab.text;
             switch (label) {
               case TAB_WORKOUT:
                 return _renderTrainingView();

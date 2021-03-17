@@ -8,22 +8,22 @@ part 'training.g.dart';
 class Training {
   int id;
   String name;
-  int authorId;
+  int? authorId;
   int nbCycle = 1;
-  int restBetweenCycle = 60;
-  String lastTime;
-  String coverImg;
+  int? restBetweenCycle = 60;
+  String? lastTime;
+  String? coverImg;
   List<Exercise> exercises;
 
   Training(
-      {this.id,
-      @required this.name,
+      {required this.id,
+      required this.name,
       this.authorId,
       this.coverImg,
-      @required this.exercises,
+      required this.exercises,
       this.lastTime,
       this.restBetweenCycle,
-      this.nbCycle});
+      required this.nbCycle});
   factory Training.fromJson(Map<String, dynamic> json) =>
       _$TrainingFromJson(json);
   Map<String, dynamic> toJson() => _$TrainingToJson(this);

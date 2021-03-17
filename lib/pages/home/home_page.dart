@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     loadTrainingData();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
       // SharedPreferences sharedPreferences =
       //     await SharedPreferences.getInstance();
     });
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     Map map = new Map<String, dynamic>();
     map.putIfAbsent("muscle", () => "Back");
     map.putIfAbsent("trainings", () => loadBackTrainings());
-    _trainings.add(map);
+    _trainings.add(map as Map<String, dynamic>);
     map = new Map<String, dynamic>();
     map.putIfAbsent("muscle", () => "Shoulders");
     map.putIfAbsent("trainings", () => loadShouldersTrainings());
@@ -223,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                                     switch (trainingSnap.connectionState) {
                                       case ConnectionState.done:
                                         return _renderMuscleTrainings(
-                                            trainingSnap.data, screenWidth);
+                                            trainingSnap.data!, screenWidth);
                                       default:
                                         return CircularProgressIndicator();
                                     }

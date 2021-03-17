@@ -14,7 +14,7 @@ class LocalizationWidget {
 
   final Locale locale;
 
-  static LocalizationWidget of(BuildContext context) {
+  static LocalizationWidget? of(BuildContext context) {
     return Localizations.of<LocalizationWidget>(context, LocalizationWidget);
   }
 
@@ -30,14 +30,14 @@ class LocalizationWidget {
     },
   };
 
-  String getLocalizeValue(String key) {
-    if (!_localizedValues[locale.languageCode].containsKey(key)) {
-      if (!_localizedValues[DEFAULT_LOCALE].containsKey(key)) {
+  String? getLocalizeValue(String key) {
+    if (!_localizedValues[locale.languageCode]!.containsKey(key)) {
+      if (!_localizedValues[DEFAULT_LOCALE]!.containsKey(key)) {
         return key;
       }
-      return _localizedValues[DEFAULT_LOCALE][key];
+      return _localizedValues[DEFAULT_LOCALE]![key];
     }
-    return _localizedValues[locale.languageCode][key];
+    return _localizedValues[locale.languageCode]![key];
   }
 }
 

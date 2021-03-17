@@ -9,9 +9,9 @@ Future<bool> setUserFromSharedPrefs(User user) async {
   return await sharedPreferences.setString('user', jsonEncode(user.toJson()));
 }
 
-Future<User> getUserFromSharedPrefs() async {
+Future<User?> getUserFromSharedPrefs() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  String user = sharedPreferences.get('user');
+  String? user = sharedPreferences.get('user') as String?;
   if (user == null) {
     return null;
   }
@@ -28,7 +28,7 @@ Future<bool> setUserJWTToken(String jwt) async {
   return true;
 }
 
-Future<String> getUserJWTToken() async {
+Future<String?> getUserJWTToken() async {
   final storage = new FlutterSecureStorage();
   return await storage.read(key: 'jwt');
 }

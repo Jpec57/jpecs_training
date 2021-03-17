@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 class ConfirmDialog extends StatelessWidget {
   final String action;
   final Function positiveCallback;
-  final Function negativeCallback;
+  final Function? negativeCallback;
   final bool shouldAlwaysPop;
 
   const ConfirmDialog(
-      {Key key,
-      @required this.action,
-      @required this.positiveCallback,
+      {Key? key,
+      required this.action,
+      required this.positiveCallback,
       this.negativeCallback,
       this.shouldAlwaysPop = true})
       : super(key: key);
@@ -65,7 +65,7 @@ class ConfirmDialog extends StatelessWidget {
                             ),
                             onPressed: () async {
                               if (negativeCallback != null) {
-                                negativeCallback();
+                                negativeCallback!();
                               }
                               Navigator.pop(context, false);
                             },

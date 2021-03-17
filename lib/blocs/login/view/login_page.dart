@@ -74,7 +74,7 @@ class _LogoContainer extends StatefulWidget {
 }
 
 class __LogoContainerState extends State<_LogoContainer> {
-  double height;
+  double? height;
 
   @override
   Widget build(BuildContext context) {

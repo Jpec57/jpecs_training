@@ -10,13 +10,13 @@ Training _$TrainingFromJson(Map<String, dynamic> json) {
   return Training(
     id: json['id'] as int,
     name: json['name'] as String,
-    authorId: json['authorId'] as int,
-    coverImg: json['coverImg'] as String,
+    authorId: json['authorId'] as int?,
+    coverImg: json['coverImg'] as String?,
     exercises: (json['exercises'] as List)
         .map((e) => Exercise.fromJson(e as Map<String, dynamic>))
         .toList(),
-    lastTime: json['lastTime'] as String,
-    restBetweenCycle: json['restBetweenCycle'] as int,
+    lastTime: json['lastTime'] as String?,
+    restBetweenCycle: json['restBetweenCycle'] as int?,
     nbCycle: json['nbCycle'] as int,
   );
 }

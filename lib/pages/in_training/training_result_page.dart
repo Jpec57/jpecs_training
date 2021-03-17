@@ -10,7 +10,7 @@ class TrainingResultPage extends StatefulWidget {
   static const routeName = "/training/result";
   final TrainingData trainingData;
 
-  const TrainingResultPage({Key key, @required this.trainingData})
+  const TrainingResultPage({Key? key, required this.trainingData})
       : super(key: key);
 
   @override
@@ -19,11 +19,11 @@ class TrainingResultPage extends StatefulWidget {
 
 class _TrainingResultPageState extends State<TrainingResultPage>
     with SingleTickerProviderStateMixin {
-  TrainingData _updatedTrainingData;
-  AnimationController _scoreAnimController;
-  Animation _scoreAnimation;
+  late TrainingData _updatedTrainingData;
+  late AnimationController _scoreAnimController;
+  late Animation _scoreAnimation;
   List<List<bool>> _expandedExercises = [];
-  List<List<List<NamedExerciseSet>>> groupedExercisesPerCycle;
+  List<List<List<NamedExerciseSet>>>? groupedExercisesPerCycle;
 
   @override
   void initState() {
@@ -281,7 +281,7 @@ class _TrainingResultPageState extends State<TrainingResultPage>
                     children: [
                       AnimatedBuilder(
                         animation: _scoreAnimation,
-                        builder: (BuildContext context, Widget child) {
+                        builder: (BuildContext context, Widget? child) {
                           if (_scoreAnimController.isAnimating) {
                             return Text(
                               "${_scoreAnimation.value}",

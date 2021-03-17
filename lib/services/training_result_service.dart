@@ -5,7 +5,7 @@ int calculateWorkoutScore(List<List<NamedExerciseSet>> cycles) {
   for (List<NamedExerciseSet> exercise in cycles) {
     for (NamedExerciseSet set in exercise) {
       score += (set.repsOrDuration *
-          (1 + (set.weight != null && set.weight > 0 ? 1 : 0)));
+          (1 + (set.weight != null && set.weight! > 0 ? 1 : 0)));
     }
   }
   return score;

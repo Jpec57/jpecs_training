@@ -49,7 +49,7 @@ bool isWorkoutOver(Training training, TrainingData trainingData,
   return totalDoneSets == getTotalSetNumber(training);
 }
 
-Exercise getNextExercise(
+Exercise? getNextExercise(
     Training training, int cycleIndex, int exerciseIndex, int setIndex) {
   var exercises = training.exercises;
   var currentExo = training.exercises[exerciseIndex];

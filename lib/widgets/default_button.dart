@@ -4,14 +4,14 @@ import 'package:jpec_training/app_colors.dart';
 class DefaultButton extends StatefulWidget {
   final Function onPressed;
   //text or child is mandatory
-  final String text;
-  final Widget child;
+  final String? text;
+  final Widget? child;
   final Color buttonColor;
   final Color textColor;
 
   const DefaultButton(
-      {Key key,
-      @required this.onPressed,
+      {Key? key,
+      required this.onPressed,
       this.text,
       this.buttonColor = AppColors.beige,
       this.textColor = Colors.black,
@@ -23,7 +23,7 @@ class DefaultButton extends StatefulWidget {
 }
 
 class _DefaultButtonState extends State<DefaultButton> {
-  bool isSending;
+  late bool isSending;
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _DefaultButtonState extends State<DefaultButton> {
       child: Container(
         color: widget.buttonColor,
         child: Text(
-          widget.text.toUpperCase(),
+          widget.text!.toUpperCase(),
           style:
               TextStyle(color: widget.textColor, fontWeight: FontWeight.bold),
         ),

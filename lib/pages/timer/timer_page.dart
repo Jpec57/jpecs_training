@@ -99,7 +99,7 @@ class _TimerPageState extends State<TimerPage>
               "$time",
               style: Theme.of(context)
                   .textTheme
-                  .headline1
+                  .headline1!
                   .copyWith(fontFamily: 'Roboto'),
             ),
           ),

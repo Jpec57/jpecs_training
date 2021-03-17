@@ -7,10 +7,10 @@ part 'exercise_set.g.dart';
 class ExerciseSet {
   int repsOrDuration;
   int rest;
-  int weight;
+  int? weight;
 
   ExerciseSet(
-      {@required this.repsOrDuration, @required this.rest, this.weight});
+      {required this.repsOrDuration, required this.rest, this.weight});
 
   factory ExerciseSet.fromJson(Map<String, dynamic> json) =>
       _$ExerciseSetFromJson(json);
@@ -18,7 +18,7 @@ class ExerciseSet {
 }
 
 List<ExerciseSet> createStandardExerciseSet(int setNumber, int reps, int rest,
-    {int weight}) {
+    {int? weight}) {
   List<ExerciseSet> sets = [];
   for (int i = 0; i < setNumber; i++) {
     sets.add(new ExerciseSet(repsOrDuration: reps, rest: rest, weight: weight));

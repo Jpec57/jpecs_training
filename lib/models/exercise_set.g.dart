@@ -10,7 +10,7 @@ ExerciseSet _$ExerciseSetFromJson(Map<String, dynamic> json) {
   return ExerciseSet(
     repsOrDuration: json['repsOrDuration'] as int,
     rest: json['rest'] as int,
-    weight: json['weight'] as int,
+    weight: json['weight'] as int?,
   );
 }
 

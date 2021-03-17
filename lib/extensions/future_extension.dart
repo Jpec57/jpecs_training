@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 extension FutureExtension on Future {
   Widget toBuild<T>(
-      {@required Widget Function(T data) onSuccess,
-      @required Widget loadingWidget,
-      @required Widget notFoundWidget,
-      @required Widget onError,
+      {required Widget Function(T? data) onSuccess,
+      required Widget loadingWidget,
+      required Widget notFoundWidget,
+      required Widget onError,
       dynamic data}) {
     return FutureBuilder<T>(
-      future: this,
+      future: this as Future<T>?,
       initialData: data,
       builder: (BuildContext context, AsyncSnapshot<T> snapshot) {
         switch (snapshot.connectionState) {

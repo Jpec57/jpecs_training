@@ -12,8 +12,8 @@ part 'authentication_state.dart';
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({
-    @required AuthenticationRepository authenticationRepository,
-    @required UserRepository userRepository,
+    required AuthenticationRepository authenticationRepository,
+    required UserRepository userRepository,
   })  : assert(authenticationRepository != null),
         assert(userRepository != null),
         _authenticationRepository = authenticationRepository,
@@ -67,9 +67,9 @@ class AuthenticationBloc
     }
   }
 
-  Future<User> _tryGetUserWithToken() async {
+  Future<User?> _tryGetUserWithToken() async {
     try {
-      String token = await _authenticationRepository.getUserToken();
+      String? token = await _authenticationRepository.getUserToken();
       print("User token $token");
       if (token != null) {
         final user = await _userRepository.getUserWithToken(token);

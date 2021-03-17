@@ -9,7 +9,7 @@ class TrainingData {
   int trainingId;
   List<List<NamedExerciseSet>> doneExercises;
 
-  TrainingData({@required this.trainingId, this.doneExercises});
+  TrainingData({required this.trainingId, required this.doneExercises});
 
   factory TrainingData.fromJson(Map<String, dynamic> json) =>
       _$TrainingDataFromJson(json);

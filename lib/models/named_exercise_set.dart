@@ -9,16 +9,16 @@ class NamedExerciseSet {
   String name;
   int repsOrDuration;
   int rest;
-  int weight;
+  int? weight;
   //
 //  int isExpanded;
 
   NamedExerciseSet(
-      {@required this.exerciseId,
-      @required this.name,
-      @required this.repsOrDuration,
-      @required this.rest,
-      @required this.weight});
+      {required this.exerciseId,
+      required this.name,
+      required this.repsOrDuration,
+      required this.rest,
+      required this.weight});
 
   factory NamedExerciseSet.fromJson(Map<String, dynamic> json) =>
       _$NamedExerciseSetFromJson(json);

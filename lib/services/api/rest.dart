@@ -51,7 +51,7 @@ Future<http.Response> getFileRequestResponse(String uri,
     url = BASE_REMOTE_URL + uri;
   }
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  String apiToken = sharedPreferences.get('apiToken');
+  String? apiToken = sharedPreferences.get('apiToken') as String?;
   Map<String, String> headers = new Map();
   headers.putIfAbsent(
       HttpHeaders.authorizationHeader, () => 'Bearer $apiToken');
@@ -59,7 +59,7 @@ Future<http.Response> getFileRequestResponse(String uri,
   return http.get(Uri.parse(url), headers: headers);
 }
 
-Future<HttpClientResponse> getLocaleGetRequestResponse(String uri,
+Future<HttpClientResponse?> getLocaleGetRequestResponse(String uri,
     {canHandleGenericErrors = true}) async {
   HttpClient client = new HttpClient();
   client.badCertificateCallback =
@@ -73,7 +73,7 @@ Future<HttpClientResponse> getLocaleGetRequestResponse(String uri,
   HttpClientRequest request = await client.getUrl(url);
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  String apiToken = sharedPreferences.get('apiToken');
+  String? apiToken = sharedPreferences.get('apiToken') as String?;
   if (apiToken != null) {
     request.headers.set(HttpHeaders.authorizationHeader, 'Bearer $apiToken');
   }
@@ -86,7 +86,7 @@ Future<HttpClientResponse> getLocaleGetRequestResponse(String uri,
   return response;
 }
 
-Future<HttpClientResponse> getLocalePostRequestResponse(String uri, Map body,
+Future<HttpClientResponse?> getLocalePostRequestResponse(String uri, Map body,
     {canHandleGenericErrors = true}) async {
   HttpClient client = new HttpClient();
   client.badCertificateCallback =
@@ -100,7 +100,7 @@ Future<HttpClientResponse> getLocalePostRequestResponse(String uri, Map body,
   HttpClientRequest request = await client.postUrl(url);
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  String apiToken = sharedPreferences.get('apiToken');
+  String? apiToken = sharedPreferences.get('apiToken') as String?;
   if (apiToken != null) {
     request.headers.set(HttpHeaders.authorizationHeader, 'Bearer $apiToken');
   }
@@ -116,7 +116,7 @@ Future<HttpClientResponse> getLocalePostRequestResponse(String uri, Map body,
   return response;
 }
 
-Future<HttpClientResponse> getLocaleDeleteRequestResponse(String uri,
+Future<HttpClientResponse?> getLocaleDeleteRequestResponse(String uri,
     {canHandleGenericErrors = true}) async {
   HttpClient client = new HttpClient();
   client.badCertificateCallback =
@@ -130,7 +130,7 @@ Future<HttpClientResponse> getLocaleDeleteRequestResponse(String uri,
   HttpClientRequest request = await client.deleteUrl(url);
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  String apiToken = sharedPreferences.get('apiToken');
+  String? apiToken = sharedPreferences.get('apiToken') as String?;
   if (apiToken != null) {
     request.headers.set(HttpHeaders.authorizationHeader, 'Bearer $apiToken');
   }

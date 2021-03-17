@@ -3,9 +3,9 @@ import 'package:jpec_training/app_colors.dart';
 
 class TrainingProgressBar extends StatelessWidget {
   final double value;
-  final int elapsedTime;
+  final int? elapsedTime;
 
-  const TrainingProgressBar({Key key, @required this.value, this.elapsedTime})
+  const TrainingProgressBar({Key? key, required this.value, this.elapsedTime})
       : super(key: key);
 
   String formatTimeSection(int number) {
@@ -16,15 +16,15 @@ class TrainingProgressBar extends StatelessWidget {
   }
 
   String formatElapsedTime() {
-    if (elapsedTime > 3600) {
-      int hour = (elapsedTime / 3600).floor();
-      return "${formatTimeSection(hour)}:${formatTimeSection(((elapsedTime - (hour * 3600)) / 60).floor())}:${formatTimeSection(elapsedTime % 60)}";
+    if (elapsedTime! > 3600) {
+      int hour = (elapsedTime! / 3600).floor();
+      return "${formatTimeSection(hour)}:${formatTimeSection(((elapsedTime! - (hour * 3600)) / 60).floor())}:${formatTimeSection(elapsedTime! % 60)}";
     }
-    if (elapsedTime > 60) {
-      return "${formatTimeSection((elapsedTime / 60).floor())}:${formatTimeSection(elapsedTime % 60)}";
+    if (elapsedTime! > 60) {
+      return "${formatTimeSection((elapsedTime! / 60).floor())}:${formatTimeSection(elapsedTime! % 60)}";
     }
 
-    return "00:${formatTimeSection(elapsedTime)}";
+    return "00:${formatTimeSection(elapsedTime!)}";
   }
 
   @override

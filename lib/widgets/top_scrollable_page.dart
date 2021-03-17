@@ -9,11 +9,11 @@ class TopScrollablePage extends StatefulWidget {
   final Widget bottomChild;
 
   const TopScrollablePage(
-      {Key key,
+      {Key? key,
       this.topRadius = 70,
       this.headerPercentHeight = 0.35,
-      @required this.headerChild,
-      @required this.bottomChild})
+      required this.headerChild,
+      required this.bottomChild})
       : super(key: key);
   @override
   _TopScrollablePageState createState() => _TopScrollablePageState();
@@ -21,18 +21,18 @@ class TopScrollablePage extends StatefulWidget {
 
 class _TopScrollablePageState extends State<TopScrollablePage> {
   double _offset = 0;
-  ScrollController _scrollController;
+  ScrollController? _scrollController;
 
   @override
   void initState() {
     super.initState();
     _scrollController = new ScrollController();
-    _scrollController.addListener(onScroll);
+    _scrollController!.addListener(onScroll);
   }
 
   onScroll() {
     setState(() {
-      _offset = _scrollController.offset;
+      _offset = _scrollController!.offset;
     });
   }
 
@@ -107,7 +107,7 @@ class _TopScrollablePageState extends State<TopScrollablePage> {
   @override
   void dispose() {
     super.dispose();
-    _scrollController.removeListener(onScroll);
-    _scrollController.dispose();
+    _scrollController!.removeListener(onScroll);
+    _scrollController!.dispose();
   }
 }

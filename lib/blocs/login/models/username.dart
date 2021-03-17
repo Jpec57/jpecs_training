@@ -7,9 +7,9 @@ class Username extends FormzInput<String, UsernameValidationError> {
   const Username.dirty([String value = '']) : super.dirty(value);
 
   @override
-  UsernameValidationError validator(String value) {
+  UsernameValidationError? validator(String? value) {
     if (value?.isNotEmpty == true) {
-      if (value.length < MIN_LENGTH_USERNAME) {
+      if (value!.length < MIN_LENGTH_USERNAME) {
         return UsernameValidationError.tooShort;
       }
     }

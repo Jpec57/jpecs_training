@@ -30,9 +30,9 @@ void main() {
 //https://bloclibrary.dev/#/flutterlogintutorial
 class App extends StatelessWidget {
   const App({
-    Key key,
-    @required this.authenticationRepository,
-    @required this.userRepository,
+    Key? key,
+    required this.authenticationRepository,
+    required this.userRepository,
   })  : assert(authenticationRepository != null),
         assert(userRepository != null),
         super(key: key);
@@ -60,7 +60,7 @@ class App extends StatelessWidget {
 
 class AppView extends StatefulWidget {
   const AppView({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -142,34 +142,34 @@ class _AppViewState extends State<AppView> {
       },
       onGenerateRoute: (settings) {
         if (settings.name == TrainingShow.routeName) {
-          final TrainingShowArgument args = settings.arguments;
+          final TrainingShowArgument? args = settings.arguments as TrainingShowArgument?;
 
           return MaterialPageRoute(
             builder: (context) {
               return TrainingShow(
-                training: args.training,
+                training: args!.training,
               );
             },
           );
         }
         if (settings.name == InExercisePage.routeName) {
-          final InExercisePageArguments args = settings.arguments;
+          final InExercisePageArguments? args = settings.arguments as InExercisePageArguments?;
 
           return MaterialPageRoute(
             builder: (context) {
               return InExercisePage(
-                training: args.training,
+                training: args!.training,
               );
             },
           );
         }
         if (settings.name == TrainingResultPage.routeName) {
-          final TrainingResultPageArguments args = settings.arguments;
+          final TrainingResultPageArguments? args = settings.arguments as TrainingResultPageArguments?;
 
           return MaterialPageRoute(
             builder: (context) {
               return TrainingResultPage(
-                trainingData: args.trainingData,
+                trainingData: args!.trainingData,
               );
             },
           );
