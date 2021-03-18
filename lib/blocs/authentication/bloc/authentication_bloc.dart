@@ -14,9 +14,7 @@ class AuthenticationBloc
   AuthenticationBloc({
     required AuthenticationRepository authenticationRepository,
     required UserRepository userRepository,
-  })  : assert(authenticationRepository != null),
-        assert(userRepository != null),
-        _authenticationRepository = authenticationRepository,
+  })   : _authenticationRepository = authenticationRepository,
         _userRepository = userRepository,
         super(const AuthenticationState.unknown()) {
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
@@ -26,7 +24,8 @@ class AuthenticationBloc
 
   final AuthenticationRepository _authenticationRepository;
   final UserRepository _userRepository;
-  StreamSubscription<AuthenticationStatus> _authenticationStatusSubscription;
+  late StreamSubscription<AuthenticationStatus>
+      _authenticationStatusSubscription;
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -41,7 +40,7 @@ class AuthenticationBloc
 
   @override
   Future<void> close() {
-    _authenticationStatusSubscription?.cancel();
+    _authenticationStatusSubscription.cancel();
     _authenticationRepository.dispose();
     return super.close();
   }
