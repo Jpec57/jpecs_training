@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
@@ -25,9 +26,10 @@ class AuthenticationRepository {
       String token = "SECRET_TOKEN";
       saveUserToken(token);
       _controller.add(AuthenticationStatus.authenticated);
-    } else {
-      _controller.add(AuthenticationStatus.unauthenticated);
     }
+    // else {
+    //   _controller.add(AuthenticationStatus.unauthenticated);
+    // }
     return isLoginSuccess;
   }
 

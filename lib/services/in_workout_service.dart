@@ -5,7 +5,7 @@ import 'package:jpec_training/models/training_data.dart';
 
 int getTotalSetNumber(Training training) {
   int totalSets = 0;
-  int nbCycle = training.nbCycle ?? 1;
+  int nbCycle = training.nbCycle;
 
   for (Exercise exercise in training.exercises) {
     totalSets += exercise.sets.length;
@@ -17,7 +17,7 @@ int getTotalDoneSetNumber(TrainingData trainingData) {
   int doneSets = 0;
   List<List<NamedExerciseSet>> doneExercisesPerCycle =
       trainingData.doneExercises;
-  if (trainingData.doneExercises == null) {
+  if (trainingData.doneExercises.isEmpty) {
     return 0;
   }
   for (List<NamedExerciseSet> cycleExercises in doneExercisesPerCycle) {
@@ -29,7 +29,7 @@ int getTotalDoneSetNumber(TrainingData trainingData) {
 double getPercentTrainingProgression(
     Training training, TrainingData trainingData,
     {bool beforeInsert = false}) {
-  if (trainingData.doneExercises == null) {
+  if (trainingData.doneExercises.isEmpty) {
     return 0;
   }
   int doneSets = getTotalDoneSetNumber(trainingData);
@@ -60,7 +60,7 @@ Exercise? getNextExercise(
     if (exerciseIndex + 1 == exercises.length) {
       exerciseIndex = 0;
       //Changing cycle ?
-      int nbCycle = training.nbCycle ?? 1;
+      int nbCycle = training.nbCycle;
       if (cycleIndex + 1 == nbCycle) {
         //Real end, should never happen because of isWorkoutOver
         return null;

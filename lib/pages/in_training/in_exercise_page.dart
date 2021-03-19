@@ -58,7 +58,7 @@ class _InExercisePageState extends State<InExercisePage>
 
   List<List<NamedExerciseSet>> initDoneExercises() {
     List<List<NamedExerciseSet>> cycles = [];
-    int nbCycle = widget.training.nbCycle ?? 1;
+    int nbCycle = widget.training.nbCycle;
     for (int i = 0; i < nbCycle; i++) {
       cycles.add([]);
     }
@@ -126,9 +126,9 @@ class _InExercisePageState extends State<InExercisePage>
     // if (_tabController != null) {
     //   _tabController.dispose();
     // }
-    for (String sound in CACHED_SOUNDS) {
-      // _audioPlayer.clear(sound);
-    }
+    // for (String sound in CACHED_SOUNDS) {
+    // _audioPlayer.clear(sound);
+    // }
   }
 
   Exercise _getCurrentExo() {
@@ -199,7 +199,7 @@ class _InExercisePageState extends State<InExercisePage>
       if (_exerciseIndex + 1 == exercises.length) {
         _exerciseIndex = 0;
         //Changing cycle ?
-        int nbCycle = widget.training.nbCycle ?? 1;
+        int nbCycle = widget.training.nbCycle;
         if (_cycleIndex + 1 == nbCycle) {
           //TODO Save data
           await saveTrainingData();
@@ -323,7 +323,7 @@ class _InExercisePageState extends State<InExercisePage>
         ),
         Flexible(
           child: Text(
-            "${nextExo.description ?? "No description"}",
+            "${nextExo.description}",
             textAlign: TextAlign.start,
           ),
         )
@@ -643,7 +643,7 @@ class _InExercisePageState extends State<InExercisePage>
                           Padding(
                             padding: const EdgeInsets.only(top: 8, bottom: 8.0),
                             child: Text(
-                              "${widget.training.exercises[_exerciseIndex].description ?? ""}",
+                              "${widget.training.exercises[_exerciseIndex].description}",
                               textAlign: TextAlign.center,
                             ),
                           )

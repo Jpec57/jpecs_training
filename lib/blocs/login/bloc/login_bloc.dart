@@ -7,7 +7,6 @@ import 'package:formz/formz.dart';
 import 'package:jpec_training/blocs/login/models/models.dart';
 import 'package:jpec_training/blocs/login/models/username.dart';
 import 'package:jpec_training/blocs/server/bloc/server_state.dart';
-import 'package:meta/meta.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -15,8 +14,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
     required AuthenticationRepository authenticationRepository,
-  })  : assert(authenticationRepository != null),
-        _authenticationRepository = authenticationRepository,
+  })   : _authenticationRepository = authenticationRepository,
         super(const LoginState());
 
   final AuthenticationRepository _authenticationRepository;

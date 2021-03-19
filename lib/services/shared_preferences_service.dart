@@ -18,7 +18,7 @@ Future<User?> getUserFromSharedPrefs() async {
   return User.fromJson(jsonDecode(user));
 }
 
-Future<bool> setUserJWTToken(String jwt) async {
+Future<bool> setUserJWTToken(String? jwt) async {
   final storage = new FlutterSecureStorage();
   if (jwt == null) {
     await storage.delete(key: 'jwt');

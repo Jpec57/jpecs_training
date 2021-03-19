@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'exercise_set.dart';
@@ -23,9 +22,9 @@ class Exercise {
   int? restAfter;
 
   Exercise(
-      {required this.id,
+      {this.id = -1,
       required this.name,
-      required this.description,
+      this.description = "No description",
       this.img,
       this.requiredMaterial = const [],
       this.isHold = false,

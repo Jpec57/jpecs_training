@@ -20,10 +20,10 @@ class _TimerPageState extends State<TimerPage>
     with SingleTickerProviderStateMixin {
   static const CHOICE_TAB_INDEX = 0;
   static const TIMER_TAB_INDEX = 1;
-  TabController _tabController;
+  late TabController _tabController;
   int _currentSet = 6;
   int _countdown = 0;
-  Timer _timer;
+  Timer? _timer;
   //Audio
   // AudioCache _audioPlayer = AudioCache();
 
@@ -39,9 +39,9 @@ class _TimerPageState extends State<TimerPage>
   void dispose() {
     Wakelock.disable();
     _tabController.dispose();
-    for (String sound in CACHED_SOUNDS) {
-      // _audioPlayer.clear(sound);
-    }
+    // for (String sound in CACHED_SOUNDS) {
+    // _audioPlayer.clear(sound);
+    // }
     super.dispose();
   }
 
@@ -52,8 +52,8 @@ class _TimerPageState extends State<TimerPage>
     setState(() {
       _countdown = time;
     });
-    if (_timer != null && _timer.isActive) {
-      _timer.cancel();
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
     }
     _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -68,7 +68,7 @@ class _TimerPageState extends State<TimerPage>
         // _audioPlayer.play(CACHED_SOUNDS[(_countdown == 0) ? 1 : 0]);
       }
       if (_countdown <= 0) {
-        _timer.cancel();
+        _timer!.cancel();
         Future.delayed(Duration(milliseconds: 200), () {
           _tabController.index = CHOICE_TAB_INDEX;
         });
@@ -205,8 +205,8 @@ class _TimerPageState extends State<TimerPage>
                   ),
                   child: Text("Skip"),
                   onPressed: () {
-                    if (_timer.isActive) {
-                      _timer.cancel();
+                    if (_timer!.isActive) {
+                      _timer!.cancel();
                     }
                     _countdown = 0;
                     setState(() {

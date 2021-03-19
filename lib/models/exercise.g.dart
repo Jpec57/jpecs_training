@@ -13,12 +13,13 @@ Exercise _$ExerciseFromJson(Map<String, dynamic> json) {
     description: json['description'] as String,
     img: json['img'] as String?,
     requiredMaterial:
-        (json['requiredMaterial'] as List?)?.map((e) => e as String)?.toList(),
+        (json['requiredMaterial'] as List?)?.map((e) => e as String).toList(),
     isHold: json['isHold'] as bool,
-    (sets: (json['sets'] as List?)
-        ?.map((e) =>
-            e == null ? null : ExerciseSet.fromJson(e as Map<String, dynamic>))
-        ?.toList())!,
+    sets: json.containsKey('sets')
+        ? (json['sets'] as List)
+            .map((e) => ExerciseSet.fromJson(e as Map<String, dynamic>))
+            .toList()
+        : [],
     restAfter: json['restAfter'] as int?,
   );
 }

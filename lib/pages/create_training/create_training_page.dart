@@ -31,8 +31,8 @@ class _CreateTrainingPageState extends State<CreateTrainingPage>
     Tab(text: TAB_WORKOUT),
     Tab(text: TAB_EXERCISE),
   ];
-  TextEditingController _searchExerciseController;
-  TabController _tabController;
+  late TextEditingController _searchExerciseController;
+  late TabController _tabController;
   List<Exercise>? _exercises;
   //ExerciseView
   List<String> _selectedMuscles = [];

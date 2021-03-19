@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'exercise_set.g.dart';
@@ -9,8 +8,7 @@ class ExerciseSet {
   int rest;
   int? weight;
 
-  ExerciseSet(
-      {required this.repsOrDuration, required this.rest, this.weight});
+  ExerciseSet({required this.repsOrDuration, required this.rest, this.weight});
 
   factory ExerciseSet.fromJson(Map<String, dynamic> json) =>
       _$ExerciseSetFromJson(json);

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 extension FutureExtension on Future {
   Widget toBuild<T>(
       {required Widget Function(T? data) onSuccess,
-      required Widget loadingWidget,
-      required Widget notFoundWidget,
-      required Widget onError,
+      Widget? loadingWidget,
+      Widget? notFoundWidget,
+      Widget? onError,
       dynamic data}) {
     return FutureBuilder<T>(
       future: this as Future<T>?,
