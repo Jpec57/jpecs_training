@@ -7,11 +7,14 @@ Future<User?> createUserRequest() async {
   print("start");
   var res = await getLocalePostRequestResponse("/fitness/api/users", map);
   print("Coucou");
-  var json = await getJsonFromHttpResponse(res);
-  if (!isRequestValid(res.statusCode)) {
+  if (res != null){
+    var json = await getJsonFromHttpResponse(res);
+    if (!isRequestValid(res.statusCode)) {
+      print(json);
+      return null;
+    }
     print(json);
-    return null;
   }
-  print(json);
+
   return null;
 }

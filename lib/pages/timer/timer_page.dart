@@ -1,6 +1,6 @@
 import 'dart:async';
 
-// import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/app_colors.dart';
@@ -25,23 +25,23 @@ class _TimerPageState extends State<TimerPage>
   int _countdown = 0;
   Timer? _timer;
   //Audio
-  // AudioCache _audioPlayer = AudioCache();
+  AudioCache _audioPlayer = AudioCache();
 
   @override
   void initState() {
     super.initState();
     Wakelock.enable();
     _tabController = new TabController(length: 2, vsync: this);
-    // _audioPlayer.loadAll(CACHED_SOUNDS);
+    _audioPlayer.loadAll(CACHED_SOUNDS);
   }
 
   @override
   void dispose() {
     Wakelock.disable();
     _tabController.dispose();
-    // for (String sound in CACHED_SOUNDS) {
-    // _audioPlayer.clear(sound);
-    // }
+    for (String sound in CACHED_SOUNDS) {
+    _audioPlayer.clear(sound);
+    }
     super.dispose();
   }
 
@@ -61,11 +61,11 @@ class _TimerPageState extends State<TimerPage>
       });
 
       if (_countdown == 10) {
-        // _audioPlayer.play(CACHED_SOUNDS[0]);
+        _audioPlayer.play(CACHED_SOUNDS[0]);
       }
 
       if (_countdown < 3) {
-        // _audioPlayer.play(CACHED_SOUNDS[(_countdown == 0) ? 1 : 0]);
+        _audioPlayer.play(CACHED_SOUNDS[(_countdown == 0) ? 1 : 0]);
       }
       if (_countdown <= 0) {
         _timer!.cancel();
