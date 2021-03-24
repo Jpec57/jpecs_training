@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'named_exercise_set.g.dart';
@@ -9,16 +8,16 @@ class NamedExerciseSet {
   String name;
   int repsOrDuration;
   int rest;
-  int weight;
+  int? weight;
   //
 //  int isExpanded;
 
   NamedExerciseSet(
-      {@required this.exerciseId,
-      @required this.name,
-      @required this.repsOrDuration,
-      @required this.rest,
-      @required this.weight});
+      {required this.exerciseId,
+      required this.name,
+      required this.repsOrDuration,
+      required this.rest,
+      required this.weight});
 
   factory NamedExerciseSet.fromJson(Map<String, dynamic> json) =>
       _$NamedExerciseSetFromJson(json);

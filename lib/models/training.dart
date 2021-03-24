@@ -1,29 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:jpec_training/models/exercise.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'training.g.dart';
 
-@JsonSerializable(nullable: false)
+@JsonSerializable()
 class Training {
   int id;
   String name;
-  int authorId;
-  int nbCycle = 1;
-  int restBetweenCycle = 60;
-  String lastTime;
-  String coverImg;
+  int? authorId;
+  int nbCycle;
+  int? restBetweenCycle;
+  String? lastTime;
+  String? coverImg;
   List<Exercise> exercises;
 
   Training(
-      {this.id,
-      @required this.name,
+      {this.id = -1,
+      required this.name,
       this.authorId,
       this.coverImg,
-      @required this.exercises,
+      required this.exercises,
       this.lastTime,
-      this.restBetweenCycle,
-      this.nbCycle});
+      this.restBetweenCycle = 60,
+      this.nbCycle = 1});
   factory Training.fromJson(Map<String, dynamic> json) =>
       _$TrainingFromJson(json);
   Map<String, dynamic> toJson() => _$TrainingToJson(this);

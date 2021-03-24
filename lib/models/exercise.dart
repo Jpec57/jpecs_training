@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'exercise_set.dart';
@@ -15,22 +14,22 @@ class Exercise {
   int id;
   String name;
   String description;
-  String img;
-  List<String> requiredMaterial;
+  String? img;
+  List<String>? requiredMaterial;
   bool isHold;
   int executionTime;
   List<ExerciseSet> sets;
-  int restAfter;
+  int? restAfter;
 
   Exercise(
-      {this.id,
-      @required this.name,
-      this.description,
+      {this.id = -1,
+      required this.name,
+      this.description = "No description",
       this.img,
       this.requiredMaterial = const [],
       this.isHold = false,
       this.executionTime = CONCENTRIC,
-      @required this.sets,
+      required this.sets,
       this.restAfter});
 
   factory Exercise.fromJson(Map<String, dynamic> json) =>

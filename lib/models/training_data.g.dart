@@ -9,13 +9,21 @@ part of 'training_data.dart';
 TrainingData _$TrainingDataFromJson(Map<String, dynamic> json) {
   return TrainingData(
     trainingId: json['trainingId'] as int,
-    doneExercises: (json['doneExercises'] as List)
-        ?.map((e) => (e as List)
-            ?.map((e) => e == null
-                ? null
-                : NamedExerciseSet.fromJson(e as Map<String, dynamic>))
-            ?.toList())
-        ?.toList(),
+    doneExercises: json.containsKey('doneExercises')
+        ? (json['doneExercises'] as List)
+            .map((e) => (e as List)
+                .map((inner) =>
+                    NamedExerciseSet.fromJson(inner as Map<String, dynamic>))
+                .toList())
+            .toList()
+        : [],
+    // doneExercises: (json['doneExercises'] as List)
+    //     ?.map((e) => (e as List)
+    //         ?.map((e) => e == null
+    //             ? null
+    //             : NamedExerciseSet.fromJson(e as Map<String, dynamic>))
+    //         ?.toList())
+    //     ?.toList(),
   );
 }
 

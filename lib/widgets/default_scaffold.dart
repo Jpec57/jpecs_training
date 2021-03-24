@@ -6,7 +6,7 @@ class DefaultScaffold extends StatelessWidget {
   final Widget child;
   final bool withAppBar;
 
-  const DefaultScaffold({Key key, @required this.child, this.withAppBar = true})
+  const DefaultScaffold({Key? key, required this.child, this.withAppBar = true})
       : super(key: key);
 
   @override

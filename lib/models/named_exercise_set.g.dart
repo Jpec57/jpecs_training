@@ -12,7 +12,7 @@ NamedExerciseSet _$NamedExerciseSetFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     repsOrDuration: json['repsOrDuration'] as int,
     rest: json['rest'] as int,
-    weight: json['weight'] as int,
+    weight: json['weight'] as int?,
   );
 }
 

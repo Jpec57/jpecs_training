@@ -14,10 +14,10 @@ class LoginState extends Equatable {
   final ServerState serverState;
 
   LoginState copyWith(
-      {FormzStatus status,
-      Username username,
-      Password password,
-      ServerState serverState}) {
+      {FormzStatus? status,
+      Username? username,
+      Password? password,
+      ServerState? serverState}) {
     return LoginState(
       serverState: serverState ?? this.serverState,
       status: status ?? this.status,

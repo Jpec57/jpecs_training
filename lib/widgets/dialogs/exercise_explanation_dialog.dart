@@ -6,9 +6,9 @@ import 'package:jpec_training/widgets/default_button.dart';
 
 class ExerciseExplanationDialog extends StatelessWidget {
   static const RADIUS = 32.0;
-  final Exercise exercise;
+  final Exercise? exercise;
 
-  const ExerciseExplanationDialog({Key key, this.exercise}) : super(key: key);
+  const ExerciseExplanationDialog({Key? key, this.exercise}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

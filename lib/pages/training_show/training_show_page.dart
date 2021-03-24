@@ -12,7 +12,8 @@ class TrainingShow extends StatefulWidget {
   static const routeName = '/training/show';
   final Training training;
 
-  const TrainingShow({Key key, @required this.training}) : super(key: key);
+  const TrainingShow({Key? key, /*required*/ required this.training})
+      : super(key: key);
 
   @override
   _TrainingShowState createState() => _TrainingShowState();
@@ -148,7 +149,7 @@ class _TrainingShowState extends State<TrainingShow> {
                           ),
                         ),
                         subtitle: Text(
-                          '${exo.requiredMaterial.join(', ')}',
+                          '${exo.requiredMaterial!.join(', ')}',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 14, color: Colors.black87),
                         ),
@@ -165,7 +166,7 @@ class _TrainingShowState extends State<TrainingShow> {
                 },
               ),
               Text(
-                "Number of cycle: ${widget.training.nbCycle ?? 1}",
+                "Number of cycle: ${widget.training.nbCycle}",
                 style: TextStyle(color: Colors.white),
               ),
               Padding(

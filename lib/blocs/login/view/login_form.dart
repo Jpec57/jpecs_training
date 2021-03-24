@@ -50,12 +50,12 @@ class _ServerTextError extends StatelessWidget {
       builder: (context, state) {
         if (state.serverState.hasError) {
           if (state.serverState.message == null ||
-              state.serverState.message.isEmpty) {
+              state.serverState.message!.isEmpty) {
             return Text('An error occurred. Please try again later.',
                 style: TextStyle(color: Colors.red.shade900));
           }
           return Text(
-            state.serverState.message,
+            state.serverState.message!,
             style: TextStyle(color: Colors.red.shade900),
           );
         }

@@ -7,16 +7,14 @@ import 'package:formz/formz.dart';
 import 'package:jpec_training/blocs/login/models/models.dart';
 import 'package:jpec_training/blocs/login/models/username.dart';
 import 'package:jpec_training/blocs/server/bloc/server_state.dart';
-import 'package:meta/meta.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc({
-    @required AuthenticationRepository authenticationRepository,
-  })  : assert(authenticationRepository != null),
-        _authenticationRepository = authenticationRepository,
+    required AuthenticationRepository authenticationRepository,
+  })   : _authenticationRepository = authenticationRepository,
         super(const LoginState());
 
   final AuthenticationRepository _authenticationRepository;
@@ -56,7 +54,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
-  String getUsernameError(LoginState state) {
+  String? getUsernameError(LoginState state) {
     if (state.username.invalid) {
       if (state.username.error == UsernameValidationError.tooShort) {
         return "Your username must have at least $MIN_LENGTH_USERNAME";
@@ -66,7 +64,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     return null;
   }
 
-  String getPasswordError(LoginState state) {
+  String? getPasswordError(LoginState state) {
     if (state.password.invalid) {
       if (state.password.error == PasswordValidationError.tooShort) {
         return "Too short.";

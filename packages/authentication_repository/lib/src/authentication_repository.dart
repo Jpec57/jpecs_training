@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:meta/meta.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
@@ -15,12 +14,9 @@ class AuthenticationRepository {
   }
 
   Future<bool> logIn({
-    @required String username,
-    @required String password,
+    required String username,
+    required String password,
   }) async {
-    assert(username != null);
-    assert(password != null);
-
     await Future.delayed(
       const Duration(milliseconds: 300),
       () {},
@@ -30,13 +26,14 @@ class AuthenticationRepository {
       String token = "SECRET_TOKEN";
       saveUserToken(token);
       _controller.add(AuthenticationStatus.authenticated);
-    } else {
-      _controller.add(AuthenticationStatus.unauthenticated);
     }
+    // else {
+    //   _controller.add(AuthenticationStatus.unauthenticated);
+    // }
     return isLoginSuccess;
   }
 
-  Future<String> getUserToken() async {
+  Future<String?> getUserToken() async {
     final storage = new FlutterSecureStorage();
     return await storage.read(key: "user_token");
   }

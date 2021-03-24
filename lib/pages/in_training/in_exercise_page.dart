@@ -21,7 +21,7 @@ class InExercisePage extends StatefulWidget {
   static const routeName = "/training/exercise";
   final Training training;
 
-  const InExercisePage({Key key, @required this.training}) : super(key: key);
+  const InExercisePage({Key? key, required this.training}) : super(key: key);
 
   @override
   _InExercisePageState createState() => _InExercisePageState();
@@ -31,8 +31,8 @@ const CACHED_SOUNDS = ['sounds/beep_start.mp3', 'sounds/beep_end.mp3'];
 
 class _InExercisePageState extends State<InExercisePage>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  TrainingData _trainingData;
+  TabController? _tabController;
+  TrainingData? _trainingData;
   static const EXERCISE_TAB_INDEX = 0;
   static const TIMER_TAB_INDEX = 1;
   static const TIMER_START_INDEX = 2;
@@ -49,16 +49,16 @@ class _InExercisePageState extends State<InExercisePage>
   int _doneReps = 0;
   int _totalTime = 0;
   int _countdownBeforeStart = TIME_BEFORE_TRAINING;
-  Timer _timer;
-  Timer _trainingTimer;
-  Timer _beforeTrainingTimer;
+  Timer? _timer;
+  Timer? _trainingTimer;
+  Timer? _beforeTrainingTimer;
 
   //Audio
   AudioCache _audioPlayer = AudioCache();
 
   List<List<NamedExerciseSet>> initDoneExercises() {
     List<List<NamedExerciseSet>> cycles = [];
-    int nbCycle = widget.training.nbCycle ?? 1;
+    int nbCycle = widget.training.nbCycle;
     for (int i = 0; i < nbCycle; i++) {
       cycles.add([]);
     }
@@ -70,10 +70,10 @@ class _InExercisePageState extends State<InExercisePage>
     super.initState();
     _tabController = new TabController(length: 3, vsync: this);
     _trainingData = new TrainingData(trainingId: widget.training.id);
-    _trainingData.doneExercises = initDoneExercises();
+    _trainingData!.doneExercises = initDoneExercises();
     _audioPlayer.loadAll(CACHED_SOUNDS);
     Wakelock.enable();
-    _tabController.index = TIMER_START_INDEX;
+    _tabController!.index = TIMER_START_INDEX;
     _beforeTrainingTimer = new Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         _countdownBeforeStart = _countdownBeforeStart - 1;
@@ -84,8 +84,8 @@ class _InExercisePageState extends State<InExercisePage>
 
       if (_countdownBeforeStart <= 0) {
         startTrainingTimers();
-        _tabController.index = EXERCISE_TAB_INDEX;
-        _beforeTrainingTimer.cancel();
+        _tabController!.index = EXERCISE_TAB_INDEX;
+        _beforeTrainingTimer!.cancel();
       }
     });
   }
@@ -114,20 +114,20 @@ class _InExercisePageState extends State<InExercisePage>
   }
 
   void clean() {
-    if (_beforeTrainingTimer != null && _beforeTrainingTimer.isActive) {
-      _beforeTrainingTimer.cancel();
+    if (_beforeTrainingTimer != null && _beforeTrainingTimer!.isActive) {
+      _beforeTrainingTimer!.cancel();
     }
-    if (_timer != null && _timer.isActive) {
-      _timer.cancel();
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
     }
-    if (_trainingTimer != null && _trainingTimer.isActive) {
-      _trainingTimer.cancel();
+    if (_trainingTimer != null && _trainingTimer!.isActive) {
+      _trainingTimer!.cancel();
     }
     // if (_tabController != null) {
     //   _tabController.dispose();
     // }
     for (String sound in CACHED_SOUNDS) {
-      _audioPlayer.clear(sound);
+    _audioPlayer.clear(sound);
     }
   }
 
@@ -139,8 +139,8 @@ class _InExercisePageState extends State<InExercisePage>
     setState(() {
       _countdown = time;
     });
-    if (_timer != null && _timer.isActive) {
-      _timer.cancel();
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
     }
     _timer = new Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
@@ -154,7 +154,7 @@ class _InExercisePageState extends State<InExercisePage>
         _audioPlayer.play(CACHED_SOUNDS[(_countdown == 0) ? 1 : 0]);
       }
       if (_countdown <= 0) {
-        _timer.cancel();
+        _timer!.cancel();
         switchToExerciseView();
       }
     });
@@ -171,7 +171,7 @@ class _InExercisePageState extends State<InExercisePage>
     print("ADDING TRAINING DATA: ${currentExo.name}");
     ExerciseSet currentSet = currentExo.sets[_setIndex];
     //TODO take real rest
-    _trainingData.doneExercises[_cycleIndex].add(new NamedExerciseSet(
+    _trainingData!.doneExercises[_cycleIndex].add(new NamedExerciseSet(
         name: currentExo.name,
         repsOrDuration: _doneReps,
         weight: currentSet.weight,
@@ -183,15 +183,15 @@ class _InExercisePageState extends State<InExercisePage>
 
   void switchToExerciseView() async {
     //Remove any timer from timer page that could be ongoing
-    if (_timer != null && _timer.isActive) {
-      _timer.cancel();
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
     }
     List<Exercise> exercises = widget.training.exercises;
     Exercise currentExo = _getCurrentExo();
     _addTrainingData(currentExo);
     _doneReps = 0;
 
-    _tabController.index = EXERCISE_TAB_INDEX;
+    _tabController!.index = EXERCISE_TAB_INDEX;
     int nbSets = currentExo.sets.length;
     if (_setIndex + 1 == nbSets) {
       _setIndex = 0;
@@ -199,14 +199,13 @@ class _InExercisePageState extends State<InExercisePage>
       if (_exerciseIndex + 1 == exercises.length) {
         _exerciseIndex = 0;
         //Changing cycle ?
-        int nbCycle = widget.training.nbCycle ?? 1;
+        int nbCycle = widget.training.nbCycle;
         if (_cycleIndex + 1 == nbCycle) {
           //TODO Save data
           await saveTrainingData();
           Navigator.of(context).pushNamed(TrainingResultPage.routeName,
               arguments:
-                  TrainingResultPageArguments(trainingData: _trainingData));
-          // Navigator.of(context).pushNamed(HomePage.routeName);
+                  TrainingResultPageArguments(trainingData: _trainingData!));
         } else {
           _cycleIndex++;
         }
@@ -248,18 +247,17 @@ class _InExercisePageState extends State<InExercisePage>
                 clean();
                 Navigator.of(context).pushNamed(TrainingResultPage.routeName,
                     arguments: TrainingResultPageArguments(
-                        trainingData: _trainingData));
-                // Navigator.of(context).pushNamed(HomePage.routeName);
+                        trainingData: _trainingData!));
               },
             ));
   }
 
   void switchToTimerView() {
-    if (_timer != null && _timer.isActive) {
-      _timer.cancel();
+    if (_timer != null && _timer!.isActive) {
+      _timer!.cancel();
     }
     Exercise currentExo = _getCurrentExo();
-    if (isWorkoutOver(widget.training, _trainingData, beforeInsert: true)) {
+    if (isWorkoutOver(widget.training, _trainingData!, beforeInsert: true)) {
       _countdown = 0;
     } else {
       if (_setIndex + 1 < currentExo.sets.length) {
@@ -269,7 +267,7 @@ class _InExercisePageState extends State<InExercisePage>
         startCountDown(finalRest + 1);
       }
     }
-    _tabController.index = TIMER_TAB_INDEX;
+    _tabController!.index = TIMER_TAB_INDEX;
     if (!currentExo.isHold) {
       _doneReps = currentExo.sets[_setIndex].repsOrDuration;
     }
@@ -281,7 +279,7 @@ class _InExercisePageState extends State<InExercisePage>
   }
 
   Widget _renderUpcomingExoNamePreview() {
-    Exercise nextExo = getNextExercise(
+    Exercise? nextExo = getNextExercise(
         widget.training, _cycleIndex, _exerciseIndex, _setIndex);
     if (nextExo == null) {
       return Text("End of workout.");
@@ -300,7 +298,7 @@ class _InExercisePageState extends State<InExercisePage>
   }
 
   Widget _renderUpcomingExoRowPreview() {
-    Exercise nextExo = getNextExercise(
+    Exercise? nextExo = getNextExercise(
         widget.training, _cycleIndex, _exerciseIndex, _setIndex);
     if (nextExo == null) {
       return Center(
@@ -315,15 +313,15 @@ class _InExercisePageState extends State<InExercisePage>
         Padding(
           padding: const EdgeInsets.only(right: 15),
           child: Image.asset(
-            nextExo.img != null && nextExo.img.isNotEmpty
-                ? nextExo.img
+            nextExo.img != null && nextExo.img!.isNotEmpty
+                ? nextExo.img!
                 : "assets/images/jpec_logo.png",
             height: 100,
           ),
         ),
         Flexible(
           child: Text(
-            "${nextExo.description ?? "No description"}",
+            "${nextExo.description}",
             textAlign: TextAlign.start,
           ),
         )
@@ -396,7 +394,7 @@ class _InExercisePageState extends State<InExercisePage>
                           child: TrainingProgressBar(
                               elapsedTime: _totalTime,
                               value: getPercentTrainingProgression(
-                                  widget.training, _trainingData,
+                                  widget.training, _trainingData!,
                                   beforeInsert: true)),
                         ),
                       ],
@@ -594,7 +592,7 @@ class _InExercisePageState extends State<InExercisePage>
                           child: TrainingProgressBar(
                               elapsedTime: _totalTime,
                               value: getPercentTrainingProgression(
-                                  widget.training, _trainingData)),
+                                  widget.training, _trainingData!)),
                         ),
                       ],
                     ),
@@ -632,10 +630,10 @@ class _InExercisePageState extends State<InExercisePage>
                                         widget
                                             .training
                                             .exercises[_exerciseIndex]
-                                            .img
+                                            .img!
                                             .isNotEmpty
                                     ? widget
-                                        .training.exercises[_exerciseIndex].img
+                                        .training.exercises[_exerciseIndex].img!
                                     : "assets/images/jpec_logo.png",
                               ),
                             ),
@@ -643,7 +641,7 @@ class _InExercisePageState extends State<InExercisePage>
                           Padding(
                             padding: const EdgeInsets.only(top: 8, bottom: 8.0),
                             child: Text(
-                              "${widget.training.exercises[_exerciseIndex].description ?? ""}",
+                              "${widget.training.exercises[_exerciseIndex].description}",
                               textAlign: TextAlign.center,
                             ),
                           )

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:jpec_training/models/named_exercise_set.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -9,7 +8,7 @@ class TrainingData {
   int trainingId;
   List<List<NamedExerciseSet>> doneExercises;
 
-  TrainingData({@required this.trainingId, this.doneExercises});
+  TrainingData({required this.trainingId, this.doneExercises = const []});
 
   factory TrainingData.fromJson(Map<String, dynamic> json) =>
       _$TrainingDataFromJson(json);
