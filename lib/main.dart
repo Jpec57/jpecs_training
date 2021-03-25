@@ -70,6 +70,7 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: APP_NAME,
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         MyLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,

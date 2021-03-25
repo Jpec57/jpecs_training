@@ -4,7 +4,8 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jpec_training/app_colors.dart';
-import 'package:jpec_training/widgets/default_scaffold.dart';
+import 'package:jpec_training/services/utils/time_utils.dart';
+import 'package:jpec_training/widgets/main_drawer.dart';
 import 'package:wakelock/wakelock.dart';
 
 class TimerPage extends StatefulWidget {
@@ -23,7 +24,9 @@ class _TimerPageState extends State<TimerPage>
   late TabController _tabController;
   int _currentSet = 6;
   int _countdown = 0;
+  int _duration = 0;
   Timer? _timer;
+  Timer? _durationTimer;
   //Audio
   AudioCache _audioPlayer = AudioCache();
 
@@ -33,6 +36,11 @@ class _TimerPageState extends State<TimerPage>
     Wakelock.enable();
     _tabController = new TabController(length: 2, vsync: this);
     _audioPlayer.loadAll(CACHED_SOUNDS);
+    _durationTimer = new Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _duration = _duration + 1;
+      });
+    });
   }
 
   @override
@@ -40,8 +48,10 @@ class _TimerPageState extends State<TimerPage>
     Wakelock.disable();
     _tabController.dispose();
     for (String sound in CACHED_SOUNDS) {
-    _audioPlayer.clear(sound);
+      _audioPlayer.clear(sound);
     }
+    _timer?.cancel();
+    _durationTimer?.cancel();
     super.dispose();
   }
 
@@ -237,22 +247,30 @@ class _TimerPageState extends State<TimerPage>
 
   @override
   Widget build(BuildContext context) {
-    return DefaultScaffold(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _renderSetRow(),
-          Expanded(
-            flex: 6,
-            child: TabBarView(
-              controller: _tabController,
-              physics: NeverScrollableScrollPhysics(),
-              children: _renderTabs(),
-            ),
-          )
-        ],
-      ),
-    );
+    return Scaffold(
+        extendBodyBehindAppBar: false,
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: AppColors.richBlack,
+          title: Center(child: Text(TimeUtils.formatElapsedTime(_duration))),
+        ),
+        drawer: MainDrawer(),
+        body: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _renderSetRow(),
+              Expanded(
+                flex: 6,
+                child: TabBarView(
+                  controller: _tabController,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: _renderTabs(),
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }

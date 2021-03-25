@@ -129,115 +129,118 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       drawer: MainDrawer(),
-      body: TopScrollablePage(
-          headerChild: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage("assets/images/backlever2.png"),
-                  fit: BoxFit.cover),
-            ),
-            // the more we advance, the smaller it should get (1 - ratio)
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Flexible(
-                    child: Row(
-                      children: [
-                        // Text(
-                        //   "Next: ",
-                        //   style: TextStyle(fontWeight: FontWeight.bold),
-                        // ),
-                        // Text("data")
-                      ],
+      body: SafeArea(
+        child: TopScrollablePage(
+            headerChild: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/images/backlever2.png"),
+                    fit: BoxFit.cover),
+              ),
+              // the more we advance, the smaller it should get (1 - ratio)
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Flexible(
+                      child: Row(
+                        children: [
+                          // Text(
+                          //   "Next: ",
+                          //   style: TextStyle(fontWeight: FontWeight.bold),
+                          // ),
+                          // Text("data")
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          bottomChild: Container(
-            // height: MediaQuery.of(context).size.height * 2,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 50),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Trainings",
-                          style: Theme.of(context).textTheme.headline1,
-                        ),
-                        InkWell(
-                            splashColor: Colors.black12,
-                            onTap: () {
-                              Get.toNamed(CreateTrainingPage.routeName);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColors.charlestonGreen),
-                              child: Padding(
-                                padding: const EdgeInsets.all(3.0),
-                                child: Icon(
-                                  Icons.add,
-                                  size: 50,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )),
-                      ],
-                    ),
-                  ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: _trainings.length,
-                      itemBuilder: (BuildContext context, int categoryIndex) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
-                                child: Text(
-                                  _trainings[categoryIndex]['muscle'],
-                                  style: Theme.of(context).textTheme.headline4,
-                                ),
-                              ),
-                              Container(
-                                height: screenWidth * 0.3,
-                                child: FutureBuilder(
-                                  future: _trainings[categoryIndex]
-                                      ['trainings'],
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<List<Training>>
-                                          trainingSnap) {
-                                    switch (trainingSnap.connectionState) {
-                                      case ConnectionState.done:
-                                        return _renderMuscleTrainings(
-                                            trainingSnap.data!, screenWidth);
-                                      default:
-                                        return CircularProgressIndicator();
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
+            bottomChild: Container(
+              // height: MediaQuery.of(context).size.height * 2,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Trainings",
+                            style: Theme.of(context).textTheme.headline1,
                           ),
-                        );
-                      })
-                ],
+                          InkWell(
+                              splashColor: Colors.black12,
+                              onTap: () {
+                                Get.toNamed(CreateTrainingPage.routeName);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppColors.charlestonGreen),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(3.0),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 50,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )),
+                        ],
+                      ),
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: _trainings.length,
+                        itemBuilder: (BuildContext context, int categoryIndex) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 5),
+                                  child: Text(
+                                    _trainings[categoryIndex]['muscle'],
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
+                                  ),
+                                ),
+                                Container(
+                                  height: screenWidth * 0.3,
+                                  child: FutureBuilder(
+                                    future: _trainings[categoryIndex]
+                                        ['trainings'],
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<List<Training>>
+                                            trainingSnap) {
+                                      switch (trainingSnap.connectionState) {
+                                        case ConnectionState.done:
+                                          return _renderMuscleTrainings(
+                                              trainingSnap.data!, screenWidth);
+                                        default:
+                                          return CircularProgressIndicator();
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        })
+                  ],
+                ),
               ),
-            ),
-          )),
+            )),
+      ),
     );
   }
 }

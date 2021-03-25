@@ -191,10 +191,11 @@ class _TrainingResultPageState extends State<TrainingResultPage>
   Widget _renderCycleExercises(
       List<List<NamedExerciseSet>> cycleExercises, int cycleIndex) {
     return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
       child: Theme(
         data: Theme.of(context),
         child: ExpansionPanelList(
-          expandedHeaderPadding: EdgeInsets.zero,
+          expandedHeaderPadding: EdgeInsets.symmetric(vertical: 10),
           expansionCallback: (int index, bool isExpanded) {
             setState(() {
               _expandedExercises[cycleIndex][index] =
@@ -253,6 +254,33 @@ class _TrainingResultPageState extends State<TrainingResultPage>
     return cycleTiles;
   }
 
+  Widget renderResultScore() {
+    return Padding(
+      padding: EdgeInsets.only(top: 10, bottom: 30),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          AnimatedBuilder(
+            animation: _scoreAnimation,
+            builder: (BuildContext context, Widget? child) {
+              if (_scoreAnimController.isAnimating) {
+                return Text(
+                  "${_scoreAnimation.value}",
+                  style: TextStyle(fontSize: 70),
+                );
+              }
+              return Text(
+                "${calculateWorkoutScore(_updatedTrainingData.doneExercises)}",
+                style: TextStyle(fontSize: 70),
+              );
+            },
+          ),
+          Text("Points"),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -274,30 +302,7 @@ class _TrainingResultPageState extends State<TrainingResultPage>
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 30),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      AnimatedBuilder(
-                        animation: _scoreAnimation,
-                        builder: (BuildContext context, Widget? child) {
-                          if (_scoreAnimController.isAnimating) {
-                            return Text(
-                              "${_scoreAnimation.value}",
-                              style: TextStyle(fontSize: 70),
-                            );
-                          }
-                          return Text(
-                            "${calculateWorkoutScore(_updatedTrainingData.doneExercises)}",
-                            style: TextStyle(fontSize: 70),
-                          );
-                        },
-                      ),
-                      Text("Points"),
-                    ],
-                  ),
-                ),
+                renderResultScore(),
                 GestureDetector(
                   onTap: () {
                     Get.toNamed(HomePage.routeName);

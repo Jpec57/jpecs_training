@@ -12,7 +12,7 @@ class DefaultScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBodyBehindAppBar: true,
+        extendBodyBehindAppBar: false,
         appBar: withAppBar
             ? AppBar(
                 elevation: 0.0,

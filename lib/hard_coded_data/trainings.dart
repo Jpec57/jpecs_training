@@ -277,6 +277,46 @@ Future<List<Training>> loadBackTrainings() {
     new Exercise(name: "Pull Ups", sets: createStandardExerciseSet(6, 10, 25)),
   ]);
   backTrainings.add(backTraining);
+
+  backTraining = new Training(id: 8, name: "OAP Training", exercises: [
+    new Exercise(
+        name: "Assisted Front Lever (orange)",
+        sets: createStandardExerciseSet(3, 10, 60),
+        isHold: true),
+    new Exercise(
+        name: "Assisted Front Lever (red)",
+        sets: createStandardExerciseSet(3, 15, 45),
+        isHold: true),
+    new Exercise(
+        name: "Assisted Front Lever (black)",
+        sets: createStandardExerciseSet(3, 20, 25),
+        isHold: true),
+    new Exercise(
+        name: "Tuck FL Raises",
+        sets: createStandardExerciseSet(6, 8, 25),
+        restAfter: 60),
+    new Exercise(
+        name: "OAP Negatives (1 finger)",
+        sets: createStandardExerciseSet(6, 5, 60)),
+    new Exercise(
+        name: "OAP Pull Ups (2 fingers)",
+        sets: createStandardExerciseSet(6, 6, 60),
+        restAfter: 60),
+    new Exercise(
+        name: "Wide Pull Ups", sets: createStandardExerciseSet(6, 6, 25)),
+    new Exercise(
+        name: "Close Pull Ups",
+        sets: createStandardExerciseSet(6, 6, 25),
+        restAfter: 60),
+    new Exercise(
+        name: "Back Lever",
+        sets: createStandardExerciseSet(3, 15, 25),
+        isHold: true),
+    new Exercise(
+        name: "German Hang (back skin the cat)",
+        sets: createStandardExerciseSet(3, 7, 25)),
+  ]);
+  backTrainings.add(backTraining);
   return Future.value(backTrainings);
 }
 
@@ -286,44 +326,36 @@ Future<List<Training>> loadAbsTrainings() {
     new Exercise(
         name: "V-Sit",
         sets: createStandardExerciseSet(4, 20, 60),
-        isHold: true
-    ),
+        isHold: true),
     new Exercise(
         name: "L-to-V Sit Raises",
         sets: createStandardExerciseSet(4, 10, 60),
-        isHold: false
-    ),
+        isHold: false),
     new Exercise(
         name: "V-Sit",
         sets: createStandardExerciseSet(4, 20, 60),
-        isHold: true
-    ),
+        isHold: true),
     new Exercise(
         name: "Floor Leg Raises",
         sets: createStandardExerciseSet(4, 10, 30),
-        isHold: false
-    ),
+        isHold: false),
     //
     new Exercise(
         name: "Star Fish Abs",
         sets: createStandardExerciseSet(5, 30, 25),
-        isHold: false
-    ),
+        isHold: false),
     new Exercise(
         name: "Toe Touches",
         sets: createStandardExerciseSet(5, 20, 20),
-        isHold: false
-    ),
+        isHold: false),
     new Exercise(
         name: "Bicycle Abs",
         sets: createStandardExerciseSet(5, 50, 15),
-        isHold: false
-    ),
+        isHold: false),
     new Exercise(
         name: "Plank",
         sets: createStandardExerciseSet(1, 500, 5),
-        isHold: true
-    ),
+        isHold: true),
   ]);
   trainings.add(training);
   return Future.value(trainings);
