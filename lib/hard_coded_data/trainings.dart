@@ -4,6 +4,35 @@ import 'package:jpec_training/models/training.dart';
 
 Future<List<Training>> loadChestTrainings() {
   List<Training> chestTrainings = [];
+  Training hspu = new Training(id: 1, name: "Ryuk's Sakadachi", exercises: [
+    new Exercise(
+        name: "HPSU Negative", sets: createStandardExerciseSet(6, 5, 60)),
+    new Exercise(
+        name: "Elevated Pike Push Ups",
+        sets: createStandardExerciseSet(6, 7, 45)),
+    new Exercise(
+        name: "Pike Push Ups",
+        sets: createStandardExerciseSet(6, 10, 25),
+        restAfter: 90),
+    new Exercise(name: "Dips", sets: createStandardExerciseSet(6, 25, 25)),
+    new Exercise(
+        name: "Declined Push Ups", sets: createStandardExerciseSet(6, 20, 25)),
+    new Exercise(
+        name: "Wide Push Ups",
+        sets: createStandardExerciseSet(6, 20, 25),
+        restAfter: 90),
+    new Exercise(
+        name: "Wall Triceps Extension",
+        sets: createStandardExerciseSet(6, 15, 25)),
+    new Exercise(
+        name: "Floor Triceps Extension",
+        sets: createStandardExerciseSet(5, 20, 25)),
+    new Exercise(
+        name: "Elastic Triceps Extension",
+        sets: createStandardExerciseSet(4, 20, 25)),
+    new Exercise(name: "Dips", sets: createStandardExerciseSet(1, 50, 25)),
+  ]);
+  chestTrainings.add(hspu);
 
   Training jpec = new Training(id: 57, name: "TRICEPS", exercises: [
     new Exercise(name: "Dips", sets: createStandardExerciseSet(6, 25, 25)),

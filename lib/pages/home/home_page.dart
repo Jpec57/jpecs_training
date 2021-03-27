@@ -70,36 +70,46 @@ class _HomePageState extends State<HomePage> {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    border:
-                        Border.all(color: AppColors.charlestonGreen, width: 2),
-                    color: AppColors.greenArtichoke,
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        stops: [
-                          0.1,
-                          0.8
-                        ],
-                        colors: [
-                          AppColors.greenArtichokeDarker,
-                          AppColors.beige
-                        ])),
+                    border: Border.all(color: AppColors.beige, width: 2),
+                    color: AppColors.charlestonGreen
+                    // color: Color(0xff7B0404)
+                    ),
+                // decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(15),
+                //     border:
+                //         Border.all(color: AppColors.charlestonGreen, width: 2),
+                //     color: AppColors.greenArtichoke,
+                //     gradient: LinearGradient(
+                //         begin: Alignment.topLeft,
+                //         end: Alignment.bottomRight,
+                //         stops: [
+                //           0.1,
+                //           0.8
+                //         ],
+                //         colors: [
+                //           AppColors.greenArtichokeDarker,
+                //           AppColors.beige
+                //         ])),
                 height: screenWidth * 0.3,
                 width: screenWidth * 0.4,
                 child: Center(
-                  child: Text(
-                    trainings[index].name,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.richBlack,
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(2.0, 2.0),
-                            blurRadius: 3.0,
-                            color: Colors.grey,
-                          ),
-                        ]),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      trainings[index].name,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          // color: AppColors.richBlack,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(2.0, 2.0),
+                              blurRadius: 3.0,
+                              color: Colors.grey,
+                            ),
+                          ]),
+                    ),
                   ),
                 ),
               ),
