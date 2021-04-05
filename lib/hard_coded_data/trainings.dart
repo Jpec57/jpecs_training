@@ -361,7 +361,7 @@ Future<List<Training>> loadAbsTrainings() {
         sets: createStandardExerciseSet(4, 10, 60),
         isHold: false),
     new Exercise(
-        name: "V-Sit",
+        name: "L-Sit",
         sets: createStandardExerciseSet(4, 20, 60),
         isHold: true),
     new Exercise(

@@ -9,8 +9,6 @@ class NamedExerciseSet {
   int repsOrDuration;
   int rest;
   int? weight;
-  //
-//  int isExpanded;
 
   NamedExerciseSet(
       {required this.exerciseId,

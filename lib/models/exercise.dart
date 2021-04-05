@@ -17,7 +17,7 @@ class Exercise {
   String? img;
   List<String>? requiredMaterial;
   bool isHold;
-  int executionTime;
+  int executionType;
   List<ExerciseSet> sets;
   int? restAfter;
 
@@ -28,7 +28,7 @@ class Exercise {
       this.img,
       this.requiredMaterial = const [],
       this.isHold = false,
-      this.executionTime = CONCENTRIC,
+      this.executionType = CONCENTRIC,
       required this.sets,
       this.restAfter});
 
